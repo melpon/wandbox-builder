@@ -1,0 +1,42 @@
+Index: lib/Frontend/InitHeaderSearch.cpp
+===================================================================
+--- a/lib/Frontend/InitHeaderSearch.cpp
++++ b/lib/Frontend/InitHeaderSearch.cpp
+@@ -492,9 +492,9 @@
+       // On Solaris, include the support directory for things like xlocale and
+       // fudged system headers.
+       if (triple.getOS() == llvm::Triple::Solaris) 
+-        AddPath("/usr/include/c++/v1/support/solaris", CXXSystem, false);
++        AddPath("@@prefix@@/include/c++/v1/support/solaris", CXXSystem, false);
+       
+-      AddPath("/usr/include/c++/v1", CXXSystem, false);
++      AddPath("@@prefix@@/include/c++/v1", CXXSystem, false);
+     } else {
+       AddDefaultCPlusPlusIncludePaths(triple, HSOpts);
+     }
+Index: lib/Driver/ToolChain.cpp
+===================================================================
+--- a/lib/Driver/ToolChain.cpp
++++ b/lib/Driver/ToolChain.cpp
+@@ -414,6 +414,9 @@
+ 
+   switch (Type) {
+   case ToolChain::CST_Libcxx:
++    CmdArgs.push_back("-L@@prefix@@/lib");
++    CmdArgs.push_back("-rpath");
++    CmdArgs.push_back("@@prefix@@/lib");
+     CmdArgs.push_back("-lc++");
+     break;
+ 
+Index: lib/Driver/ToolChains.cpp
+===================================================================
+--- a/lib/Driver/ToolChains.cpp
++++ b/lib/Driver/ToolChains.cpp
+@@ -2752,7 +2752,7 @@
+   if (GetCXXStdlibType(DriverArgs) == ToolChain::CST_Libcxx) {
+     // libc++ is always installed at a fixed path on Linux currently.
+     addSystemInclude(DriverArgs, CC1Args,
+-                     getDriver().SysRoot + "/usr/include/c++/v1");
++                     "@@prefix@@/include/c++/v1");
+     return;
+   }
