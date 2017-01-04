@@ -3,7 +3,11 @@
 rm -r test-results || true
 rm RESULT || true
 mkdir -p test-results
-cat VERSIONS | while read line; do
+N=$1
+if [ -z "$N" ]; then
+  N="0"
+fi
+cat VERSIONS | tail -n +$N | while read line; do
   if [ -z "$line" ]; then
     :
   else

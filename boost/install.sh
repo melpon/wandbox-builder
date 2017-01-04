@@ -85,6 +85,22 @@ if compare_version "$VERSION" "<=" "1.49.0"; then
   done
 fi
 
+if compare_version "$VERSION" "==" "1.54.0"; then
+  patch -p1 -i $BASE_DIR/resources/boost-1.54.0-coroutine.patch
+fi
+
+if compare_version "$VERSION" ">=" "1.54.0"; then
+  if compare_version "$VERSION" "<=" "1.56.0"; then
+    patch -p2 -i $BASE_DIR/resources/boost-1.54.0-call_once_variadic.patch
+  fi
+fi
+
+if compare_version "$VERSION" ">=" "1.51.0"; then
+  if compare_version "$VERSION" "<=" "1.54.0"; then
+    patch -p0 -i $BASE_DIR/resources/boost-1.51.0-__GLIBC_HAVE_LONG_LONG.patch
+  fi
+fi
+
 # build
 
 PATH=$COMPILER_PREFIX/bin:$PATH ./bootstrap.sh --prefix=$PREFIX

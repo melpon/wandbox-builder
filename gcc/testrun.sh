@@ -2,6 +2,6 @@
 
 set -ex
 
-for v in `cat VERSIONS | tail -n +15`; do
+for v in `cat VERSIONS`; do
   ./install.sh $v
 done
