@@ -1,4 +1,9 @@
 MEMO.md
-init_test.sh
-boost/RESULT
-boost/test-results
+build/init_test.sh
+build/boost/RESULT
+build/boost/TMP_VERSIONS
+build/boost/FAILED
+build/boost/test-results
+build/boost-head/RESULT
+build/boost-head/test-results
+wandbox/

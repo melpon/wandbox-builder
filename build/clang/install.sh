@@ -63,7 +63,7 @@ else
   mv clang-tools-extra-$VERSION.src source/tools/clang/tools/extra
 fi
 
-if compare_version "$VERSION" "<=" "3.4.2"; then
+if compare_version "$VERSION" "<=" "3.5.0"; then
   wget_strict_sha256 \
     http://www.llvm.org/releases/$VERSION/libcxx-$VERSION.src.tar.$EXT \
     $BASE_DIR/resources/libcxx-$VERSION.src.tar.$EXT.sha256
@@ -96,7 +96,7 @@ if compare_version "$VERSION" "<=" "3.5.0"; then
 fi
 
 if compare_version "$VERSION" "==" "3.5.0"; then
-  pushd source/projects/libcxx
+  pushd libcxx
   cat $BASE_DIR/resources/libcxx-$VERSION-fix-install-bitsdir.patch | patch -p1
   popd
 fi
@@ -139,7 +139,7 @@ make install
 cd ..
 
 # build libcxx for old version
-if compare_version "$VERSION" "<=" "3.4.2"; then
+if compare_version "$VERSION" "<=" "3.5.0"; then
   mkdir build_libcxx
   cd build_libcxx
   export CC="$PWD/../build/bin/clang"
@@ -155,7 +155,7 @@ if compare_version "$VERSION" "<=" "3.4.2"; then
   cd ..
 fi
 
-if compare_version "$VERSION" "<=" "3.4.2"; then
+if compare_version "$VERSION" "<=" "3.5.0"; then
   EXTRA_FLAGS=
 else
   EXTRA_FLAGS="-lc++abi"
