@@ -19,17 +19,39 @@ fi
 mkdir -p ~/tmp/clang-$VERSION/
 cd ~/tmp/clang-$VERSION/
 
-wget_strict_sha256 \
-  http://www.llvm.org/releases/$VERSION/llvm-$VERSION.src.tar.$EXT \
-  $BASE_DIR/resources/llvm-$VERSION.src.tar.$EXT.sha256
-tar xf llvm-$VERSION.src.tar.$EXT
-if compare_version "$VERSION" "==" "3.4"; then
-  mv llvm-$VERSION source
-else
+# llvm
+if compare_version "$VERSION" "==" "3.0"; then
+  wget_strict_sha256 \
+    http://www.llvm.org/releases/$VERSION/llvm-$VERSION.tar.$EXT \
+    $BASE_DIR/resources/llvm-$VERSION.tar.$EXT.sha256
+  tar xf llvm-$VERSION.tar.$EXT
   mv llvm-$VERSION.src source
+else
+  wget_strict_sha256 \
+    http://www.llvm.org/releases/$VERSION/llvm-$VERSION.src.tar.$EXT \
+    $BASE_DIR/resources/llvm-$VERSION.src.tar.$EXT.sha256
+  tar xf llvm-$VERSION.src.tar.$EXT
+  if compare_version "$VERSION" "==" "3.4"; then
+    mv llvm-$VERSION source
+  else
+    mv llvm-$VERSION.src source
+  fi
 fi
 
-if compare_version "$VERSION" "==" "3.4"; then
+# clang
+if compare_version "$VERSION" "==" "3.0"; then
+  wget_strict_sha256 \
+    http://www.llvm.org/releases/$VERSION/clang-$VERSION.tar.$EXT \
+    $BASE_DIR/resources/clang-$VERSION.tar.$EXT.sha256
+  tar xf clang-$VERSION.tar.$EXT
+  mv clang-$VERSION.src source/tools/clang
+elif compare_version "$VERSION" "<=" "3.2"; then
+  wget_strict_sha256 \
+    http://www.llvm.org/releases/$VERSION/clang-$VERSION.src.tar.$EXT \
+    $BASE_DIR/resources/clang-$VERSION.src.tar.$EXT.sha256
+  tar xf clang-$VERSION.src.tar.$EXT
+  mv clang-$VERSION.src source/tools/clang
+elif compare_version "$VERSION" "==" "3.4"; then
   wget_strict_sha256 \
     http://www.llvm.org/releases/$VERSION/clang-$VERSION.src.tar.$EXT \
     $BASE_DIR/resources/clang-$VERSION.src.tar.$EXT.sha256
@@ -43,27 +65,36 @@ else
   mv cfe-$VERSION.src source/tools/clang
 fi
 
-wget_strict_sha256 \
-  http://www.llvm.org/releases/$VERSION/compiler-rt-$VERSION.src.tar.$EXT \
-  $BASE_DIR/resources/compiler-rt-$VERSION.src.tar.$EXT.sha256
-tar xf compiler-rt-$VERSION.src.tar.$EXT
-if compare_version "$VERSION" "==" "3.4"; then
-  mv compiler-rt-$VERSION source/projects/compiler-rt
-else
-  mv compiler-rt-$VERSION.src source/projects/compiler-rt
+# compiler-rt
+if compare_version "$VERSION" ">=" "3.1"; then
+  wget_strict_sha256 \
+    http://www.llvm.org/releases/$VERSION/compiler-rt-$VERSION.src.tar.$EXT \
+    $BASE_DIR/resources/compiler-rt-$VERSION.src.tar.$EXT.sha256
+  tar xf compiler-rt-$VERSION.src.tar.$EXT
+  if compare_version "$VERSION" "==" "3.4"; then
+    mv compiler-rt-$VERSION source/projects/compiler-rt
+  else
+    mv compiler-rt-$VERSION.src source/projects/compiler-rt
+  fi
 fi
 
-wget_strict_sha256 \
-  http://www.llvm.org/releases/$VERSION/clang-tools-extra-$VERSION.src.tar.$EXT \
-  $BASE_DIR/resources/clang-tools-extra-$VERSION.src.tar.$EXT.sha256
-tar xf clang-tools-extra-$VERSION.src.tar.$EXT
-if compare_version "$VERSION" "==" "3.4"; then
-  mv clang-tools-extra-$VERSION source/tools/clang/tools/extra
-else
-  mv clang-tools-extra-$VERSION.src source/tools/clang/tools/extra
+# clang-tools-extra
+if compare_version "$VERSION" ">=" "3.3"; then
+  wget_strict_sha256 \
+    http://www.llvm.org/releases/$VERSION/clang-tools-extra-$VERSION.src.tar.$EXT \
+    $BASE_DIR/resources/clang-tools-extra-$VERSION.src.tar.$EXT.sha256
+  tar xf clang-tools-extra-$VERSION.src.tar.$EXT
+  if compare_version "$VERSION" "==" "3.4"; then
+    mv clang-tools-extra-$VERSION source/tools/clang/tools/extra
+  else
+    mv clang-tools-extra-$VERSION.src source/tools/clang/tools/extra
+  fi
 fi
 
-if compare_version "$VERSION" "<=" "3.5.0"; then
+# libcxx, libcxxabi
+if compare_version "$VERSION" "<=" "3.2"; then
+  :
+elif compare_version "$VERSION" "<=" "3.5.0"; then
   wget_strict_sha256 \
     http://www.llvm.org/releases/$VERSION/libcxx-$VERSION.src.tar.$EXT \
     $BASE_DIR/resources/libcxx-$VERSION.src.tar.$EXT.sha256
@@ -139,7 +170,9 @@ make install
 cd ..
 
 # build libcxx for old version
-if compare_version "$VERSION" "<=" "3.5.0"; then
+if compare_version "$VERSION" "<=" "3.2"; then
+  :
+elif compare_version "$VERSION" "<=" "3.5.0"; then
   mkdir build_libcxx
   cd build_libcxx
   export CC="$PWD/../build/bin/clang"
@@ -155,10 +188,12 @@ if compare_version "$VERSION" "<=" "3.5.0"; then
   cd ..
 fi
 
-if compare_version "$VERSION" "<=" "3.5.0"; then
-  EXTRA_FLAGS=
+if compare_version "$VERSION" "<=" "3.2"; then
+  EXTRA_FLAGS="-I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5"
+elif compare_version "$VERSION" "<=" "3.5.0"; then
+  EXTRA_FLAGS="-stdlib=libc++ -nostdinc++"
 else
-  EXTRA_FLAGS="-lc++abi"
+  EXTRA_FLAGS="-stdlib=libc++ -nostdinc++ -lc++abi"
 fi
 
-test_clang $PREFIX $EXTRA_FLAGS
+test_clang $PREFIX "$EXTRA_FLAGS"
