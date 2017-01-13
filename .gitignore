@@ -7,4 +7,4 @@ build/boost/test-results
 build/boost-head/RESULT
 build/boost-head/test-results
 wandbox/
-.swp
+*.swp

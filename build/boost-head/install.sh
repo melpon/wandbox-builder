@@ -21,7 +21,7 @@ function check_version() {
 
 check_version
 
-PREFIX=/opt/wandbox/boost-$VERSION-$COMPILER
+PREFIX=/opt/wandbox/boost-$VERSION/$COMPILER
 COMPILER_PREFIX=/opt/wandbox/$COMPILER
 VERSION_TARNAME=$(echo $VERSION | sed 's/\./_/g')
 
