@@ -10,15 +10,19 @@ fi
 
 BASE_DIR=$(cd $(dirname $0); pwd)
 
+../build/docker-rm.sh
+
 if [ "$1" = "cattleshed-runtime" ]; then
   docker run \
     --name cattleshed-runtime \
     -it \
     -v $BASE_DIR/../wandbox:/opt/wandbox \
     melpon/wandbox:$1 \
-    /opt/wandbox/cattleshed/bin/cattleshed \
-      -c /opt/wandbox/cattleshed/etc/cattleshed.conf \
-      -c /opt/wandbox/conf/compilers.default
+    /bin/bash -c "
+      /opt/wandbox/cattleshed/bin/cattleshed \
+        -c /opt/wandbox/cattleshed/etc/cattleshed.conf \
+        -c /opt/wandbox/conf/compilers.default
+      "
 elif [ "$1" = "kennel-runtime" ]; then
   # 既に起動している cattleshed-runtime に対して --link する
   docker run \
@@ -26,9 +30,12 @@ elif [ "$1" = "kennel-runtime" ]; then
     --link cattleshed-runtime:cattleshed-runtime \
     -it \
     -v $BASE_DIR/../wandbox:/opt/wandbox \
+    -v $BASE_DIR/$1:/var/work \
     melpon/wandbox:$1 \
-    /opt/wandbox/kennel/bin/kennel \
-      -c /opt/wandbox/kennel/etc/kennel.json
+    /bin/bash -c "
+      cd /var/work
+      ./run.sh
+      "
 elif [ "$1" = "kennel-client" ]; then
   # 既に起動している kennel-runtime に対して --link する
   docker run \
@@ -36,8 +43,12 @@ elif [ "$1" = "kennel-client" ]; then
     --link kennel-runtime:kennel-runtime \
     -it \
     -v $BASE_DIR/../wandbox:/opt/wandbox \
+    -v $BASE_DIR/$1:/var/work \
     melpon/wandbox:$1 \
-    /bin/bash -c "cd ~/ && exec /bin/bash"
+    /bin/bash -c "
+      cd /var/work
+      ./run.sh
+      "
 else
   exit 1
 fi

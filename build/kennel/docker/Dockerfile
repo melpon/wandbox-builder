@@ -48,6 +48,7 @@ RUN git clone --depth 1 https://github.com/melpon/cppdb && \
     cmake ../cppdb/ \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX=/usr/local/cppdb \
+      -DSQLITE_BACKEND_INTERNAL=ON \
       -DDISABLE_MYSQL=ON \
       -DDISABLE_PQ=ON \
       -DDISABLE_ODBC=ON && \

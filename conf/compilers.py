@@ -204,12 +204,12 @@ class Switches(object):
         return self.resolve_conflicts(pairs)
 
     def make_boost(self):
-        boost_vers = sort_version(set(a for a, _, _ in get_boost_versions()))
-        gcc_vers = sort_version(get_gcc_versions())
-        clang_vers = sort_version(get_clang_versions())
+        boost_vers = sort_version(set(a for a, _, _ in get_boost_versions_with_head()))
+        gcc_vers = sort_version(get_gcc_versions_with_head())
+        clang_vers = sort_version(get_clang_versions_with_head())
         compiler_vers = [('gcc', v) for v in gcc_vers] + [('clang', v) for v in clang_vers]
 
-        boost_ver_set = set(get_boost_versions())
+        boost_ver_set = set(get_boost_versions_with_head())
         boost_libs = {}
         # ライブラリの一覧を調べる
         for bv in boost_vers:
@@ -247,12 +247,12 @@ class Switches(object):
         return merge(*result)
 
     def make_boost_header(self):
-        boost_vers = sort_version(set(a for a, _, _ in get_boost_versions()))
-        gcc_vers = sort_version(get_gcc_versions())
-        clang_vers = sort_version(get_clang_versions())
+        boost_vers = sort_version(set(a for a, _, _ in get_boost_versions_with_head()))
+        gcc_vers = sort_version(get_gcc_versions_with_head())
+        clang_vers = sort_version(get_clang_versions_with_head())
         compiler_vers = [('gcc', v) for v in gcc_vers] + [('clang', v) for v in clang_vers]
 
-        boost_ver_set = set(get_boost_versions())
+        boost_ver_set = set(get_boost_versions_with_head())
         result = []
         for c, cv in compiler_vers:
             pairs = format_value([
