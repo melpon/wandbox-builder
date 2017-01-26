@@ -26,4 +26,8 @@ done
 
 cd ..
 
+# copy static files
+mkdir wandbox/static || true
+cp -r static/ wandbox/static/
+
 ./sync.sh cattleshed-root
