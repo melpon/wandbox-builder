@@ -23,4 +23,7 @@ for compiler in \
 done
 
 ./docker-rm.sh
+
+cd ..
+
 ./sync.sh cattleshed-root
