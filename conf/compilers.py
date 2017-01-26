@@ -367,11 +367,11 @@ class Compilers(object):
 
             # default
             if cmpver(cv, '>=', '4.5.4'):
-                switches += ['oldgcc-warning']
-                initial_checked += ['oldgcc-warning']
-            else:
                 switches += ['warning']
                 initial_checked += ['warning']
+            else:
+                switches += ['oldgcc-warning']
+                initial_checked += ['oldgcc-warning']
             switches += ["optimize", "cpp-verbose"]
 
             # boost
@@ -432,6 +432,7 @@ class Compilers(object):
                 'compiler-option-raw': True,
                 'switches': switches,
                 'initial-checked': initial_checked,
+                'jail-name': 'melpon2-default',
             }, cv=cv))
         return compilers
 
@@ -511,10 +512,9 @@ class Compilers(object):
             # head specific
             if cv == 'head':
                 display_name = 'clang HEAD'
-                version_command = ['/bin/sh', '-c', '/opt/wandbox/clang-head/bin/clang++ --version | head -1 | cut -d' ' -f3-']
             else:
                 display_name = 'clang'
-                version_command = ['/opt/wandbox/clang-{cv}/bin/clang++', '-dumpversion']
+            version_command = ["/bin/sh", "-c", "/opt/wandbox/clang-{cv}/bin/clang++ --version | head -1 | cut -d' ' -f3-"]
 
             compilers.append(format_value({
                 'name': 'clang-{cv}',
@@ -529,6 +529,7 @@ class Compilers(object):
                 'compiler-option-raw': True,
                 'switches': switches,
                 'initial-checked': initial_checked,
+                'jail-name': 'melpon2-default',
             }, cv=cv))
 
         return compilers
@@ -549,12 +550,13 @@ class Compilers(object):
                 'output-file': 'prog.cs',
                 'compiler-option-raw': True,
                 'compile-command': ['/opt/wandbox/mono-{cv}/bin/mcs', '-out:prog.exe', 'prog.cs'],
-                'version-command': ['/bin/sh', '-c', '/opt/wandbox/mono-{cv}/bin/mcs --version | head -1 | cut -d' ' -f5'],
+                'version-command': ['/bin/sh', '-c', "/opt/wandbox/mono-{cv}/bin/mcs --version | head -1 | cut -d' ' -f5"],
                 'swithes': ['mono-optimize'],
                 'initial-checked': [],
                 'display-name': display_name,
                 'display-compile-command': 'mcs -out:prog.exe prog.cs',
-                'run-command': ['/opt/wandbox/mono-{cv}/bin/mono', 'prog.exe']
+                'run-command': ['/opt/wandbox/mono-{cv}/bin/mono', 'prog.exe'],
+                'jail-name': 'melpon2-default',
             }, cv=cv))
         return compilers
 
