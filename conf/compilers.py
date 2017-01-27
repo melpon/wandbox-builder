@@ -507,7 +507,7 @@ class Compilers(object):
             if cmpver(cv, '>=', '3.5.0'):
                 compile_command += ['-lc++abi']
 
-            compile_command += ['proc.cc']
+            compile_command += ['prog.cc']
 
             # head specific
             if cv == 'head':
