@@ -304,7 +304,7 @@ class Switches(object):
                 'display-flags': '-I/opt/wandbox/sprout',
             },
             'msgpack': {
-                'flags': ['-I/opt/wandbox/msgpack-head/include'],
+                'flags': ['-I/opt/wandbox/msgpack-c/include'],
                 'display-name': 'MessagePack',
                 'display-flags': '-I/opt/wandbox/msgpack/include',
             },
