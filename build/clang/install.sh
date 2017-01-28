@@ -158,8 +158,13 @@ if compare_version "$VERSION" "<=" "3.4.2"; then
   export CC="gcc"
   export CXX="g++"
 else
-  export CC="clang"
-  export CXX="clang++"
+  if compare_version "$VERSION" "==" "3.7.1"; then
+    export CC="gcc"
+    export CXX="g++"
+  else
+    export CC="clang"
+    export CXX="clang++"
+  fi
 fi
 /usr/local/wandbox/camke-3.7.1/bin/cmake -G "Unix Makefiles" \
   -DCMAKE_BUILD_TYPE=Release \
