@@ -37,3 +37,14 @@ function test_boost_clang() {
   test "`./a.out`" = "`echo -e "23\n0\nSuccess"`" && \
   rm a.out
 }
+
+function install_if_not_exists() {
+  version=$1
+  compiler=$2
+  compiler_version=$3
+  if [ ! -d /opt/wandbox/boost-$version/$compiler-$compiler_version ]; then
+    run_with_log 1 ./install.sh "$@"
+  else
+    echo "already installed boost-$version for $compiler-$compiler_version"
+  fi
+}

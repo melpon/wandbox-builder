@@ -111,7 +111,7 @@ if [ "$COMPILER" = "clang" ]; then
   ./b2 toolset=clang stage release link=shared runtime-link=shared $WITHOUTS -j2
   ./b2 toolset=clang install release link=shared runtime-link=shared $WITHOUTS --prefix=$PREFIX
 else
-  sed "s#using[ 	]*gcc.*;#using gcc : : $COMPILER_PREFIX/bin/g++ : <linkflags>-Wl,-rpath,$COMPILER_PREFIX/lib,-rpath,$COMPILER_PREFIX/lib64 ;#" -i project-config.jam
+  sed "s#using[ 	]*gcc.*;#using gcc : : $COMPILER_PREFIX/bin/g++ : <linkflags>-Wl,-rpath,$COMPILER_PREFIX/lib,-rpath,$COMPILER_PREFIX/lib64 $ADDFLAGS ;#" -i project-config.jam
   ./b2 stage release link=shared runtime-link=shared $WITHOUTS -j2
   ./b2 install release link=shared runtime-link=shared $WITHOUTS --prefix=$PREFIX
 fi

@@ -55,4 +55,25 @@ function wget_strict_sha256() {
   fi
 }
 
+function install_all() {
+  version=$1
+  cmd=$2
+  cat $version | while read line; do
+    if [ "$line" != "" ]; then
+      $cmd $line
+    fi
+  done
+}
+
+function run_with_log() {
+  shiftnum=$1
+  shift 1
+  command="$@"
+  shift $shiftnum
+  logname="$*"
+  mkdir logs || true
+  $command 2>&1 | tee "logs/$logname".log
+  status=${PIPESTATUS[0]}
+  echo "$*: $status" >> logs/result.log
+}
 BASE_DIR=$(cd $(dirname $0); pwd)
