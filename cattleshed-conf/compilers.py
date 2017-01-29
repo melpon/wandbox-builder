@@ -73,6 +73,14 @@ def get_mono_versions_with_head():
     return get_mono_versions() + ['head']
 
 
+def get_rill_versions():
+    return []
+
+
+def get_rill_versions_with_head():
+    return get_rill_versions() + ['head']
+
+
 # foo-1.23.4
 def compare(a, b):
     name_a, version_a = a.split('-')
@@ -566,11 +574,38 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_rill(self):
+        rill_vers = sort_version(get_rill_versions_with_head(), reverse=True)
+        compilers = []
+        for cv in rill_vers:
+            if cv == 'head':
+                display_name = 'rillc HEAD'
+            else:
+                display_name = 'rillc'
+
+            compilers.append(format_value({
+                'name': 'rill-{cv}',
+                'displayable': True,
+                'language': 'Rill',
+                'output-file': 'prog.rill',
+                'compiler-option-raw': True,
+                'compile-command': ['/opt/wandbox/rill-{cv}/bin/rillc', '-o prog.exe', '--llc-path /opt/wandbox/rill-{cv}/bin/llc', 'prog.rill'],
+                'version-command': ['/bin/sh', '-c', "/opt/wandbox/rill-{cv}/bin/rillc --version | head -1 | cut -d' ' -f2-"],
+                'swithes': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'rillc -o prog.exe prog.rill',
+                'run-command': './prog.exe',
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc() +
             self.make_clang() +
-            self.make_mono()
+            self.make_mono() +
+            self.make_rill()
         )
 
 def make_config():

@@ -10,6 +10,7 @@ for compiler in \
     clang-head \
     mono-head \
     boost-head \
+    rill-head \
 ; do
   if [ "$compiler" = "boost-head" ]; then
     cat $compiler/VERSIONS | while read line; do
