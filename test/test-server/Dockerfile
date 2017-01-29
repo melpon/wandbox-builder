@@ -4,6 +4,11 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-      curl && \
+      libmpc3 \
+      binutils \
+      libc6-dev \
+      libgcc-5-dev \
+      libstdc++-5-dev \
+      libstdc++-4.8-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

@@ -1,0 +1,25 @@
+{ "application" :
+    { "database": "sqlite3:db=/opt/wandbox/kennel/var/lib/kennel/kennel_production.sqlite;@pool_size=10"
+    , "static_dir": "/opt/wandbox/kennel/etc/static"
+    , "scheme": "http"
+    , "domain": "127.0.0.1:3500"
+    , "map_root": ""
+    , "dispatch_root": ""
+    , "cattleshed":
+        [{ "host" : "127.0.0.1"
+         , "port" : 2012
+         }
+         ]
+    }
+, "service" :
+    { "api" : "http"
+    , "ip" : "0.0.0.0"
+    , "port" : 3500
+    }
+, "gzip" :
+    { "enable": false
+    }
+, "cache" :
+    { "backend": "process_shared"
+    }
+}

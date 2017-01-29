@@ -485,12 +485,18 @@ class Compilers(object):
             # pedantic
             switches += ['cpp-no-pedantic', 'cpp-pedantic', 'cpp-pedantic-errors']
 
+            # -fansi-escape-codes
+            if cmpver(cv, '>=', '3.4'):
+                ansi_escape_codes = ['-fansi-escape-codes']
+            else:
+                ansi_escape_codes = []
+
             # compile-command
             compile_command = [
                 '/opt/wandbox/clang-{cv}/bin/clang++',
                 '-oprog.exe',
-                '-fansi-escape-codes',
-                '-fcolor-diagnostics',
+                '-fcolor-diagnostics'
+                ] + ansi_escape_codes + [
                 '-I/opt/wandbox/clang-{cv}/include/c++/v1',
                 '-L/opt/wandbox/clang-{cv}/lib',
                 '-Wl,-rpath,/opt/wandbox/clang-{cv}/lib',

@@ -4,7 +4,7 @@ if [ $# -lt 1 ]; then
   echo "$0 <build>"
   echo ""
   echo "example:"
-  echo "  $0 cattleshed-runtime"
+  echo "  $0 test-server"
   exit 1
 fi
 
@@ -12,43 +12,46 @@ BASE_DIR=$(cd $(dirname $0); pwd)
 
 ../build/docker-rm.sh
 
-if [ "$1" = "cattleshed-runtime" ]; then
+if [ "$1" = "test-server" ]; then
+  if docker stop test-server; then
+    sleep 5
+  fi
   docker run \
-    --name cattleshed-runtime \
-    -it \
+    --name test-server \
+    -v `pwd`:/var/work \
     -v $BASE_DIR/../wandbox:/opt/wandbox \
-    melpon/wandbox:$1 \
+    -d \
+    --privileged=true \
+    melpon/wandbox:test-server \
     /bin/bash -c "
+      set -e
+
+      mkdir /usr/share/perl || true
       /opt/wandbox/cattleshed/bin/cattleshed \
         -c /opt/wandbox/cattleshed/etc/cattleshed.conf \
-        -c /opt/wandbox/conf/compilers.default
+        -c /opt/wandbox/cattleshed-conf/compilers.default &
+      sleep 1
+      /opt/wandbox/kennel/bin/kennel \
+        -c /var/work/kennel.json &
+
+      # wait forever
+      while true; do
+        sleep 10
+      done
       "
-elif [ "$1" = "kennel-runtime" ]; then
-  # 既に起動している cattleshed-runtime に対して --link する
+elif [ "$1" = "test-client" ]; then
   docker run \
-    --name kennel-runtime \
-    --link cattleshed-runtime:cattleshed-runtime \
-    -it \
+    --name test-client \
+    --link test-server:test-server \
+    -v `pwd`/..:/var/work \
     -v $BASE_DIR/../wandbox:/opt/wandbox \
-    -v $BASE_DIR/$1:/var/work \
-    melpon/wandbox:$1 \
-    /bin/bash -c "
-      cd /var/work
-      ./run.sh
-      "
-elif [ "$1" = "kennel-client" ]; then
-  # 既に起動している kennel-runtime に対して --link する
-  docker run \
-    --name kennel-client \
-    --link kennel-runtime:kennel-runtime \
     -it \
-    -v $BASE_DIR/../wandbox:/opt/wandbox \
-    -v $BASE_DIR/$1:/var/work \
-    melpon/wandbox:$1 \
+    melpon/wandbox:test-client \
     /bin/bash -c "
-      cd /var/work
-      ./run.sh
-      "
+      cd /var/work/test
+      exec /bin/bash
+      # curl http://test-server:3500/api/list.json
+    "
 else
   exit 1
 fi
