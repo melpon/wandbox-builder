@@ -589,7 +589,7 @@ class Compilers(object):
                 'language': 'Rill',
                 'output-file': 'prog.rill',
                 'compiler-option-raw': True,
-                'compile-command': ['/opt/wandbox/rill-{cv}/bin/rillc', '-o prog.exe', '--llc-path /opt/wandbox/rill-{cv}/bin/llc', 'prog.rill'],
+                'compile-command': ['/opt/wandbox/rill-{cv}/bin/rillc', '-o', 'prog.exe', '--llc-path', '/opt/wandbox/rill-{cv}/bin/llc', 'prog.rill'],
                 'version-command': ['/bin/sh', '-c', "/opt/wandbox/rill-{cv}/bin/rillc --version | head -1 | cut -d' ' -f2-"],
                 'swithes': [],
                 'initial-checked': [],
