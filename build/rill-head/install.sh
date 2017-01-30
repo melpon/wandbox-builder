@@ -4,45 +4,21 @@
 
 PREFIX=/opt/wandbox/rill-head
 
-# llvm
+eval `opam config env`
 
-cd ~/
-mkdir llvm
-cd llvm
+# llvm (only install)
 
-VERSION=3.9.1
-EXT="xz"
-wget_strict_sha256 \
-    http://www.llvm.org/releases/$VERSION/llvm-$VERSION.src.tar.$EXT \
-    $BASE_DIR/resources/llvm-$VERSION.src.tar.$EXT.sha256
-tar xf llvm-$VERSION.src.tar.$EXT
-cd llvm-$VERSION.src
+cd /root/llvm-3.9.1.src/build && \
+    cmake -DCMAKE_INSTALL_PREFIX=$PREFIX -P cmake_install.cmake
+cp /opt/llvm/bin/llc $PREFIX/bin/.
+cp /opt/llvm/bin/llvm-config $PREFIX/bin/.
 
-mkdir build
-cd build
-cmake -G 'Unix Makefiles' \
-      -DCMAKE_INSTALL_PREFIX=$PREFIX \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DLLVM_TARGETS_TO_BUILD="X86" \
-      -DLLVM_BUILD_TOOLS=OFF \
-      -DLLVM_INCLUDE_EXAMPLES=OFF \
-      -DLLVM_INCLUDE_TESTS=OFF \
-      ..
-cmake --build . --target package/fast -- -j2
-cmake --build . --target llc/fast -- -j2
-cmake --build . --target llvm-config/fast -- -j2
-cmake --build . --target install
-cp bin/llvm-config $PREFIX/bin/.
-cp bin/llc $PREFIX/bin/.
 
 # rill-head
 
 cd ~/
 mkdir rill-head
 cd rill-head
-
-eval `opam config env`
-PATH=$PATH:$PREFIX/bin LIBRARY_PATH=$LIBRARY_PATH$PREFIX/lib opam install -y llvm.3.9
 
 # get sources
 
@@ -58,5 +34,4 @@ RILL_LLC_PATH=$PREFIX/bin/llc LIBRARY_PATH=$LIBRARY_PATH$PREFIX/lib \
 omake install
 
 cd ~/
-rm -r llvm
 rm -r rill-head
