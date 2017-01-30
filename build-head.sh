@@ -25,6 +25,8 @@ for compiler in \
   fi
 done
 
+cd ..
+
 # copy static files
 mkdir wandbox/static || true
 cp -r static/ wandbox/static/
@@ -50,7 +52,5 @@ docker run --net=host -i -v $BASE_DIR/../wandbox:/opt/wandbox ubuntu:16.04 /bin/
 "
 
 ./docker-rm.sh
-
-cd ..
 
 ./sync.sh cattleshed-root
