@@ -119,7 +119,7 @@ def get_tests():
 def run(compiler, code, expected):
     infos = get_infos()
     info = get_info(infos, compiler)
-    opts = ['cpp-verbose']
+    opts = []
     for switch in info['switches']:
         if switch['type'] == 'single':
             if switch['default']:
@@ -217,6 +217,12 @@ def test_boost_head():
         add_test(name, lambda: run_boost(version, compiler, 'head', code, '23\n0\nSuccess\n'))
 
 
+def test_rill_head():
+    compiler = 'rill-head'
+    code = codecs.open('../build/rill-head/resources/test.rill', 'r', 'utf-8').read()
+    add_test(compiler, lambda: run(compiler, code, 'hello world\n'))
+
+
 def register():
     test_list()
     test_gcc()
@@ -227,6 +233,7 @@ def register():
     test_mono_head()
     test_boost()
     test_boost_head()
+    test_rill_head()
 
 
 def main():
