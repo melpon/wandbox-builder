@@ -13,9 +13,6 @@ BASE_DIR=$(cd $(dirname $0); pwd)
 ../build/docker-rm.sh
 
 if [ "$1" = "test-server" ]; then
-  if docker stop test-server; then
-    sleep 5
-  fi
   docker run \
     --name test-server \
     -v `pwd`:/var/work \

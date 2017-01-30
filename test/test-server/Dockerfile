@@ -8,7 +8,6 @@ RUN apt-get update && \
       binutils \
       libc6-dev \
       libgcc-5-dev \
-      libstdc++-5-dev \
-      libstdc++-4.8-dev && \
+      libstdc++-5-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

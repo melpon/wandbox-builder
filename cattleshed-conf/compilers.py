@@ -243,6 +243,13 @@ class Switches(object):
                     continue
 
                 libs = ['-l' + lib[3:] for lib in boost_libs[(bv, c, cv)]]
+
+                # clang-3.3, clang-3.4 needs `-lsupc++` after `-lboost_*` for a compile error like:
+                #   /opt/wandbox/boost-1.63.0/clang-3.3/lib/libboost_locale.so: undefined reference to `typeinfo for wchar_t'
+                if c == 'clang':
+                    if cmpver(cv, '==', '3.3') or cmpver(cv, '==', '3.4'):
+                        libs += ['-lsupc++']
+
                 pairs.append(format_value(('boost-{bv}-{c}-{cv}', {
                     'flags': [
                         '-I/opt/wandbox/boost-{bv}/{c}-{cv}/include',
@@ -512,14 +519,31 @@ class Compilers(object):
                 '-I/opt/wandbox/boost-sml/include',
                 '-I/opt/wandbox/range-v3/include']
 
+            if cmpver(cv, '==', '3.2'):
+                # /usr/include/c++/5/type_traits:310:39: error: use of undeclared identifier '__float128'
+                #   struct __is_floating_point_helper<__float128>
+                compile_command += ['-D__STRICT_ANSI__']
             if cmpver(cv, '<=', '3.2'):
                 compile_command += [
                     '-I/usr/include/c++/5',
                     '-I/usr/include/x86_64-linux-gnu/c++/5']
             if cmpver(cv, '>=', '3.3'):
                 compile_command += ['-stdlib=libc++', '-nostdinc++']
+            if cmpver(cv, '==', '3.3'):
+                # /opt/wandbox/clang-3.3/include/c++/v1/cstdio:156:9: error: no member named 'gets' in the global namespace
+                # using ::gets;
+                compile_command += ['-Dgets=fgets']
+            if cmpver(cv, '==', '3.3') or cmpver(cv, '==', '3.4'):
+                # /opt/wandbox/boost-1.63.0/clang-3.3/lib/libboost_locale.so: undefined reference to `typeinfo for wchar_t'
+                compile_command += ['-lsupc++']
             if cmpver(cv, '>=', '3.5.0'):
                 compile_command += ['-lc++abi']
+            if cmpver(cv, '==', 'head'):
+                # /opt/wandbox/boost-1.63.0/clang-head/include/boost/smart_ptr/scoped_ptr.hpp:74:31: error: no type named 'auto_ptr' in namespace 'std'
+                #     explicit scoped_ptr( std::auto_ptr<T> p ) BOOST_NOEXCEPT : px( p.release() )
+                #                              ~~~~~^
+                #compile_command += ['-D_LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR']
+                compile_command += ['-DBOOST_NO_AUTO_PTR']
 
             compile_command += ['prog.cc']
 
