@@ -5,6 +5,8 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import os
+import sys
+import fnmatch
 import codecs
 import json
 import requests
@@ -81,18 +83,37 @@ def get_info(infos, name):
 
 
 def test_list():
-    r = requests.get('http://test-server:3500/api/list.json')
-    assert 200 == r.status_code
-    v = json.loads(r.text)
-    assert len(v) != 0
+    def run():
+        r = requests.get('http://test-server:3500/api/list.json')
+        assert 200 == r.status_code
+        v = json.loads(r.text)
+        assert len(v) != 0
+    add_test('list', run)
 
 
-def do_test(name, func):
-    try:
-        func()
-        print('{}: ok'.format(name))
-    except Exception as e:
-        print('{}: failed ({})'.format(name, e))
+__tests = []
+
+
+def add_test(name, func):
+    global __tests
+    __tests.append((name, func))
+
+
+def run_tests(cond):
+    global __tests
+    for name, func in __tests:
+        if not cond(name):
+            continue
+        try:
+            func()
+            print('{}: ok'.format(name))
+        except Exception as e:
+            print('{}: failed ({})'.format(name, e))
+
+
+def get_tests():
+    global __tests
+    return [name for name, _ in __tests]
 
 
 def run(compiler, code, expected):
@@ -122,36 +143,36 @@ def test_gcc():
     code = codecs.open('../build/gcc/resources/test.cpp', 'r', 'utf-8').read()
     for cv in get_gcc_versions():
         compiler = 'gcc-{cv}'.format(cv=cv)
-        do_test(compiler, lambda: run(compiler, code, 'hello\n'))
+        add_test(compiler, lambda: run(compiler, code, 'hello\n'))
 
 
 def test_gcc_head():
     compiler = 'gcc-head'
-    do_test(compiler, lambda: run(compiler, codecs.open('../build/gcc-head/resources/test.cpp', 'r', 'utf-8').read(), 'hello\n'))
+    add_test(compiler, lambda: run(compiler, codecs.open('../build/gcc-head/resources/test.cpp', 'r', 'utf-8').read(), 'hello\n'))
 
 
 def test_clang():
     code = codecs.open('../build/clang/resources/test.cpp', 'r', 'utf-8').read()
     for cv in get_clang_versions():
         compiler = 'clang-{cv}'.format(cv=cv)
-        do_test(compiler, lambda: run(compiler, code, 'hello\n'))
+        add_test(compiler, lambda: run(compiler, code, 'hello\n'))
 
 
 def test_clang_head():
     compiler = 'clang-head'
-    do_test(compiler, lambda: run(compiler, codecs.open('../build/clang-head/resources/test.cpp', 'r', 'utf-8').read(), 'hello\n'))
+    add_test(compiler, lambda: run(compiler, codecs.open('../build/clang-head/resources/test.cpp', 'r', 'utf-8').read(), 'hello\n'))
 
 
 def test_mono():
     code = codecs.open('../build/mono/resources/test.cs', 'r', 'utf-8').read()
     for cv in get_mono_versions():
         compiler = 'mono-{cv}'.format(cv=cv)
-        do_test(compiler, lambda: run(compiler, code, 'hello\n'))
+        add_test(compiler, lambda: run(compiler, code, 'hello\n'))
 
 
 def test_mono_head():
     compiler = 'mono-head'
-    do_test(compiler, lambda: run(compiler, codecs.open('../build/mono-head/resources/test.cs', 'r', 'utf-8').read(), 'hello\n'))
+    add_test(compiler, lambda: run(compiler, codecs.open('../build/mono-head/resources/test.cs', 'r', 'utf-8').read(), 'hello\n'))
 
 
 def run_boost(version, compiler, compiler_version, code, expected):
@@ -184,19 +205,19 @@ def run_boost(version, compiler, compiler_version, code, expected):
 def test_boost():
     code = codecs.open('../build/boost/resources/test.cpp', 'r', 'utf-8').read()
     for version, compiler, compiler_version in get_boost_versions():
-        name = 'boost-{} for {}-{}'.format(version, compiler, compiler_version)
-        do_test(name, lambda: run_boost(version, compiler, compiler_version, code, '23\n0\nSuccess\n'))
+        name = 'boost-{}-{}-{}'.format(version, compiler, compiler_version)
+        add_test(name, lambda: run_boost(version, compiler, compiler_version, code, '23\n0\nSuccess\n'))
 
 
 def test_boost_head():
     code = codecs.open('../build/boost-head/resources/test.cpp', 'r', 'utf-8').read()
     for version, compiler in get_boost_head_versions():
-        name = 'boost-{} for {}'.format(version, compiler)
+        name = 'boost-{}-{}'.format(version, compiler)
         compiler = compiler.split('-')[0]
-        do_test(name, lambda: run_boost(version, compiler, 'head', code, '23\n0\nSuccess\n'))
+        add_test(name, lambda: run_boost(version, compiler, 'head', code, '23\n0\nSuccess\n'))
 
 
-def main():
+def register():
     test_list()
     test_gcc()
     test_gcc_head()
@@ -206,6 +227,31 @@ def main():
     test_mono_head()
     test_boost()
     test_boost_head()
+
+
+def main():
+    if len(sys.argv) == 1:
+        print('python run.py test1 [test2 [test3 [...]]]')
+        print('python run.py --all')
+        print()
+        print('example:')
+        print("  python run.py 'gcc-head'")
+        print("  python run.py 'clang-*'")
+        print("  python run.py 'boost-*-gcc-*' 'boost-1.6?.0-clang-*'")
+        sys.exit(0)
+
+    run_all = '--all' in sys.argv
+    patterns = sys.argv[1:]
+
+    register()
+    def cond(name):
+        if run_all:
+            return True
+        for pattern in patterns:
+            if fnmatch.fnmatch(name, pattern):
+                return True
+        return False
+    run_tests(cond)
 
 
 if __name__ == '__main__':
