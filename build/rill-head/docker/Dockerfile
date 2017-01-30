@@ -10,7 +10,7 @@ RUN apt-get update && \
 COPY llvm-3.9.1.src.tar.xz.sha256 root/.
 RUN cd /root && \
     wget http://www.llvm.org/releases/3.9.1/llvm-3.9.1.src.tar.xz && \
-    cat llvm-3.9.1.src.tar.xz.sha256 | sha256sum -c && \
+    echo "1fd90354b9cf19232e8f168faf2220e79be555df3aa743242700879e8fd329ee *llvm-3.9.1.src.tar.xz" | sha256sum -c && \
     tar Jxfv llvm-3.9.1.src.tar.xz && \
     rm llvm-3.9.1.src.tar.xz && \
     cd llvm-3.9.1.src && \
