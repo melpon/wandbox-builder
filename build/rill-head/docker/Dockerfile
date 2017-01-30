@@ -23,23 +23,27 @@ RUN cd /root && \
           -DLLVM_BUILD_TOOLS=OFF \
           -DLLVM_INCLUDE_EXAMPLES=OFF \
           -DLLVM_INCLUDE_TESTS=OFF \
-          ..
-RUN cd /root/llvm-3.9.1.src/build && \
+          .. && \
     cmake --build . --target package/fast -- -j2 && \
     cmake --build . --target llc/fast -- -j2 && \
-    cmake --build . --target llvm-config/fast -- -j2
-RUN cd /root/llvm-3.9.1.src/build && \
+    cmake --build . --target llvm-config/fast -- -j2 && \
     cmake --build . --target install && \
     cp bin/llvm-config /opt/llvm/bin/. && \
-    cp bin/llc /opt/llvm/bin/.
+    cp bin/llc /opt/llvm/bin/. && \
+    rm -r /root/llvm-3.9.1.src
 
-RUN wget https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh -O - | sh -s /usr/local/bin
-RUN opam init -y -a
-RUN opam switch 4.04.0
-
-RUN OPAMDOWNLOADJOBS=1 opam install omake.0.9.8.6-0.rc1 menhir batteries ctypes \
-                                    ctypes-foreign stdint ocamlgraph ounit
-RUN OPAMDOWNLOADJOBS=1 \
-    PATH=$PATH:/opt/llvm/bin \
-    LIBRARY_PATH=$LIBRARY_PATH:/opt/llvm/lib \
-    opam install -y llvm.3.9
+RUN wget https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh -O - | sh -s /usr/local/bin && \
+    opam init -y -a && \
+    opam switch 4.04.0 && \
+    OPAMDOWNLOADJOBS=1 \
+        opam install -y \
+            omake.0.9.8.6-0.rc1 \
+            menhir \
+            batteries \
+            ctypes \
+            ctypes-foreign \
+            stdint \
+            ocamlgraph \
+            ounit && \
+    OPAMDOWNLOADJOBS=1 PATH=$PATH:/opt/llvm/bin LIBRARY_PATH=$LIBRARY_PATH:/opt/llvm/lib \
+        opam install -y llvm.3.9
