@@ -51,7 +51,16 @@ docker run \
   melpon/wandbox:test-client \
   /bin/bash -c "
     cd /var/work/test
-    python run.py $@
+    # wait until kennel port is opened
+    for ((i = 0; i < 10; i++)); do
+      if curl http://test-server:3500/api/list.json > /dev/null 2>&1; then
+        python run.py $@
+        exit $?
+      else
+        sleep 1
+      fi
+    done
+    exit 1
   "
 
 # stop test-server

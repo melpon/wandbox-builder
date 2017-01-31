@@ -139,6 +139,18 @@ def run(compiler, code, expected):
     assert r.json()['program_output'] == expected
 
 
+def test_gcc_c():
+    code = codecs.open('../build/gcc/resources/test.c', 'r', 'utf-8').read()
+    for cv in get_gcc_versions():
+        compiler = 'gcc-{cv}-c'.format(cv=cv)
+        add_test(compiler, lambda: run(compiler, code, 'hello\n'))
+
+
+def test_gcc_c_head():
+    compiler = 'gcc-head-c'
+    add_test(compiler, lambda: run(compiler, codecs.open('../build/gcc-head/resources/test.c', 'r', 'utf-8').read(), 'hello\n'))
+
+
 def test_gcc():
     code = codecs.open('../build/gcc/resources/test.cpp', 'r', 'utf-8').read()
     for cv in get_gcc_versions():
@@ -149,6 +161,18 @@ def test_gcc():
 def test_gcc_head():
     compiler = 'gcc-head'
     add_test(compiler, lambda: run(compiler, codecs.open('../build/gcc-head/resources/test.cpp', 'r', 'utf-8').read(), 'hello\n'))
+
+
+def test_clang_c():
+    code = codecs.open('../build/clang/resources/test.c', 'r', 'utf-8').read()
+    for cv in get_clang_versions():
+        compiler = 'clang-{cv}-c'.format(cv=cv)
+        add_test(compiler, lambda: run(compiler, code, 'hello\n'))
+
+
+def test_clang_c_head():
+    compiler = 'clang-head-c'
+    add_test(compiler, lambda: run(compiler, codecs.open('../build/clang-head/resources/test.c', 'r', 'utf-8').read(), 'hello\n'))
 
 
 def test_clang():
@@ -225,8 +249,12 @@ def test_rill_head():
 
 def register():
     test_list()
+    test_gcc_c()
+    test_gcc_c_head()
     test_gcc()
     test_gcc_head()
+    test_clang_c()
+    test_clang_c_head()
     test_clang()
     test_clang_head()
     test_mono()

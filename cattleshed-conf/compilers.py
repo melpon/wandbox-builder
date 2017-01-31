@@ -152,13 +152,33 @@ class Switches(object):
                 'flags': ['-std=c89'],
                 'display-name': 'C89',
             }),
+            ('gnu89', {
+                'flags': ['-std=gnu89'],
+                'display-name': 'C89(GNU)',
+            }),
             ('c99', {
                 'flags': ['-std=c99'],
                 'display-name': 'C99',
             }),
+            ('gnu99', {
+                'flags': ['-std=gnu99'],
+                'display-name': 'C99(GNU)',
+            }),
+            ('c1x', {
+                'flags': ['-std=c1x'],
+                'display-name': 'C11',
+            }),
+            ('gnu1x', {
+                'flags': ['-std=gnu1x'],
+                'display-name': 'C11(GNU)',
+            }),
             ('c11', {
                 'flags': ['-std=c11'],
                 'display-name': 'C11',
+            }),
+            ('gnu11', {
+                'flags': ['-std=gnu11'],
+                'display-name': 'C11(GNU)',
             }),
             ('c++98', {
                 'flags': ['-std=c++98'],
@@ -359,6 +379,65 @@ class Switches(object):
             self.make_cxx())
 
 class Compilers(object):
+    def make_gcc_c(self):
+        gcc_vers = sort_version(get_gcc_versions_with_head(), reverse=True)
+
+        compilers = []
+        for cv in gcc_vers:
+            switches = []
+            initial_checked = []
+
+            # default
+            if cmpver(cv, '>=', '4.5.4'):
+                switches += ['warning']
+                initial_checked += ['warning']
+            else:
+                switches += ['oldgcc-warning']
+                initial_checked += ['oldgcc-warning']
+            switches += ["optimize", "cpp-verbose"]
+
+            # C
+            switches += ['c89', 'gnu89', 'c99', 'gnu99']
+            if cmpver(cv, '==', '4.6.4'):
+                switches += ['c1x', 'gnu1x']
+            if cmpver(cv, '>=', '4.7.3'):
+                switches += ['c11', 'gnu11']
+            initial_checked += [switches[-1]]
+
+            # pedantic
+            if cmpver(cv, '>=', '4.5.4'):
+                switches += ["cpp-no-pedantic", "cpp-pedantic", "cpp-pedantic-errors"]
+
+            # head specific
+            if cv == 'head':
+                display_name = 'gcc HEAD'
+                version_command = ["/bin/sh", "-c", "/opt/wandbox/gcc-head/bin/gcc --version | head -1 | cut -d' ' -f3-"]
+            else:
+                display_name = 'gcc'
+                version_command = ['/opt/wandbox/gcc-{cv}/bin/gcc', '-dumpversion']
+
+            compilers.append(format_value({
+                'name': 'gcc-{cv}-c',
+                'compile-command': [
+                    '/opt/wandbox/gcc-{cv}/bin/gcc',
+                    '-oprog.exe',
+                    '-Wl,-rpath,/opt/wandbox/gcc-{cv}/lib64',
+                    'prog.c'
+                ],
+                'version-command': version_command,
+                'display-name': display_name,
+                'display-compile-command': 'gcc prog.c',
+                'language': 'C',
+                'output-file': 'prog.c',
+                'run-command': './prog.exe',
+                'displayable': True,
+                'compiler-option-raw': True,
+                'switches': switches,
+                'initial-checked': initial_checked,
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make_gcc(self):
         boost_vers = sort_version(set(a for a, _, _ in get_boost_versions_with_head()))
         gcc_vers = sort_version(get_gcc_versions_with_head(), reverse=True)
@@ -449,6 +528,65 @@ class Compilers(object):
                 'initial-checked': initial_checked,
                 'jail-name': 'melpon2-default',
             }, cv=cv))
+        return compilers
+
+    def make_clang_c(self):
+        clang_vers = sort_version(get_clang_versions_with_head(), reverse=True)
+
+        compilers = []
+        for cv in clang_vers:
+            switches = []
+            initial_checked = []
+
+            # default
+            switches += ['warning', 'optimize', 'cpp-verbose']
+            initial_checked += ['warning']
+
+            # C
+            switches += ['c89', 'gnu89', 'c99', 'gnu99', 'c11', 'gnu11']
+            initial_checked += [switches[-1]]
+
+            # pedantic
+            switches += ['cpp-no-pedantic', 'cpp-pedantic', 'cpp-pedantic-errors']
+
+            # -fansi-escape-codes
+            if cmpver(cv, '>=', '3.4'):
+                ansi_escape_codes = ['-fansi-escape-codes']
+            else:
+                ansi_escape_codes = []
+
+            # compile-command
+            compile_command = [
+                '/opt/wandbox/clang-{cv}/bin/clang',
+                '-oprog.exe',
+                '-fcolor-diagnostics'
+                ] + ansi_escape_codes + [
+                'prog.c'
+            ]
+
+            # head specific
+            if cv == 'head':
+                display_name = 'clang HEAD'
+            else:
+                display_name = 'clang'
+            version_command = ["/bin/sh", "-c", "/opt/wandbox/clang-{cv}/bin/clang --version | head -1 | cut -d' ' -f3-"]
+
+            compilers.append(format_value({
+                'name': 'clang-{cv}-c',
+                'compile-command': compile_command,
+                'version-command': version_command,
+                'display-name': display_name,
+                'display-compile-command': 'clang prog.c',
+                'language': 'C',
+                'output-file': 'prog.c',
+                'run-command': './prog.exe',
+                'displayable': True,
+                'compiler-option-raw': True,
+                'switches': switches,
+                'initial-checked': initial_checked,
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+
         return compilers
 
     def make_clang(self):
@@ -626,7 +764,9 @@ class Compilers(object):
 
     def make(self):
         return (
+            self.make_gcc_c() +
             self.make_gcc() +
+            self.make_clang_c() +
             self.make_clang() +
             self.make_mono() +
             self.make_rill()
