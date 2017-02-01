@@ -65,6 +65,15 @@ def get_mono_versions_with_head():
     return get_mono_versions() + ['head']
 
 
+def get_erlang_versions():
+    lines = codecs.open(os.path.join(build_path(), 'erlang', 'VERSIONS'), 'r', 'utf-8').readlines()
+    return [line.strip() for line in lines if len(line) != 0]
+
+
+def get_erlang_versions_with_head():
+    return get_mono_versions() + ['head']
+
+
 __infos = None
 
 
@@ -247,6 +256,18 @@ def test_rill_head():
     add_test(compiler, lambda: run(compiler, code, 'hello world\n'))
 
 
+def test_erlang():
+    code = codecs.open('../build/erlang/resources/test.erl', 'r', 'utf-8').read()
+    for cv in get_erlang_versions():
+        compiler = 'erlang-{cv}'.format(cv=cv)
+        add_test(compiler, lambda: run(compiler, code, 'hello\n'))
+
+
+def test_erlang_head():
+    compiler = 'erlang-head'
+    add_test(compiler, lambda: run(compiler, codecs.open('../build/erlang-head/resources/test.erl', 'r', 'utf-8').read(), 'hello\n'))
+
+
 def register():
     test_list()
     test_gcc_c()
@@ -262,6 +283,8 @@ def register():
     test_boost()
     test_boost_head()
     test_rill_head()
+    test_erlang()
+    test_erlang_head()
 
 
 def main():

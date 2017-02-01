@@ -81,6 +81,15 @@ def get_rill_versions_with_head():
     return get_rill_versions() + ['head']
 
 
+def get_erlang_versions():
+    lines = open(os.path.join(build_path(), 'erlang', 'VERSIONS')).readlines()
+    return [line.strip() for line in lines if len(line) != 0]
+
+
+def get_erlang_versions_with_head():
+    return get_erlang_versions() + ['head']
+
+
 # foo-1.23.4
 def compare(a, b):
     name_a, version_a = a.split('-')
@@ -768,6 +777,38 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_erlang(self):
+        erlang_vers = sort_version(get_erlang_versions_with_head(), reverse=True)
+        compilers = []
+        for cv in erlang_vers:
+            if cv == 'head':
+                display_name = 'erlang HEAD'
+            else:
+                display_name = 'erlang'
+
+            if cv == 'head':
+                version_command = ['/bin/bash', '-c', 'cat `find /opt/wandbox/erlang-head/lib/erlang/releases/ -name OTP_VERSION | head -n 1`']
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'erlang-{cv}',
+                'displayable': True,
+                'language': 'Erlang',
+                'output-file': 'prog.erl',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'swithes': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'ecript prog.erl',
+                'run-command': ['/opt/wandbox/erlang-{cv}/bin/escript', 'prog.erl'],
+                'runtime-option-raw': False,
+                'jail-name': 'melpon2-erlangvm',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -775,7 +816,8 @@ class Compilers(object):
             self.make_clang_c() +
             self.make_clang() +
             self.make_mono() +
-            self.make_rill()
+            self.make_rill() +
+            self.make_erlang()
         )
 
 def make_config():

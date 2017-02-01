@@ -11,6 +11,7 @@ for compiler in \
     mono-head \
     boost-head \
     rill-head \
+    erlang-head \
 ; do
   if [ "$compiler" = "boost-head" ]; then
     cat $compiler/VERSIONS | while read line; do
