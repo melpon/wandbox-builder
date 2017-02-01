@@ -146,7 +146,7 @@ class Switches(object):
         conflicts = [p[0] for p in pairs]
         return [(p[0], merge(p[1], { 'conflicts': conflicts })) for p in pairs]
 
-    def make_cxx(self):
+    def make_c(self):
         pairs = [
             ('c89', {
                 'flags': ['-std=c89'],
@@ -180,6 +180,11 @@ class Switches(object):
                 'flags': ['-std=gnu11'],
                 'display-name': 'C11(GNU)',
             }),
+        ]
+        return self.resolve_conflicts(pairs)
+
+    def make_cxx(self):
+        pairs = [
             ('c++98', {
                 'flags': ['-std=c++98'],
                 'display-name': 'C++03',
@@ -376,6 +381,7 @@ class Switches(object):
             self.make_pedantic(),
             self.make_boost(),
             self.make_boost_header(),
+            self.make_c(),
             self.make_cxx())
 
 class Compilers(object):
