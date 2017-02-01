@@ -1,3 +1,6 @@
 #!/bin/bash
 
-docker rm `docker ps -f status=exited -q`
+CONTAINERS=`docker ps -f status=exited -q`
+if [ -n "$CONTAINERS" ]; then
+    docker rm $CONTAINERS
+fi
