@@ -60,7 +60,7 @@ function install_all() {
   cmd=$2
   cat $version | while read line; do
     if [ "$line" != "" ]; then
-      $cmd $line
+      $cmd $line < /dev/null
     fi
   done
 }
