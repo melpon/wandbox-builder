@@ -6,5 +6,6 @@
 /build/boost/logs/
 /build/mono/logs/
 /build/erlang/logs/
+/build/elixir/logs/
 /wandbox/
 *.swp

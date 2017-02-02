@@ -90,6 +90,15 @@ def get_erlang_versions_with_head():
     return get_erlang_versions() + ['head']
 
 
+def get_elixir_versions():
+    lines = open(os.path.join(build_path(), 'elixir', 'VERSIONS')).readlines()
+    return [line.strip() for line in lines if len(line) != 0]
+
+
+def get_elixir_versions_with_head():
+    return get_elixir_versions() + ['head']
+
+
 # foo-1.23.4
 def compare(a, b):
     name_a, version_a = a.split('-')
@@ -804,7 +813,39 @@ class Compilers(object):
                 'display-name': display_name,
                 'display-compile-command': 'ecript prog.erl',
                 'run-command': ['/opt/wandbox/erlang-{cv}/bin/escript', 'prog.erl'],
-                'runtime-option-raw': False,
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-erlangvm',
+            }, cv=cv))
+        return compilers
+
+    def make_elixir(self):
+        elixir_vers = sort_version(get_elixir_versions_with_head(), reverse=True)
+        compilers = []
+        for cv in elixir_vers:
+            if cv == 'head':
+                display_name = 'elixir HEAD'
+            else:
+                display_name = 'elixir'
+
+            if cv == 'head':
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/elixir-{cv}/bin/run-elixir.sh --version | tail -n 1 | cut -d' ' -f2-"]
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'elixir-{cv}',
+                'displayable': True,
+                'language': 'Elixir',
+                'output-file': 'prog.exs',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'swithes': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'elixir prog.exs',
+                'run-command': ['/opt/wandbox/elixir-{cv}/bin/run-elixir.sh', 'prog.exs'],
+                'runtime-option-raw': True,
                 'jail-name': 'melpon2-erlangvm',
             }, cv=cv))
         return compilers
@@ -817,7 +858,8 @@ class Compilers(object):
             self.make_clang() +
             self.make_mono() +
             self.make_rill() +
-            self.make_erlang()
+            self.make_erlang() +
+            self.make_elixir()
         )
 
 def make_config():

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export PATH=/opt/wandbox/erlang-@erlang_version@/bin:$PATH
+/opt/wandbox/elixir-@version@/bin/elixir "$@"

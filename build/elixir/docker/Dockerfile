@@ -8,12 +8,7 @@ ENV LC_ALL en_US.UTF-8
 
 RUN apt-get update && \
     apt-get install -y \
-      libmpc3 \
-      binutils \
-      g++ \
-      libc6-dev \
-      libgcc-5-dev \
-      libstdc++-5-dev \
-      libffi6 && \
+      wget \
+      make && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

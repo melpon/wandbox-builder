@@ -71,7 +71,16 @@ def get_erlang_versions():
 
 
 def get_erlang_versions_with_head():
-    return get_mono_versions() + ['head']
+    return get_erlang_versions() + ['head']
+
+
+def get_elixir_versions():
+    lines = codecs.open(os.path.join(build_path(), 'elixir', 'VERSIONS'), 'r', 'utf-8').readlines()
+    return [line.strip() for line in lines if len(line) != 0]
+
+
+def get_elixir_versions_with_head():
+    return get_elixir_versions() + ['head']
 
 
 __infos = None
@@ -268,6 +277,18 @@ def test_erlang_head():
     add_test(compiler, lambda: run(compiler, codecs.open('../build/erlang-head/resources/test.erl', 'r', 'utf-8').read(), 'hello\n'))
 
 
+def test_elixir():
+    code = codecs.open('../build/elixir/resources/test.exs', 'r', 'utf-8').read()
+    for cv in get_elixir_versions():
+        compiler = 'elixir-{cv}'.format(cv=cv)
+        add_test(compiler, lambda: run(compiler, code, 'hello\n'))
+
+
+def test_elixir_head():
+    compiler = 'elixir-head'
+    add_test(compiler, lambda: run(compiler, codecs.open('../build/elixir-head/resources/test.exs', 'r', 'utf-8').read(), 'hello\n'))
+
+
 def register():
     test_list()
     test_gcc_c()
@@ -285,6 +306,8 @@ def register():
     test_rill_head()
     test_erlang()
     test_erlang_head()
+    test_elixir()
+    test_elixir_head()
 
 
 def main():
