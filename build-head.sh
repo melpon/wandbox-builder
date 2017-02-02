@@ -31,7 +31,7 @@ cd ..
 # change owner to root
 docker run --net=host -i -v `pwd`:/var/work -v $BASE_DIR/../wandbox:/opt/wandbox ubuntu:16.04 /bin/bash -c "
   set -ex
-  apt-get update && apt-get install git
+  apt-get update && apt-get install -y git
 
   cd /var/work
 
