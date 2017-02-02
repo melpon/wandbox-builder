@@ -6,7 +6,7 @@ PREFIX=/opt/wandbox/erlang-head
 
 cd ~/
 
-git clone --depth 1 https://github.com/erlang/otp.git
+git clone --depth 1 --branch master https://github.com/erlang/otp.git
 
 cd otp
 
