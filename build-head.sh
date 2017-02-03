@@ -1,6 +1,17 @@
 #!/bin/bash
 
+if [ $# -lt 1 ]; then
+  echo "$0 <remote-host>"
+  echo ""
+  echo "example:"
+  echo "  $0 username@example.com"
+  echo "  $0 melpon-builder"
+  exit 1
+fi
+
 set -ex
+
+REMOTE_HOST=$1
 
 BASE_DIR=$(cd $(dirname $0); pwd)/build
 cd $BASE_DIR
@@ -52,4 +63,4 @@ docker run --net=host -i -v `pwd`:/var/work -v $BASE_DIR/../wandbox:/opt/wandbox
 
 ./build/docker-rm.sh
 
-./sync.sh cattleshed-root
+./sync.sh $REMOTE_HOST --all
