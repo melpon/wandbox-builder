@@ -51,15 +51,18 @@ docker run \
   melpon/wandbox:test-client \
   /bin/bash -c "
     cd /var/work/test
+    echo 'wait: kennel port...'
     # wait until kennel port is opened
-    for ((i = 0; i < 10; i++)); do
+    for ((i = 0; i < 20; i++)); do
       if curl http://test-server:3500/api/list.json > /dev/null 2>&1; then
+        echo 'opened'
         python run.py $@
         exit $?
       else
         sleep 1
       fi
     done
+    echo 'timeout: kennel port is not opened'
     exit 1
   "
 
