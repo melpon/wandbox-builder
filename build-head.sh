@@ -23,6 +23,8 @@ for compiler in \
     boost-head \
     rill-head \
     erlang-head \
+    elixir-head \
+    ghc-head \
 ; do
   if [ "$compiler" = "boost-head" ]; then
     cat $compiler/VERSIONS | while read line; do
