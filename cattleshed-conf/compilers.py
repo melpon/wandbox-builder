@@ -99,6 +99,15 @@ def get_elixir_versions_with_head():
     return get_elixir_versions() + ['head']
 
 
+def get_ghc_versions():
+    lines = open(os.path.join(build_path(), 'ghc', 'VERSIONS')).readlines()
+    return [line.strip() for line in lines if len(line) != 0]
+
+
+def get_ghc_versions_with_head():
+    return get_ghc_versions() + ['head']
+
+
 # foo-1.23.4
 def compare(a, b):
     name_a, version_a = a.split('-')
@@ -390,6 +399,14 @@ class Switches(object):
                 'flags': ['-P'],
                 'display-name': '-P',
                 'runtime': True,
+            },
+            'haskell-warning': {
+                'flags': '-Wall',
+                'display-name': 'Warnings',
+            },
+            'haskell-optimize': {
+                'flags': '-O2',
+                'display-name': 'Optimization',
             },
         }
 
@@ -850,6 +867,37 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_ghc(self):
+        ghc_vers = sort_version(get_ghc_versions_with_head(), reverse=True)
+        compilers = []
+        for cv in ghc_vers:
+            if cv == 'head':
+                display_name = 'ghc HEAD'
+            else:
+                display_name = 'ghc'
+
+            if cv == 'head':
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/ghc-{cv}/bin/ghc --version | cut -d' ' -f8"]
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'ghc-{cv}',
+                'displayable': True,
+                'language': 'Haskell',
+                'output-file': 'prog.hs',
+                'compiler-option-raw': True,
+                'compile-command': ['/opt/wandbox/ghc-{cv}/bin/ghc', '-o', 'prog.exe', 'prog.hs'],
+                'version-command': version_command,
+                'swithes': ['haskell-warning', 'haskell-optimize'],
+                'initial-checked': ['haskell-warning'],
+                'display-name': display_name,
+                'display-compile-command': 'ghc prog.hs -o prog.exe',
+                'run-command': './prog.exe',
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -859,7 +907,8 @@ class Compilers(object):
             self.make_mono() +
             self.make_rill() +
             self.make_erlang() +
-            self.make_elixir()
+            self.make_elixir() +
+            self.make_ghc()
         )
 
 def make_config():

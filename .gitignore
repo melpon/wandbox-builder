@@ -1,11 +1,8 @@
 /MEMO.md
 /build-head.log
 /build/init_test.sh
-/build/gcc/logs/
-/build/clang/logs/
-/build/boost/logs/
-/build/mono/logs/
-/build/erlang/logs/
-/build/elixir/logs/
+/build/*/logs/
+/build/ghc*/resources/test.hi
+/build/ghc*/resources/test.o
 /wandbox/
 *.swp

@@ -83,6 +83,15 @@ def get_elixir_versions_with_head():
     return get_elixir_versions() + ['head']
 
 
+def get_ghc_versions():
+    lines = codecs.open(os.path.join(build_path(), 'ghc', 'VERSIONS'), 'r', 'utf-8').readlines()
+    return [line.strip() for line in lines if len(line) != 0]
+
+
+def get_ghc_versions_with_head():
+    return get_ghc_versions() + ['head']
+
+
 __infos = None
 
 
@@ -289,6 +298,18 @@ def test_elixir_head():
     add_test(compiler, lambda: run(compiler, codecs.open('../build/elixir-head/resources/test.exs', 'r', 'utf-8').read(), 'hello\n'))
 
 
+def test_ghc():
+    code = codecs.open('../build/ghc/resources/test.hs', 'r', 'utf-8').read()
+    for cv in get_ghc_versions():
+        compiler = 'ghc-{cv}'.format(cv=cv)
+        add_test(compiler, lambda: run(compiler, code, 'hello\n'))
+
+
+def test_ghc_head():
+    compiler = 'ghc-head'
+    add_test(compiler, lambda: run(compiler, codecs.open('../build/ghc-head/resources/test.hs', 'r', 'utf-8').read(), 'hello\n'))
+
+
 def register():
     test_list()
     test_gcc_c()
@@ -308,6 +329,8 @@ def register():
     test_erlang_head()
     test_elixir()
     test_elixir_head()
+    test_ghc()
+    test_ghc_head()
 
 
 def main():
