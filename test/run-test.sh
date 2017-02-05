@@ -56,15 +56,15 @@ docker run \
     for ((i = 0; i < 20; i++)); do
       if curl http://test-server:3500/api/list.json > /dev/null 2>&1; then
         echo 'opened'
-        python run.py $@
-        exit $?
+        python run.py \"\$@\"
+        exit \$?
       else
         sleep 1
       fi
     done
     echo 'timeout: kennel port is not opened'
     exit 1
-  "
+  " $0 "$@"
 
 # stop test-server
 docker stop test-server

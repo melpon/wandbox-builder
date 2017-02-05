@@ -397,7 +397,7 @@ class Compilers(object):
                 version_command = ["/bin/sh", "-c", "/opt/wandbox/gcc-head/bin/gcc --version | head -1 | cut -d' ' -f3-"]
             else:
                 display_name = 'gcc'
-                version_command = ['/opt/wandbox/gcc-{cv}/bin/gcc', '-dumpversion']
+                version_command = ['/bin/echo', '{cv}']
 
             compilers.append(format_value({
                 'name': 'gcc-{cv}-c',
@@ -486,7 +486,7 @@ class Compilers(object):
                 version_command = ["/bin/sh", "-c", "/opt/wandbox/gcc-head/bin/g++ --version | head -1 | cut -d' ' -f3-"]
             else:
                 display_name = 'gcc'
-                version_command = ['/opt/wandbox/gcc-{cv}/bin/g++', '-dumpversion']
+                version_command = ['/bin/echo', '{cv}']
 
             compilers.append(format_value({
                 'name': 'gcc-{cv}',
@@ -550,9 +550,10 @@ class Compilers(object):
             # head specific
             if cv == 'head':
                 display_name = 'clang HEAD'
+                version_command = ["/bin/sh", "-c", "/opt/wandbox/clang-{cv}/bin/clang --version | head -1 | cut -d' ' -f3-"]
             else:
                 display_name = 'clang'
-            version_command = ["/bin/sh", "-c", "/opt/wandbox/clang-{cv}/bin/clang --version | head -1 | cut -d' ' -f3-"]
+                version_command = ['/bin/echo', '{cv}']
 
             compilers.append(format_value({
                 'name': 'clang-{cv}-c',
@@ -671,9 +672,10 @@ class Compilers(object):
             # head specific
             if cv == 'head':
                 display_name = 'clang HEAD'
+                version_command = ["/bin/sh", "-c", "/opt/wandbox/clang-{cv}/bin/clang++ --version | head -1 | cut -d' ' -f3-"]
             else:
                 display_name = 'clang'
-            version_command = ["/bin/sh", "-c", "/opt/wandbox/clang-{cv}/bin/clang++ --version | head -1 | cut -d' ' -f3-"]
+                version_command = ['/bin/echo', '{cv}']
 
             compilers.append(format_value({
                 'name': 'clang-{cv}',
@@ -699,8 +701,10 @@ class Compilers(object):
         for cv in mono_vers:
             if cv == 'head':
                 display_name = 'mcs HEAD'
+                version_command = ['/bin/sh', '-c', "/opt/wandbox/mono-{cv}/bin/mcs --version | head -1 | cut -d' ' -f5"]
             else:
                 display_name = 'mcs'
+                version_command = ['/bin/echo', '{cv}']
 
             compilers.append(format_value({
                 'name': 'mono-{cv}',
@@ -709,7 +713,7 @@ class Compilers(object):
                 'output-file': 'prog.cs',
                 'compiler-option-raw': True,
                 'compile-command': ['/opt/wandbox/mono-{cv}/bin/mcs', '-out:prog.exe', 'prog.cs'],
-                'version-command': ['/bin/sh', '-c', "/opt/wandbox/mono-{cv}/bin/mcs --version | head -1 | cut -d' ' -f5"],
+                'version-command': version_command,
                 'switches': ['mono-optimize'],
                 'initial-checked': [],
                 'display-name': display_name,
