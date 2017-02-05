@@ -177,6 +177,12 @@ def test_rill_head():
     add_test(compiler, lambda: run(compiler, code, 'hello world\n'))
 
 
+def test_gdc_head():
+    compiler = 'gdc-head'
+    code = codecs.open('../build/gdc-head/resources/test.d', 'r', 'utf-8').read()
+    add_test(compiler, lambda: run(compiler, code, 'hello\n'))
+
+
 def register():
     test_list()
     test_boost()
@@ -190,6 +196,8 @@ def register():
     test_generic(name='erlang', test_file='test.erl', expected='hello\n', with_head=True)
     test_generic(name='elixir', test_file='test.exs', expected='hello\n', with_head=True)
     test_generic(name='ghc', test_file='test.hs', expected='hello\n', with_head=True)
+    test_gdc_head()
+    test_generic(name='dmd', test_file='test.d', expected='hello\n', with_head=True)
 
 
 def main():

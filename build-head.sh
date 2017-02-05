@@ -25,6 +25,8 @@ for compiler in \
     erlang-head \
     elixir-head \
     ghc-head \
+    gdc-head \
+    dmd-head \
 ; do
   if [ "$compiler" = "boost-head" ]; then
     cat $compiler/VERSIONS | while read line; do

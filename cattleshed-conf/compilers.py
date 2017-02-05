@@ -48,7 +48,8 @@ def get_boost_versions_with_head():
 
 def get_generic_versions(name, with_head):
     lines = open(os.path.join(build_path(), name, 'VERSIONS')).readlines()
-    return [line.strip() for line in lines if len(line) != 0] + ['head']
+    head = ['head'] if with_head else []
+    return [line.strip() for line in lines if len(line) != 0] + head
 
 
 # foo-1.23.4
@@ -844,6 +845,68 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_dmd(self):
+        dmd_vers = sort_version(get_generic_versions('dmd', with_head=True), reverse=True)
+        compilers = []
+        for cv in dmd_vers:
+            if cv == 'head':
+                display_name = 'dmd HEAD'
+            else:
+                display_name = 'dmd'
+
+            if cv == 'head':
+                version_command = ['/bin/sh', '-c', "/opt/wandbox/dmd-{cv}/linux/bin64/dmd --version | head -1 | cut -d' ' -f4"]
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'dmd-{cv}',
+                'displayable': True,
+                'language': 'D',
+                'output-file': 'prog.d',
+                'compiler-option-raw': True,
+                'compile-command': ['/opt/wandbox/dmd-{cv}/linux/bin64/dmd', '-ofprog.exe', 'prog.d'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'dmd prog.d -ofprog.exe',
+                'run-command': './prog.exe',
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
+    def make_gdc(self):
+        gdc_vers = ['head']
+        compilers = []
+        for cv in gdc_vers:
+            if cv == 'head':
+                display_name = 'gdc HEAD'
+            else:
+                display_name = 'gdc'
+
+            if cv == 'head':
+                version_command = ['/bin/sh', '-c', "/opt/wandbox/gdc-{cv}/bin/gdc --version | head -1 | cut -d' ' -f3-"]
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'gdc-{cv}',
+                'displayable': True,
+                'language': 'D',
+                'output-file': 'prog.d',
+                'compiler-option-raw': True,
+                'compile-command': ['/opt/wandbox/gdc-{cv}/bin/gdc', '-o', 'prog.exe', 'prog.d'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'dmd prog.d -o prog.exe',
+                'run-command': './prog.exe',
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -854,7 +917,9 @@ class Compilers(object):
             self.make_rill() +
             self.make_erlang() +
             self.make_elixir() +
-            self.make_ghc()
+            self.make_ghc() +
+            self.make_dmd() +
+            self.make_gdc()
         )
 
 def make_config():
