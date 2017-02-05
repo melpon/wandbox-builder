@@ -73,4 +73,5 @@ rm -r boost-$VERSION-$COMPILER
 
 # share boost header
 
+cd $BASE_DIR
 ./share-boost-header.sh $VERSION $COMPILER
