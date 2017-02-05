@@ -901,7 +901,7 @@ class Compilers(object):
                 'switches': [],
                 'initial-checked': [],
                 'display-name': display_name,
-                'display-compile-command': 'dmd prog.d -o prog.exe',
+                'display-compile-command': 'gdc prog.d -o prog.exe',
                 'run-command': './prog.exe',
                 'jail-name': 'melpon2-default',
             }, cv=cv))
