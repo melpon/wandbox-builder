@@ -38,58 +38,10 @@ def get_boost_versions_with_head():
     return get_boost_versions() + [(bv,) + tuple(c.split('-')) for bv, c in get_boost_head_versions()]
 
 
-def get_gcc_versions():
-    lines = codecs.open(os.path.join(build_path(), 'gcc', 'VERSIONS'), 'r', 'utf-8').readlines()
-    return [line.strip() for line in lines if len(line) != 0]
-
-
-def get_gcc_versions_with_head():
-    return get_gcc_versions() + ['head']
-
-
-def get_clang_versions():
-    lines = codecs.open(os.path.join(build_path(), 'clang', 'VERSIONS'), 'r', 'utf-8').readlines()
-    return [line.strip() for line in lines if len(line) != 0]
-
-
-def get_clang_versions_with_head():
-    return get_clang_versions() + ['head']
-
-
-def get_mono_versions():
-    lines = codecs.open(os.path.join(build_path(), 'mono', 'VERSIONS'), 'r', 'utf-8').readlines()
-    return [line.strip() for line in lines if len(line) != 0]
-
-
-def get_mono_versions_with_head():
-    return get_mono_versions() + ['head']
-
-
-def get_erlang_versions():
-    lines = codecs.open(os.path.join(build_path(), 'erlang', 'VERSIONS'), 'r', 'utf-8').readlines()
-    return [line.strip() for line in lines if len(line) != 0]
-
-
-def get_erlang_versions_with_head():
-    return get_erlang_versions() + ['head']
-
-
-def get_elixir_versions():
-    lines = codecs.open(os.path.join(build_path(), 'elixir', 'VERSIONS'), 'r', 'utf-8').readlines()
-    return [line.strip() for line in lines if len(line) != 0]
-
-
-def get_elixir_versions_with_head():
-    return get_elixir_versions() + ['head']
-
-
-def get_ghc_versions():
-    lines = codecs.open(os.path.join(build_path(), 'ghc', 'VERSIONS'), 'r', 'utf-8').readlines()
-    return [line.strip() for line in lines if len(line) != 0]
-
-
-def get_ghc_versions_with_head():
-    return get_ghc_versions() + ['head']
+def get_generic_versions(name, with_head):
+    lines = open(os.path.join(build_path(), name, 'VERSIONS')).readlines()
+    head = ['head'] if with_head else []
+    return [line.strip() for line in lines if len(line) != 0] + head
 
 
 __infos = None
@@ -166,64 +118,15 @@ def run(compiler, code, expected):
     assert r.json()['program_output'] == expected
 
 
-def test_gcc_c():
-    code = codecs.open('../build/gcc/resources/test.c', 'r', 'utf-8').read()
-    for cv in get_gcc_versions():
-        compiler = 'gcc-{cv}-c'.format(cv=cv)
-        add_test(compiler, lambda: run(compiler, code, 'hello\n'))
+def test_generic(name, test_file, expected, with_head, post_name=''):
+    code = codecs.open(os.path.join('../build/{name}/resources'.format(name=name), test_file), 'r', 'utf-8').read()
+    for cv in get_generic_versions(name, with_head=False):
+        compiler = '{name}-{cv}'.format(name=name, cv=cv) + post_name
+        add_test(compiler, lambda: run(compiler, code, expected))
 
-
-def test_gcc_c_head():
-    compiler = 'gcc-head-c'
-    add_test(compiler, lambda: run(compiler, codecs.open('../build/gcc-head/resources/test.c', 'r', 'utf-8').read(), 'hello\n'))
-
-
-def test_gcc():
-    code = codecs.open('../build/gcc/resources/test.cpp', 'r', 'utf-8').read()
-    for cv in get_gcc_versions():
-        compiler = 'gcc-{cv}'.format(cv=cv)
-        add_test(compiler, lambda: run(compiler, code, 'hello\n'))
-
-
-def test_gcc_head():
-    compiler = 'gcc-head'
-    add_test(compiler, lambda: run(compiler, codecs.open('../build/gcc-head/resources/test.cpp', 'r', 'utf-8').read(), 'hello\n'))
-
-
-def test_clang_c():
-    code = codecs.open('../build/clang/resources/test.c', 'r', 'utf-8').read()
-    for cv in get_clang_versions():
-        compiler = 'clang-{cv}-c'.format(cv=cv)
-        add_test(compiler, lambda: run(compiler, code, 'hello\n'))
-
-
-def test_clang_c_head():
-    compiler = 'clang-head-c'
-    add_test(compiler, lambda: run(compiler, codecs.open('../build/clang-head/resources/test.c', 'r', 'utf-8').read(), 'hello\n'))
-
-
-def test_clang():
-    code = codecs.open('../build/clang/resources/test.cpp', 'r', 'utf-8').read()
-    for cv in get_clang_versions():
-        compiler = 'clang-{cv}'.format(cv=cv)
-        add_test(compiler, lambda: run(compiler, code, 'hello\n'))
-
-
-def test_clang_head():
-    compiler = 'clang-head'
-    add_test(compiler, lambda: run(compiler, codecs.open('../build/clang-head/resources/test.cpp', 'r', 'utf-8').read(), 'hello\n'))
-
-
-def test_mono():
-    code = codecs.open('../build/mono/resources/test.cs', 'r', 'utf-8').read()
-    for cv in get_mono_versions():
-        compiler = 'mono-{cv}'.format(cv=cv)
-        add_test(compiler, lambda: run(compiler, code, 'hello\n'))
-
-
-def test_mono_head():
-    compiler = 'mono-head'
-    add_test(compiler, lambda: run(compiler, codecs.open('../build/mono-head/resources/test.cs', 'r', 'utf-8').read(), 'hello\n'))
+    if with_head:
+        compiler = '{name}-head'.format(name=name) + post_name
+        add_test(compiler, lambda: run(compiler, codecs.open(os.path.join('../build/{name}-head/resources'.format(name=name), test_file), 'r', 'utf-8').read(), 'hello\n'))
 
 
 def run_boost(version, compiler, compiler_version, code, expected):
@@ -274,63 +177,19 @@ def test_rill_head():
     add_test(compiler, lambda: run(compiler, code, 'hello world\n'))
 
 
-def test_erlang():
-    code = codecs.open('../build/erlang/resources/test.erl', 'r', 'utf-8').read()
-    for cv in get_erlang_versions():
-        compiler = 'erlang-{cv}'.format(cv=cv)
-        add_test(compiler, lambda: run(compiler, code, 'hello\n'))
-
-
-def test_erlang_head():
-    compiler = 'erlang-head'
-    add_test(compiler, lambda: run(compiler, codecs.open('../build/erlang-head/resources/test.erl', 'r', 'utf-8').read(), 'hello\n'))
-
-
-def test_elixir():
-    code = codecs.open('../build/elixir/resources/test.exs', 'r', 'utf-8').read()
-    for cv in get_elixir_versions():
-        compiler = 'elixir-{cv}'.format(cv=cv)
-        add_test(compiler, lambda: run(compiler, code, 'hello\n'))
-
-
-def test_elixir_head():
-    compiler = 'elixir-head'
-    add_test(compiler, lambda: run(compiler, codecs.open('../build/elixir-head/resources/test.exs', 'r', 'utf-8').read(), 'hello\n'))
-
-
-def test_ghc():
-    code = codecs.open('../build/ghc/resources/test.hs', 'r', 'utf-8').read()
-    for cv in get_ghc_versions():
-        compiler = 'ghc-{cv}'.format(cv=cv)
-        add_test(compiler, lambda: run(compiler, code, 'hello\n'))
-
-
-def test_ghc_head():
-    compiler = 'ghc-head'
-    add_test(compiler, lambda: run(compiler, codecs.open('../build/ghc-head/resources/test.hs', 'r', 'utf-8').read(), 'hello\n'))
-
-
 def register():
     test_list()
-    test_gcc_c()
-    test_gcc_c_head()
-    test_gcc()
-    test_gcc_head()
-    test_clang_c()
-    test_clang_c_head()
-    test_clang()
-    test_clang_head()
-    test_mono()
-    test_mono_head()
     test_boost()
     test_boost_head()
     test_rill_head()
-    test_erlang()
-    test_erlang_head()
-    test_elixir()
-    test_elixir_head()
-    test_ghc()
-    test_ghc_head()
+    test_generic(name='gcc', test_file='test.c', expected='hello\n', with_head=True, post_name='-c')
+    test_generic(name='gcc', test_file='test.cpp', expected='hello\n', with_head=True)
+    test_generic(name='clang', test_file='test.c', expected='hello\n', with_head=True, post_name='-c')
+    test_generic(name='clang', test_file='test.cpp', expected='hello\n', with_head=True)
+    test_generic(name='mono', test_file='test.cs', expected='hello\n', with_head=True)
+    test_generic(name='erlang', test_file='test.erl', expected='hello\n', with_head=True)
+    test_generic(name='elixir', test_file='test.exs', expected='hello\n', with_head=True)
+    test_generic(name='ghc', test_file='test.hs', expected='hello\n', with_head=True)
 
 
 def main():

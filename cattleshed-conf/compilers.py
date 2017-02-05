@@ -46,66 +46,9 @@ def get_boost_versions_with_head():
     return get_boost_versions() + [(bv,) + tuple(c.split('-')) for bv, c in get_boost_head_versions()]
 
 
-def get_gcc_versions():
-    lines = open(os.path.join(build_path(), 'gcc', 'VERSIONS')).readlines()
-    return [line.strip() for line in lines if len(line) != 0]
-
-
-def get_gcc_versions_with_head():
-    return get_gcc_versions() + ['head']
-
-
-def get_clang_versions():
-    lines = open(os.path.join(build_path(), 'clang', 'VERSIONS')).readlines()
-    return [line.strip() for line in lines if len(line) != 0]
-
-
-def get_clang_versions_with_head():
-    return get_clang_versions() + ['head']
-
-
-def get_mono_versions():
-    lines = open(os.path.join(build_path(), 'mono', 'VERSIONS')).readlines()
-    return [line.strip() for line in lines if len(line) != 0]
-
-
-def get_mono_versions_with_head():
-    return get_mono_versions() + ['head']
-
-
-def get_rill_versions():
-    return []
-
-
-def get_rill_versions_with_head():
-    return get_rill_versions() + ['head']
-
-
-def get_erlang_versions():
-    lines = open(os.path.join(build_path(), 'erlang', 'VERSIONS')).readlines()
-    return [line.strip() for line in lines if len(line) != 0]
-
-
-def get_erlang_versions_with_head():
-    return get_erlang_versions() + ['head']
-
-
-def get_elixir_versions():
-    lines = open(os.path.join(build_path(), 'elixir', 'VERSIONS')).readlines()
-    return [line.strip() for line in lines if len(line) != 0]
-
-
-def get_elixir_versions_with_head():
-    return get_elixir_versions() + ['head']
-
-
-def get_ghc_versions():
-    lines = open(os.path.join(build_path(), 'ghc', 'VERSIONS')).readlines()
-    return [line.strip() for line in lines if len(line) != 0]
-
-
-def get_ghc_versions_with_head():
-    return get_ghc_versions() + ['head']
+def get_generic_versions(name, with_head):
+    lines = open(os.path.join(build_path(), name, 'VERSIONS')).readlines()
+    return [line.strip() for line in lines if len(line) != 0] + ['head']
 
 
 # foo-1.23.4
@@ -265,13 +208,12 @@ class Switches(object):
 
     def make_boost(self):
         boost_vers = sort_version(set(a for a, _, _ in get_boost_versions_with_head()))
-        gcc_vers = sort_version(get_gcc_versions_with_head())
-        clang_vers = sort_version(get_clang_versions_with_head())
+        gcc_vers = sort_version(get_generic_versions('gcc', with_head=True))
+        clang_vers = sort_version(get_generic_versions('clang', with_head=True))
         compiler_vers = [('gcc', v) for v in gcc_vers] + [('clang', v) for v in clang_vers]
 
         boost_ver_set = set(get_boost_versions_with_head())
         boost_libs = {}
-        # ライブラリの一覧を調べる
         for bv in boost_vers:
             for c, cv in compiler_vers:
                 if (bv, c, cv) not in boost_ver_set:
@@ -315,8 +257,8 @@ class Switches(object):
 
     def make_boost_header(self):
         boost_vers = sort_version(set(a for a, _, _ in get_boost_versions_with_head()))
-        gcc_vers = sort_version(get_gcc_versions_with_head())
-        clang_vers = sort_version(get_clang_versions_with_head())
+        gcc_vers = sort_version(get_generic_versions('gcc', with_head=True))
+        clang_vers = sort_version(get_generic_versions('clang', with_head=True))
         compiler_vers = [('gcc', v) for v in gcc_vers] + [('clang', v) for v in clang_vers]
 
         boost_ver_set = set(get_boost_versions_with_head())
@@ -421,7 +363,7 @@ class Switches(object):
 
 class Compilers(object):
     def make_gcc_c(self):
-        gcc_vers = sort_version(get_gcc_versions_with_head(), reverse=True)
+        gcc_vers = sort_version(get_generic_versions('gcc', with_head=True), reverse=True)
 
         compilers = []
         for cv in gcc_vers:
@@ -481,7 +423,7 @@ class Compilers(object):
 
     def make_gcc(self):
         boost_vers = sort_version(set(a for a, _, _ in get_boost_versions_with_head()))
-        gcc_vers = sort_version(get_gcc_versions_with_head(), reverse=True)
+        gcc_vers = sort_version(get_generic_versions('gcc', with_head=True), reverse=True)
 
         boost_ver_set = set(get_boost_versions_with_head())
         # boost versions
@@ -572,7 +514,7 @@ class Compilers(object):
         return compilers
 
     def make_clang_c(self):
-        clang_vers = sort_version(get_clang_versions_with_head(), reverse=True)
+        clang_vers = sort_version(get_generic_versions('clang', with_head=True), reverse=True)
 
         compilers = []
         for cv in clang_vers:
@@ -632,7 +574,7 @@ class Compilers(object):
 
     def make_clang(self):
         boost_vers = sort_version(set(a for a, _, _ in get_boost_versions_with_head()))
-        clang_vers = sort_version(get_clang_versions_with_head(), reverse=True)
+        clang_vers = sort_version(get_generic_versions('clang', with_head=True), reverse=True)
 
         boost_ver_set = set(get_boost_versions_with_head())
         # boost versions
@@ -752,7 +694,7 @@ class Compilers(object):
         return compilers
 
     def make_mono(self):
-        mono_vers = sort_version(get_mono_versions_with_head(), reverse=True)
+        mono_vers = sort_version(get_generic_versions('mono', with_head=True), reverse=True)
         compilers = []
         for cv in mono_vers:
             if cv == 'head':
@@ -778,7 +720,7 @@ class Compilers(object):
         return compilers
 
     def make_rill(self):
-        rill_vers = sort_version(get_rill_versions_with_head(), reverse=True)
+        rill_vers = ['head']
         compilers = []
         for cv in rill_vers:
             if cv == 'head':
@@ -804,7 +746,7 @@ class Compilers(object):
         return compilers
 
     def make_erlang(self):
-        erlang_vers = sort_version(get_erlang_versions_with_head(), reverse=True)
+        erlang_vers = sort_version(get_generic_versions('erlang', with_head=True), reverse=True)
         compilers = []
         for cv in erlang_vers:
             if cv == 'head':
@@ -836,7 +778,7 @@ class Compilers(object):
         return compilers
 
     def make_elixir(self):
-        elixir_vers = sort_version(get_elixir_versions_with_head(), reverse=True)
+        elixir_vers = sort_version(get_generic_versions('elixir', with_head=True), reverse=True)
         compilers = []
         for cv in elixir_vers:
             if cv == 'head':
@@ -868,7 +810,7 @@ class Compilers(object):
         return compilers
 
     def make_ghc(self):
-        ghc_vers = sort_version(get_ghc_versions_with_head(), reverse=True)
+        ghc_vers = sort_version(get_generic_versions('ghc', with_head=True), reverse=True)
         compilers = []
         for cv in ghc_vers:
             if cv == 'head':
