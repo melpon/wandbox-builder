@@ -907,6 +907,34 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_openjdk(self):
+        openjdk_vers = ['head'] + get_generic_versions('openjdk', with_head=False)
+        compilers = []
+        for cv in openjdk_vers:
+            if cv == 'head':
+                display_name = 'OpenJDK HEAD'
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/openjdk-{cv}/bin/java -version 2>&1 | head -n1 | cut -d' ' -f3- | cut -d'\"' -f2"]
+            else:
+                display_name = 'OpenJDK'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'openjdk-{cv}',
+                'displayable': True,
+                'language': 'Java',
+                'output-file': 'prog.java',
+                'compiler-option-raw': True,
+                'compile-command': ['/opt/wandbox/openjdk-{cv}/bin/javac', 'prog.java'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'javac prog.java',
+                'run-command': ['/opt/wandbox/openjdk-{cv}/bin/run-java.sh'],
+                'jail-name': 'melpon2-jvm',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -919,7 +947,8 @@ class Compilers(object):
             self.make_elixir() +
             self.make_ghc() +
             self.make_dmd() +
-            self.make_gdc()
+            self.make_gdc() +
+            self.make_openjdk()
         )
 
 def make_config():

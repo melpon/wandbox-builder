@@ -198,6 +198,7 @@ def register():
     test_generic(name='ghc', test_file='test.hs', expected='hello\n', with_head=True)
     test_gdc_head()
     test_generic(name='dmd', test_file='test.d', expected='hello\n', with_head=True)
+    test_generic(name='openjdk', test_file='prog.java', expected='hello\n', with_head=True)
 
 
 def main():
