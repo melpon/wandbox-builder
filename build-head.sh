@@ -13,8 +13,28 @@ set -ex
 
 REMOTE_HOST=$1
 
+LOG_DIR=$(cd $(dirname $0); pwd)/build-head
+rm -r $LOG_DIR || true
+mkdir $LOG_DIR
+
 BASE_DIR=$(cd $(dirname $0); pwd)/build
 cd $BASE_DIR
+
+function run() {
+  compiler=$1
+  if [ "$compiler" = "boost-head" ]; then
+    cat $compiler/VERSIONS | while read line; do
+      if [ "$line" != "" ]; then
+        COMMAND="cd /var/work/$compiler && ./install.sh $line"
+        docker run --net=host -i -v $BASE_DIR:/var/work -v $BASE_DIR/../wandbox:/opt/wandbox melpon/wandbox:$compiler /bin/bash -c "$COMMAND"
+      fi
+    done
+    return 1
+  else
+    COMMAND="cd /var/work/$compiler && exec ./install.sh"
+    docker run --net=host -i -v $BASE_DIR:/var/work -v $BASE_DIR/../wandbox:/opt/wandbox melpon/wandbox:$compiler /bin/bash -c "$COMMAND"
+  fi
+}
 
 for compiler in \
     gcc-head \
@@ -29,17 +49,7 @@ for compiler in \
     dmd-head \
     openjdk-head \
 ; do
-  if [ "$compiler" = "boost-head" ]; then
-    cat $compiler/VERSIONS | while read line; do
-      if [ "$line" != "" ]; then
-        COMMAND="cd /var/work/$compiler && ./install.sh $line"
-        docker run --net=host -i -v $BASE_DIR:/var/work -v $BASE_DIR/../wandbox:/opt/wandbox melpon/wandbox:$compiler /bin/bash -c "$COMMAND"
-      fi
-    done
-  else
-    COMMAND="cd /var/work/$compiler && exec ./install.sh"
-    docker run --net=host -i -v $BASE_DIR:/var/work -v $BASE_DIR/../wandbox:/opt/wandbox melpon/wandbox:$compiler /bin/bash -c "$COMMAND"
-  fi
+  run $compiler > $LOG_DIR/$compiler.log 2>&1 || echo "$compiler: $?" >> $LOG_DIR/failed.log
 done
 
 cd ..
