@@ -935,6 +935,37 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_rust(self):
+        rust_vers = sort_version(get_generic_versions('rust', with_head=True), reverse=True)
+        compilers = []
+        for cv in rust_vers:
+            if cv == 'head':
+                display_name = 'rust HEAD'
+            else:
+                display_name = 'rust'
+
+            if cv == 'head':
+                version_command = ['/bin/sh', '-c', "/opt/wandbox/rust-{cv}/bin/rustc --version | head -1 | cut -d' ' -f2-"]
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'rust-{cv}',
+                'displayable': True,
+                'language': 'Rust',
+                'output-file': 'prog.rs',
+                'compiler-option-raw': True,
+                'compile-command': ['/opt/wandbox/rust-{cv}/bin/rustc', 'prog.rs'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'rust prog.rs',
+                'run-command': './prog',
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -948,7 +979,8 @@ class Compilers(object):
             self.make_ghc() +
             self.make_dmd() +
             self.make_gdc() +
-            self.make_openjdk()
+            self.make_openjdk() +
+            self.make_rust()
         )
 
 def make_config():
