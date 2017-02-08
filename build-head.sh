@@ -53,6 +53,7 @@ for compiler in \
     dmd-head \
     openjdk-head \
     python-head \
+    ruby-head \
 ; do
   run $compiler > $LOG_DIR/$compiler.log 2>&1 || echo "$compiler: $?" >> $LOG_DIR/failed.log
 done

@@ -1009,6 +1009,38 @@ class Compilers(object):
             }, cv=cv, python=python))
         return compilers
 
+    def make_ruby(self):
+        ruby_vers = ['head'] + get_generic_versions('ruby', with_head=False)
+        compilers = []
+        for cv in ruby_vers:
+            if cv == 'head':
+                display_name = 'ruby HEAD'
+            else:
+                display_name = 'ruby'
+
+            if cv == 'head':
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/ruby-{cv}/bin/ruby --version | cut -d' ' -f2"]
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'ruby-{cv}',
+                'displayable': True,
+                'language': 'Ruby',
+                'output-file': 'prog.rb',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'ruby prog.rb',
+                'run-command': ['/opt/wandbox/ruby-{cv}/bin/ruby', 'prog.rb'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1024,7 +1056,8 @@ class Compilers(object):
             self.make_gdc() +
             self.make_openjdk() +
             self.make_rust() +
-            self.make_cpython()
+            self.make_cpython() +
+            self.make_ruby()
         )
 
 def make_config():

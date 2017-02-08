@@ -202,6 +202,7 @@ def register():
     test_generic(name='openjdk', test_file='prog.java', expected='hello\n', with_head=True)
     test_generic(name='rust', test_file='test.rs', expected='hello\n', with_head=True)
     test_generic(name='cpython', test_file='test.py', expected='hello\n', with_head=True, head_versions=['head', '2.7-head'])
+    test_generic(name='ruby', test_file='test.rb', expected='hello\n', with_head=True)
 
 
 def main():
