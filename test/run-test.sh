@@ -66,7 +66,7 @@ docker run \
     exit 1
   " $0 "$@"
 
-# docker logs test-server
+docker logs test-server
 docker stop test-server
 
 ../build/docker-rm.sh

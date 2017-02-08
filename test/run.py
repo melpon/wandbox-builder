@@ -38,9 +38,9 @@ def get_boost_versions_with_head():
     return get_boost_versions() + [(bv,) + tuple(c.split('-')) for bv, c in get_boost_head_versions()]
 
 
-def get_generic_versions(name, with_head):
+def get_generic_versions(name, with_head, head_versions=['head']):
     lines = open(os.path.join(build_path(), name, 'VERSIONS')).readlines()
-    head = ['head'] if with_head else []
+    head = head_versions if with_head else []
     return [line.strip() for line in lines if len(line) != 0] + head
 
 
@@ -118,15 +118,16 @@ def run(compiler, code, expected):
     assert r.json()['program_output'] == expected
 
 
-def test_generic(name, test_file, expected, with_head, post_name=''):
+def test_generic(name, test_file, expected, with_head, post_name='', head_versions=['head']):
     code = codecs.open(os.path.join('../build/{name}/resources'.format(name=name), test_file), 'r', 'utf-8').read()
     for cv in get_generic_versions(name, with_head=False):
         compiler = '{name}-{cv}'.format(name=name, cv=cv) + post_name
         add_test(compiler, lambda: run(compiler, code, expected))
 
     if with_head:
-        compiler = '{name}-head'.format(name=name) + post_name
-        add_test(compiler, lambda: run(compiler, codecs.open(os.path.join('../build/{name}-head/resources'.format(name=name), test_file), 'r', 'utf-8').read(), 'hello\n'))
+        for cv in head_versions:
+            compiler = '{name}-{cv}'.format(name=name, cv=cv) + post_name
+            add_test(compiler, lambda: run(compiler, codecs.open(os.path.join('../build/{name}-head/resources'.format(name=name), test_file), 'r', 'utf-8').read(), 'hello\n'))
 
 
 def run_boost(version, compiler, compiler_version, code, expected):
@@ -200,6 +201,7 @@ def register():
     test_generic(name='dmd', test_file='test.d', expected='hello\n', with_head=True)
     test_generic(name='openjdk', test_file='prog.java', expected='hello\n', with_head=True)
     test_generic(name='rust', test_file='test.rs', expected='hello\n', with_head=True)
+    test_generic(name='cpython', test_file='test.py', expected='hello\n', with_head=True, head_versions=['head', '2.7-head'])
 
 
 def main():

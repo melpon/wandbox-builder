@@ -966,6 +966,49 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_cpython(self):
+        cpython_vers = ['head', '2.7-head'] + sort_version(get_generic_versions('cpython', with_head=False), reverse=True)
+        compilers = []
+        for cv in cpython_vers:
+            if cv == 'head':
+                display_name = 'CPython HEAD'
+            elif cv == '2.7-head':
+                display_name = 'CPython2.7 HEAD'
+            else:
+                display_name = 'CPython'
+
+            if cv == 'head':
+                python = 'python3'
+            elif cv == '2.7-head':
+                python = 'python'
+            elif cmpver(cv, '>=', '3.0.0'):
+                python = 'python3'
+            else:
+                python = 'python'
+
+            if 'head' in cv:
+                version_command = ["/opt/wandbox/cpython-{cv}/bin/{python}", "-c", "import sys; print(sys.version.split()[0])"]
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'cpython-{cv}',
+                'displayable': True,
+                'language': 'Python',
+                'output-file': 'prog.py',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': '{python} prog.py',
+                'run-command': ['/opt/wandbox/cpython-{cv}/bin/{python}', 'prog.py'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+            }, cv=cv, python=python))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -980,7 +1023,8 @@ class Compilers(object):
             self.make_dmd() +
             self.make_gdc() +
             self.make_openjdk() +
-            self.make_rust()
+            self.make_rust() +
+            self.make_cpython()
         )
 
 def make_config():
