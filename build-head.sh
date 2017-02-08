@@ -29,7 +29,11 @@ function run() {
         docker run --net=host -i -v $BASE_DIR:/var/work -v $BASE_DIR/../wandbox:/opt/wandbox melpon/wandbox:$compiler /bin/bash -c "$COMMAND"
       fi
     done
-    return 1
+  elif [ "$compiler" = "python-head" ]; then
+    cat $compiler/VERSIONS | while read line; do
+      COMMAND="cd /var/work/$compiler && exec ./install.sh $line"
+      docker run --net=host -i -v $BASE_DIR:/var/work -v $BASE_DIR/../wandbox:/opt/wandbox melpon/wandbox:$compiler /bin/bash -c "$COMMAND"
+    done
   else
     COMMAND="cd /var/work/$compiler && exec ./install.sh"
     docker run --net=host -i -v $BASE_DIR:/var/work -v $BASE_DIR/../wandbox:/opt/wandbox melpon/wandbox:$compiler /bin/bash -c "$COMMAND"
@@ -48,6 +52,7 @@ for compiler in \
     gdc-head \
     dmd-head \
     openjdk-head \
+    python-head \
 ; do
   run $compiler > $LOG_DIR/$compiler.log 2>&1 || echo "$compiler: $?" >> $LOG_DIR/failed.log
 done
