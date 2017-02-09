@@ -1041,6 +1041,38 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_mruby(self):
+        mruby_vers = sort_version(get_generic_versions('mruby', with_head=True), reverse=True)
+        compilers = []
+        for cv in mruby_vers:
+            if cv == 'head':
+                display_name = 'mruby HEAD'
+            else:
+                display_name = 'mruby'
+
+            if cv == 'head':
+                version_command = ['/bin/cat', '/opt/wandbox/mruby-{cv}/VERSION']
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'mruby-{cv}',
+                'displayable': True,
+                'language': 'Ruby',
+                'output-file': 'prog.rb',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'mruby prog.rb',
+                'run-command': ['/opt/wandbox/mruby-{cv}/bin/mruby', 'prog.rb'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1057,7 +1089,8 @@ class Compilers(object):
             self.make_openjdk() +
             self.make_rust() +
             self.make_cpython() +
-            self.make_ruby()
+            self.make_ruby() +
+            self.make_mruby()
         )
 
 def make_config():
