@@ -46,10 +46,15 @@ def get_boost_versions_with_head():
     return get_boost_versions() + [(bv,) + tuple(c.split('-')) for bv, c in get_boost_head_versions()]
 
 
-def get_generic_versions(name, with_head):
+def read_versions(name):
     lines = open(os.path.join(build_path(), name, 'VERSIONS')).readlines()
+    return [line.strip() for line in lines if len(line) != 0]
+
+
+def get_generic_versions(name, with_head):
+    lines = read_versions(name)
     head = ['head'] if with_head else []
-    return [line.strip() for line in lines if len(line) != 0] + head
+    return head + lines
 
 
 # foo-1.23.4
@@ -908,7 +913,7 @@ class Compilers(object):
         return compilers
 
     def make_openjdk(self):
-        openjdk_vers = ['head'] + get_generic_versions('openjdk', with_head=False)
+        openjdk_vers = get_generic_versions('openjdk', with_head=True)
         compilers = []
         for cv in openjdk_vers:
             if cv == 'head':
@@ -1010,7 +1015,7 @@ class Compilers(object):
         return compilers
 
     def make_ruby(self):
-        ruby_vers = ['head'] + get_generic_versions('ruby', with_head=False)
+        ruby_vers = get_generic_versions('ruby', with_head=True)
         compilers = []
         for cv in ruby_vers:
             if cv == 'head':
@@ -1073,6 +1078,34 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_scala(self):
+        scala_vers = read_versions('scala-head') + get_generic_versions('scala', with_head=False)
+        compilers = []
+        for cv in scala_vers:
+            if cv[-2:] == '.x':
+                display_name = 'Scala {cv} HEAD'
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/scala-{cv}/bin/run-scalac.sh -version 2>&1 | cut -d' ' -f4"]
+            else:
+                display_name = 'Scala'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'scala-{cv}',
+                'displayable': True,
+                'language': 'Scala',
+                'output-file': 'prog.scala',
+                'compiler-option-raw': True,
+                'compile-command': ['/opt/wandbox/scala-{cv}/bin/run-scalac.sh', 'prog.scala'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'scalac prog.scala',
+                'run-command': ['/opt/wandbox/scala-{cv}/bin/run-scala.sh'],
+                'jail-name': 'melpon2-jvm',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1090,7 +1123,8 @@ class Compilers(object):
             self.make_rust() +
             self.make_cpython() +
             self.make_ruby() +
-            self.make_mruby()
+            self.make_mruby() +
+            self.make_scala()
         )
 
 def make_config():

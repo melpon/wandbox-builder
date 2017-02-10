@@ -38,10 +38,15 @@ def get_boost_versions_with_head():
     return get_boost_versions() + [(bv,) + tuple(c.split('-')) for bv, c in get_boost_head_versions()]
 
 
-def get_generic_versions(name, with_head, head_versions=['head']):
+def read_versions(name):
     lines = open(os.path.join(build_path(), name, 'VERSIONS')).readlines()
-    head = head_versions if with_head else []
-    return [line.strip() for line in lines if len(line) != 0] + head
+    return [line.strip() for line in lines if len(line) != 0]
+
+
+def get_generic_versions(name, with_head):
+    lines = read_versions(name)
+    head = ['head'] if with_head else []
+    return head + lines
 
 
 __infos = None
@@ -204,6 +209,7 @@ def register():
     test_generic(name='cpython', test_file='test.py', expected='hello\n', with_head=True, head_versions=['head', '2.7-head'])
     test_generic(name='ruby', test_file='test.rb', expected='hello\n', with_head=True)
     test_generic(name='mruby', test_file='test.rb', expected='hello\n', with_head=True)
+    test_generic(name='scala', test_file='prog.scala', expected='hello\n', with_head=True, head_versions=read_versions('scala-head'))
 
 
 def main():
