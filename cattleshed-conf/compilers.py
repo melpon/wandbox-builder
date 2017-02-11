@@ -1135,6 +1135,35 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_nodejs(self):
+        nodejs_vers = get_generic_versions('nodejs', with_head=True)
+        compilers = []
+        for cv in nodejs_vers:
+            if cv == 'head':
+                display_name = 'Node.js HEAD'
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/nodejs-{cv}/bin/node --version | cut -c 2-"]
+            else:
+                display_name = 'Node.js'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'nodejs-{cv}',
+                'displayable': True,
+                'language': 'JavaScript',
+                'output-file': 'prog.js',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'node prog.js',
+                'runtime-option-raw': True,
+                'run-command': ['/opt/wandbox/nodejs-{cv}/bin/node', 'prog.js'],
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1154,7 +1183,8 @@ class Compilers(object):
             self.make_ruby() +
             self.make_mruby() +
             self.make_scala() +
-            self.make_groovy()
+            self.make_groovy() +
+            self.make_nodejs()
         )
 
 def make_config():

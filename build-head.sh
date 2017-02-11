@@ -53,6 +53,7 @@ for compiler in \
     ruby-head \
     scala-head \
     groovy-head \
+    nodejs-head \
 ; do
   run $compiler > $LOG_DIR/$compiler.log 2>&1 || echo "$compiler: $?" >> $LOG_DIR/failed.log
 done
