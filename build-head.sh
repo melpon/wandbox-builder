@@ -52,6 +52,7 @@ for compiler in \
     python-head \
     ruby-head \
     scala-head \
+    groovy-head \
 ; do
   run $compiler > $LOG_DIR/$compiler.log 2>&1 || echo "$compiler: $?" >> $LOG_DIR/failed.log
 done

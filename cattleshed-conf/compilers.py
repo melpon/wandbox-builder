@@ -1106,6 +1106,35 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_groovy(self):
+        groovy_vers = get_generic_versions('groovy', with_head=True)
+        compilers = []
+        for cv in groovy_vers:
+            if cv == 'head':
+                display_name = 'Groovy HEAD'
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/groovy-{cv}/bin/run-groovy.sh -version | cut -d' ' -f3"]
+            else:
+                display_name = 'Groovy'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'groovy-{cv}',
+                'displayable': True,
+                'language': 'Groovy',
+                'output-file': 'prog.groovy',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'groovy prog.groovy',
+                'runtime-option-raw': True,
+                'run-command': ['/opt/wandbox/groovy-{cv}/bin/run-groovy.sh', 'prog.groovy'],
+                'jail-name': 'melpon2-jvm',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1124,7 +1153,8 @@ class Compilers(object):
             self.make_cpython() +
             self.make_ruby() +
             self.make_mruby() +
-            self.make_scala()
+            self.make_scala() +
+            self.make_groovy()
         )
 
 def make_config():

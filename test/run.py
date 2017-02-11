@@ -210,6 +210,7 @@ def register():
     test_generic(name='ruby', test_file='test.rb', expected='hello\n', with_head=True)
     test_generic(name='mruby', test_file='test.rb', expected='hello\n', with_head=True)
     test_generic(name='scala', test_file='prog.scala', expected='hello\n', with_head=True, head_versions=read_versions('scala-head'))
+    test_generic(name='groovy', test_file='test.groovy', expected='hello\n', with_head=True)
 
 
 def main():
