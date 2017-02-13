@@ -356,6 +356,12 @@ class Switches(object):
                 'flags': '-O2',
                 'display-name': 'Optimization',
             },
+            'coffee-compile-only': {
+                'flags': ['-p'],
+                'display-name': 'Compile Only',
+                'insert-position': 1,
+                'runtime': True,
+            },
         }
 
     def make(self):
@@ -1164,6 +1170,35 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_coffeescript(self):
+        coffeescript_vers = get_generic_versions('coffeescript', with_head=True)
+        compilers = []
+        for cv in coffeescript_vers:
+            if cv == 'head':
+                display_name = 'CoffeeScript HEAD'
+                version_command = ['/bin/cat', '/opt/wandbox/coffeescript-{cv}/bin/VERSION']
+            else:
+                display_name = 'CoffeeScript'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'coffeescript-{cv}',
+                'displayable': True,
+                'language': 'CoffeeScript',
+                'output-file': 'prog.coffee',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': ['coffee-compile-only'],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'coffee prog.coffee',
+                'runtime-option-raw': True,
+                'run-command': ['/opt/wandbox/coffeescript-{cv}/bin/run-coffee.sh', 'prog.coffee'],
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1184,7 +1219,8 @@ class Compilers(object):
             self.make_mruby() +
             self.make_scala() +
             self.make_groovy() +
-            self.make_nodejs()
+            self.make_nodejs() +
+            self.make_coffeescript()
         )
 
 def make_config():

@@ -54,6 +54,7 @@ for compiler in \
     scala-head \
     groovy-head \
     nodejs-head \
+    coffeescript-head \
 ; do
   run $compiler > $LOG_DIR/$compiler.log 2>&1 || echo "$compiler: $?" >> $LOG_DIR/failed.log
 done

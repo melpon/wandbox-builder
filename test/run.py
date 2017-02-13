@@ -212,6 +212,7 @@ def register():
     test_generic(name='scala', test_file='prog.scala', expected='hello\n', with_head=True, head_versions=read_versions('scala-head'))
     test_generic(name='groovy', test_file='test.groovy', expected='hello\n', with_head=True)
     test_generic(name='nodejs', test_file='test.js', expected='hello\n', with_head=True)
+    test_generic(name='coffeescript', test_file='test.coffee', expected='hello\n', with_head=True)
 
 
 def main():

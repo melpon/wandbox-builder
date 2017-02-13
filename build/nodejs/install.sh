@@ -26,4 +26,8 @@ cd node-v$VERSION
 make -j2
 make install
 
+# update
+
+PATH=$PREFIX/bin:$PATH npm update -g
+
 test_nodejs $PREFIX
