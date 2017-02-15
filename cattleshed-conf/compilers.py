@@ -1199,6 +1199,31 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_spidermonkey(self):
+        spidermonkey_vers = get_generic_versions('spidermonkey', with_head=False)
+        compilers = []
+        for cv in spidermonkey_vers:
+            display_name = 'SpiderMonkey'
+            version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'spidermonkey-{cv}',
+                'displayable': True,
+                'language': 'JavaScript',
+                'output-file': 'prog.js',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'js prog.js',
+                'runtime-option-raw': True,
+                'run-command': ['/opt/wandbox/spidermonkey-{cv}/bin/js', 'prog.js'],
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1220,7 +1245,8 @@ class Compilers(object):
             self.make_scala() +
             self.make_groovy() +
             self.make_nodejs() +
-            self.make_coffeescript()
+            self.make_coffeescript() +
+            self.make_spidermonkey()
         )
 
 def make_config():
