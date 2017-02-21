@@ -1224,6 +1224,34 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_swift(self):
+        swift_vers = get_generic_versions('swift', with_head=True)
+        compilers = []
+        for cv in swift_vers:
+            if cv == 'head':
+                display_name = 'Swift HEAD'
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/swift-{cv}/usr/bin/swiftc --version | head -n 1 | cut -d' ' -f3-"]
+            else:
+                display_name = 'Swift'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'swift-{cv}',
+                'displayable': True,
+                'language': 'Swift',
+                'output-file': 'prog.swift',
+                'compiler-option-raw': True,
+                'compile-command': ['/opt/wandbox/swift-{cv}/usr/bin/swiftc', '-v', 'prog.swift'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'swiftc prog.swift',
+                'run-command': ['./prog'],
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1246,7 +1274,8 @@ class Compilers(object):
             self.make_groovy() +
             self.make_nodejs() +
             self.make_coffeescript() +
-            self.make_spidermonkey()
+            self.make_spidermonkey() +
+            self.make_swift()
         )
 
 def make_config():

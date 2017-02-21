@@ -15,7 +15,10 @@ RUN apt-get update && \
       libgcc-5-dev \
       libstdc++-5-dev \
       libffi6 \
-      libgmp-dev && \
+      libgmp-dev \
+      clang \
+      libedit2 \
+      libicu55 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s libgmp.so /usr/lib/x86_64-linux-gnu/libgmp.so.3

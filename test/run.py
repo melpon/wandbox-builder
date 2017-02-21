@@ -214,6 +214,7 @@ def register():
     test_generic(name='nodejs', test_file='test.js', expected='hello\n', with_head=True)
     test_generic(name='coffeescript', test_file='test.coffee', expected='hello\n', with_head=True)
     test_generic(name='spidermonkey', test_file='test.js', expected='hello\n', with_head=False)
+    test_generic(name='swift', test_file='test.swift', expected='hello\n', with_head=True)
 
 
 def main():

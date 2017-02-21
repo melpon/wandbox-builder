@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+
+import json
+import subprocess
+import sys
+
+
+def run(args):
+    print(args)
+    subprocess.check_call(args)
+
+
+def main(config_filename, tag):
+    dic = json.load(open(config_filename))
+    for name, repo in dic["repos"].items():
+        if name == 'swift':
+            continue
+        if name == 'ninja':
+            continue
+        url = dic["https-clone-pattern"] % repo["remote"]["id"]
+        run(['git', 'clone', '--depth', '1', '--branch', tag, url, name])
+
+# 2.2
+REPOSITORIES = {
+  'llvm': 'apple/swift-llvm',
+  'clang': 'apple/swift-clang',
+  'swift': 'apple/swift-swift',
+  'lldb': 'apple/swift-lldb',
+  'cmark': 'apple/swift-cmark',
+  'swift-integration-tests': 'apple/swift-integration-tests',
+}
+
+if __name__ == '__main__':
+    main(sys.argv[1], sys.argv[2])
