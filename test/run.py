@@ -217,6 +217,7 @@ def register():
     test_generic(name='swift', test_file='test.swift', expected='hello\n', with_head=True)
     test_generic(name='perl', test_file='test.pl', expected='hello\n', with_head=True)
     test_generic(name='php', test_file='test.php', expected='hello\n', with_head=True)
+    test_generic(name='lua', test_file='test.lua', expected='hello\n', with_head=False)
 
 
 def main():

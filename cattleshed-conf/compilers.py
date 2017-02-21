@@ -1316,6 +1316,31 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_lua(self):
+        lua_vers = get_generic_versions('lua', with_head=False)
+        compilers = []
+        for cv in lua_vers:
+            display_name = 'lua'
+            version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'lua-{cv}',
+                'displayable': True,
+                'language': 'Lua',
+                'output-file': 'prog.lua',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'lua prog.lua',
+                'run-command': ['/opt/wandbox/lua-{cv}/bin/lua', 'prog.lua'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1341,7 +1366,8 @@ class Compilers(object):
             self.make_spidermonkey() +
             self.make_swift() +
             self.make_perl() +
-            self.make_php()
+            self.make_php() +
+            self.make_lua()
         )
 
 def make_config():
