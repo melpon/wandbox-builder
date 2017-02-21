@@ -47,8 +47,12 @@ function compare_version() {
 }
 
 function wget_strict_sha256() {
-  wget $1
-  if sha256sum -c $2; then
+  url=$1
+  sha256=$2
+  shift 2
+
+  wget $url "$@"
+  if sha256sum -c $sha256; then
     :
   else
     exit 1

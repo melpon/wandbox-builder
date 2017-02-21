@@ -1284,6 +1284,38 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_php(self):
+        php_vers = get_generic_versions('php', with_head=True)
+        compilers = []
+        for cv in php_vers:
+            if cv == 'head':
+                display_name = 'php HEAD'
+            else:
+                display_name = 'php'
+
+            if cv == 'head':
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/php-{cv}/bin/php --version | head -n 1 | cut -d' ' -f2"]
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'php-{cv}',
+                'displayable': True,
+                'language': 'PHP',
+                'output-file': 'prog.php',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'php prog.php',
+                'run-command': ['/opt/wandbox/php-{cv}/bin/php', 'prog.php'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1308,7 +1340,8 @@ class Compilers(object):
             self.make_coffeescript() +
             self.make_spidermonkey() +
             self.make_swift() +
-            self.make_perl()
+            self.make_perl() +
+            self.make_php()
         )
 
 def make_config():
