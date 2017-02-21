@@ -55,16 +55,6 @@ function wget_strict_sha256() {
   fi
 }
 
-function install_all() {
-  version=$1
-  cmd=$2
-  cat $version | while read line; do
-    if [ "$line" != "" ]; then
-      $cmd $line < /dev/null
-    fi
-  done
-}
-
 function run_with_log() {
   shiftnum=$1
   shift 1
