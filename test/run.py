@@ -218,6 +218,7 @@ def register():
     test_generic(name='perl', test_file='test.pl', expected='hello\n', with_head=True)
     test_generic(name='php', test_file='test.php', expected='hello\n', with_head=True)
     test_generic(name='lua', test_file='test.lua', expected='hello\n', with_head=False)
+    test_generic(name='sqlite', test_file='test.sql', expected='hello\n', with_head=True)
 
 
 def main():

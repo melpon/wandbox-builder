@@ -1341,6 +1341,39 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_sqlite(self):
+        sqlite_vers = get_generic_versions('sqlite', with_head=True)
+        compilers = []
+        for cv in sqlite_vers:
+            if cv == 'head':
+                display_name = 'sqlite HEAD'
+            else:
+                display_name = 'sqlite'
+
+            if cv == 'head':
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/sqlite-{cv}/bin/sqlite3 --version | cut -d' ' -f1,2"]
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+
+            compilers.append(format_value({
+                'name': 'sqlite-{cv}',
+                'displayable': True,
+                'language': 'SQL',
+                'output-file': 'prog.sql',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'cat prog.sql | sqlite3',
+                'run-command': ['/bin/sh', '-c', 'cat prog.sql | /opt/wandbox/sqlite-{cv}/bin/sqlite3'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1367,7 +1400,8 @@ class Compilers(object):
             self.make_swift() +
             self.make_perl() +
             self.make_php() +
-            self.make_lua()
+            self.make_lua() +
+            self.make_sqlite()
         )
 
 def make_config():
