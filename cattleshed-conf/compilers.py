@@ -1241,7 +1241,7 @@ class Compilers(object):
                 'language': 'Swift',
                 'output-file': 'prog.swift',
                 'compiler-option-raw': True,
-                'compile-command': ['/opt/wandbox/swift-{cv}/usr/bin/swiftc', '-v', 'prog.swift'],
+                'compile-command': ['/opt/wandbox/swift-{cv}/usr/bin/swiftc', 'prog.swift'],
                 'version-command': version_command,
                 'switches': [],
                 'initial-checked': [],
