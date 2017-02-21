@@ -56,6 +56,7 @@ for compiler in \
     nodejs-head \
     coffeescript-head \
     swift-head \
+    perl-head \
 ; do
   run $compiler > $LOG_DIR/$compiler.log 2>&1 || echo "$compiler: $?" >> $LOG_DIR/failed.log
 done

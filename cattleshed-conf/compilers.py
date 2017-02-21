@@ -1252,6 +1252,38 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_perl(self):
+        perl_vers = get_generic_versions('perl', with_head=True)
+        compilers = []
+        for cv in perl_vers:
+            if cv == 'head':
+                display_name = 'perl HEAD'
+            else:
+                display_name = 'perl'
+
+            if cv == 'head':
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/perl-{cv}/bin/perl -e 'print $^V' | cut -c2-"]
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'perl-{cv}',
+                'displayable': True,
+                'language': 'Perl',
+                'output-file': 'prog.pl',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'perl prog.pl',
+                'run-command': ['/opt/wandbox/perl-{cv}/bin/perl', 'prog.pl'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1275,7 +1307,8 @@ class Compilers(object):
             self.make_nodejs() +
             self.make_coffeescript() +
             self.make_spidermonkey() +
-            self.make_swift()
+            self.make_swift() +
+            self.make_perl()
         )
 
 def make_config():
