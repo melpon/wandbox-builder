@@ -220,6 +220,7 @@ def register():
     test_generic(name='lua', test_file='test.lua', expected='hello\n', with_head=False)
     test_generic(name='sqlite', test_file='test.sql', expected='hello\n', with_head=True)
     test_generic(name='fpc', test_file='test.pas', expected='hello\n', with_head=True)
+    test_generic(name='clisp', test_file='test.lisp', expected='hello\n', with_head=False)
 
 
 def main():

@@ -1406,6 +1406,31 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_clisp(self):
+        clisp_vers = get_generic_versions('clisp', with_head=False)
+        compilers = []
+        for cv in clisp_vers:
+            display_name = 'clisp'
+            version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'clisp-{cv}',
+                'displayable': True,
+                'language': 'Lisp',
+                'output-file': 'prog.lisp',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'clisp prog.lisp',
+                'run-command': ['/opt/wandbox/clisp-{cv}/bin/clisp', 'prog.lisp'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1434,7 +1459,8 @@ class Compilers(object):
             self.make_php() +
             self.make_lua() +
             self.make_sqlite() +
-            self.make_fpc()
+            self.make_fpc() +
+            self.make_clisp()
         )
 
 def make_config():
