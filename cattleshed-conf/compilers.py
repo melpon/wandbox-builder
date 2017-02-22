@@ -362,6 +362,10 @@ class Switches(object):
                 'insert-position': 1,
                 'runtime': True,
             },
+            'delphi-mode': {
+                'flags': ['-Mdelphi'],
+                'display-name': 'Delphi 7 mode',
+            },
         }
 
     def make(self):
@@ -1374,6 +1378,34 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_fpc(self):
+        fpc_vers = get_generic_versions('fpc', with_head=True)
+        compilers = []
+        for cv in fpc_vers:
+            if cv == 'head':
+                display_name = 'Free Pascal HEAD'
+                version_command = ['/opt/wandbox/fpc-{cv}/bin/run-fpc.sh', '-iV']
+            else:
+                display_name = 'Free Pascal'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'fpc-{cv}',
+                'displayable': True,
+                'language': 'Pascal',
+                'output-file': 'prog.pas',
+                'compiler-option-raw': True,
+                'compile-command': ['/opt/wandbox/fpc-{cv}/bin/run-fpc.sh', 'prog.pas'],
+                'version-command': version_command,
+                'switches': ['delphi-mode'],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'fpc prog.pas',
+                'run-command': ['./prog'],
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1401,7 +1433,8 @@ class Compilers(object):
             self.make_perl() +
             self.make_php() +
             self.make_lua() +
-            self.make_sqlite()
+            self.make_sqlite() +
+            self.make_fpc()
         )
 
 def make_config():

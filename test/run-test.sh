@@ -53,7 +53,7 @@ docker run \
     cd /var/work/test
     echo 'wait: kennel port...'
     # wait until kennel port is opened
-    for ((i = 0; i < 60; i++)); do
+    for ((i = 0; i < 600; i++)); do
       if curl http://test-server:3500/api/list.json > /dev/null 2>&1; then
         echo 'opened'
         python run.py \"\$@\"

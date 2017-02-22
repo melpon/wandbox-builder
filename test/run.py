@@ -127,12 +127,12 @@ def test_generic(name, test_file, expected, with_head, post_name='', head_versio
     code = codecs.open(os.path.join('../build/{name}/resources'.format(name=name), test_file), 'r', 'utf-8').read()
     for cv in get_generic_versions(name, with_head=False):
         compiler = '{name}-{cv}'.format(name=name, cv=cv) + post_name
-        add_test(compiler, lambda: run(compiler, code, expected))
+        add_test(compiler, lambda compiler=compiler: run(compiler, code, expected))
 
     if with_head:
         for cv in head_versions:
             compiler = '{name}-{cv}'.format(name=name, cv=cv) + post_name
-            add_test(compiler, lambda: run(compiler, codecs.open(os.path.join('../build/{name}-head/resources'.format(name=name), test_file), 'r', 'utf-8').read(), 'hello\n'))
+            add_test(compiler, lambda compiler=compiler: run(compiler, codecs.open(os.path.join('../build/{name}-head/resources'.format(name=name), test_file), 'r', 'utf-8').read(), 'hello\n'))
 
 
 def run_boost(version, compiler, compiler_version, code, expected):
@@ -219,6 +219,7 @@ def register():
     test_generic(name='php', test_file='test.php', expected='hello\n', with_head=True)
     test_generic(name='lua', test_file='test.lua', expected='hello\n', with_head=False)
     test_generic(name='sqlite', test_file='test.sql', expected='hello\n', with_head=True)
+    test_generic(name='fpc', test_file='test.pas', expected='hello\n', with_head=True)
 
 
 def main():
