@@ -189,6 +189,12 @@ def test_gdc_head():
     add_test(compiler, lambda: run(compiler, code, 'hello\n'))
 
 
+def test_lazyk():
+    compiler = 'lazyk'
+    code = codecs.open('../build/lazyk/resources/test.lazy', 'r', 'utf-8').read()
+    add_test(compiler, lambda: run(compiler, code, 'Hello, world\n'))
+
+
 def register():
     test_list()
     test_boost()
@@ -221,6 +227,7 @@ def register():
     test_generic(name='sqlite', test_file='test.sql', expected='hello\n', with_head=True)
     test_generic(name='fpc', test_file='test.pas', expected='hello\n', with_head=True)
     test_generic(name='clisp', test_file='test.lisp', expected='hello\n', with_head=False)
+    test_lazyk()
 
 
 def main():

@@ -1410,7 +1410,7 @@ class Compilers(object):
         clisp_vers = get_generic_versions('clisp', with_head=False)
         compilers = []
         for cv in clisp_vers:
-            display_name = 'clisp'
+            display_name = 'CLISP'
             version_command = ['/bin/echo', '{cv}']
 
             compilers.append(format_value({
@@ -1429,6 +1429,30 @@ class Compilers(object):
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
             }, cv=cv))
+        return compilers
+
+    def make_lazyk(self):
+        # Lazy K is only single version.
+        compilers = []
+        display_name = 'lazyk'
+        version_command = ['/bin/echo', '']
+
+        compilers.append({
+            'name': 'lazyk',
+            'displayable': True,
+            'language': 'Lazy K',
+            'output-file': 'prog.lazy',
+            'compiler-option-raw': False,
+            'compile-command': ['/bin/true'],
+            'version-command': version_command,
+            'switches': [],
+            'initial-checked': [],
+            'display-name': display_name,
+            'display-compile-command': 'lazyk prog.lazy',
+            'run-command': ['/opt/wandbox/lazyk/bin/lazyk', 'prog.lazy'],
+            'runtime-option-raw': True,
+            'jail-name': 'melpon2-default',
+        })
         return compilers
 
     def make(self):
@@ -1460,7 +1484,8 @@ class Compilers(object):
             self.make_lua() +
             self.make_sqlite() +
             self.make_fpc() +
-            self.make_clisp()
+            self.make_clisp() +
+            self.make_lazyk()
         )
 
 def make_config():
