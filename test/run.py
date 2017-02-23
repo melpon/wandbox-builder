@@ -100,7 +100,7 @@ def get_tests():
     return [name for name, _ in __tests]
 
 
-def run(compiler, code, expected):
+def run(compiler, code, expected, stderr=False):
     infos = get_infos()
     info = get_info(infos, compiler)
     opts = []
@@ -116,23 +116,27 @@ def run(compiler, code, expected):
         'options': ','.join(opts),
     }
     r = requests.post('http://test-server:3500/api/compile.json', headers={'content-type': 'application/json'}, data=json.dumps(request))
+    # print(r.json())
     assert 200 == r.status_code
     if r.json()['status'] != '0':
         print('{}: {}'.format(compiler, r.json()))
     assert r.json()['status'] == '0'
-    assert r.json()['program_output'] == expected
+    if stderr:
+        assert r.json()['program_error'] == expected
+    else:
+        assert r.json()['program_output'] == expected
 
 
-def test_generic(name, test_file, expected, with_head, post_name='', head_versions=['head']):
+def test_generic(name, test_file, expected, with_head, post_name='', head_versions=['head'], stderr=False):
     code = codecs.open(os.path.join('../build/{name}/resources'.format(name=name), test_file), 'r', 'utf-8').read()
     for cv in get_generic_versions(name, with_head=False):
         compiler = '{name}-{cv}'.format(name=name, cv=cv) + post_name
-        add_test(compiler, lambda compiler=compiler: run(compiler, code, expected))
+        add_test(compiler, lambda compiler=compiler: run(compiler, code, expected, stderr=stderr))
 
     if with_head:
         for cv in head_versions:
             compiler = '{name}-{cv}'.format(name=name, cv=cv) + post_name
-            add_test(compiler, lambda compiler=compiler: run(compiler, codecs.open(os.path.join('../build/{name}-head/resources'.format(name=name), test_file), 'r', 'utf-8').read(), 'hello\n'))
+            add_test(compiler, lambda compiler=compiler: run(compiler, codecs.open(os.path.join('../build/{name}-head/resources'.format(name=name), test_file), 'r', 'utf-8').read(), expected, stderr=stderr))
 
 
 def run_boost(version, compiler, compiler_version, code, expected):
@@ -228,6 +232,7 @@ def register():
     test_generic(name='fpc', test_file='test.pas', expected='hello\n', with_head=True)
     test_generic(name='clisp', test_file='test.lisp', expected='hello\n', with_head=False)
     test_lazyk()
+    test_generic(name='vim', test_file='test.vim', expected='hello', with_head=True, stderr=True)
 
 
 def main():

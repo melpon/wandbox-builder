@@ -18,7 +18,9 @@ RUN apt-get update && \
       libgmp-dev \
       clang \
       libedit2 \
-      libicu55 && \
+      libicu55 \
+      python-dev \
+      python3-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s libgmp.so /usr/lib/x86_64-linux-gnu/libgmp.so.3

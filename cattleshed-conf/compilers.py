@@ -1455,6 +1455,35 @@ class Compilers(object):
         })
         return compilers
 
+    def make_vim(self):
+        vim_vers = get_generic_versions('vim', with_head=True)
+        compilers = []
+        for cv in vim_vers:
+            if cv == 'head':
+                display_name = 'Vim HEAD'
+                version_command = ['/bin/cat', '/opt/wandbox/vim-{cv}/VERSION']
+            else:
+                display_name = 'Vim'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'vim-{cv}',
+                'displayable': True,
+                'language': 'Vim script',
+                'output-file': 'prog.vim',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'vim -X -N -u NONE -i NONE -V1 -e -s -S source prog.vim +quit',
+                'run-command': ['/opt/wandbox/vim-{cv}/bin/vim', '-X', '-N', '-u', 'NONE', '-i', 'NONE', '-V1', '-e', '-s', '-S', 'prog.vim', '+quit'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1485,7 +1514,8 @@ class Compilers(object):
             self.make_sqlite() +
             self.make_fpc() +
             self.make_clisp() +
-            self.make_lazyk()
+            self.make_lazyk() +
+            self.make_vim()
         )
 
 def make_config():
