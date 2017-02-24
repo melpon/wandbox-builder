@@ -209,6 +209,12 @@ def test_lazyk():
     add_test(compiler, lambda: run(compiler, code, 'Hello, world\n'))
 
 
+def test_bash():
+    compiler = 'bash'
+    code = codecs.open('../build/bash-test.sh', 'r', 'utf-8').read()
+    add_test(compiler, lambda: run(compiler, code, 'hello\n'))
+
+
 def register():
     test_list()
     test_boost()
@@ -245,6 +251,7 @@ def register():
     test_lazyk()
     test_generic(name='vim', test_file='test.vim', expected='hello', with_head=True, stderr=True)
     test_generic(name='pypy', test_file='test.py', expected='hello\n', with_head=True)
+    test_bash()
 
 
 def main():

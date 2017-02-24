@@ -1645,6 +1645,29 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_bash(self):
+        compilers = []
+        display_name = 'bash'
+        version_command = ['/bin/sh', '-c', "/bin/bash --version | head -n 1 | cut -d' ' -f4"]
+
+        compilers.append({
+            'name': 'bash',
+            'displayable': True,
+            'language': 'Bash script',
+            'output-file': 'prog.sh',
+            'compiler-option-raw': False,
+            'compile-command': ['/bin/true'],
+            'version-command': version_command,
+            'switches': [],
+            'initial-checked': [],
+            'display-name': display_name,
+            'display-compile-command': 'bash prog.sh',
+            'run-command': ['/bin/bash', 'prog.sh'],
+            'runtime-option-raw': True,
+            'jail-name': 'melpon2-default',
+        })
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1679,7 +1702,8 @@ class Compilers(object):
             self.make_clisp() +
             self.make_lazyk() +
             self.make_vim() +
-            self.make_pypy()
+            self.make_pypy() +
+            self.make_bash()
         )
 
 def make_config():
