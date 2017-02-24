@@ -1484,6 +1484,34 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_pypy(self):
+        pypy_vers = get_generic_versions('pypy', with_head=True)
+        compilers = []
+        for cv in pypy_vers:
+            if cv == 'head':
+                display_name = 'pypy HEAD'
+            else:
+                display_name = 'pypy'
+            version_command = ['/bin/cat', '/opt/wandbox/pypy-{cv}/VERSION']
+
+            compilers.append(format_value({
+                'name': 'pypy-{cv}',
+                'displayable': True,
+                'language': 'Python',
+                'output-file': 'prog.py',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'pypy prog.py',
+                'run-command': ['/opt/wandbox/pypy-{cv}/bin/pypy', 'prog.py'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1515,7 +1543,8 @@ class Compilers(object):
             self.make_fpc() +
             self.make_clisp() +
             self.make_lazyk() +
-            self.make_vim()
+            self.make_vim() +
+            self.make_pypy()
         )
 
 def make_config():

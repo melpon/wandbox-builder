@@ -61,6 +61,7 @@ for compiler in \
     sqlite-head \
     fpc-head \
     vim-head \
+    pypy-head \
 ; do
   run $compiler > $LOG_DIR/$compiler.log 2>&1 || echo "$compiler: $?" >> $LOG_DIR/failed.log
 done

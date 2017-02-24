@@ -20,7 +20,9 @@ RUN apt-get update && \
       libedit2 \
       libicu55 \
       python-dev \
-      python3-dev && \
+      python3-dev \
+      libffi6 \
+      libexpat1 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s libgmp.so /usr/lib/x86_64-linux-gnu/libgmp.so.3
