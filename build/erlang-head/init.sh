@@ -4,5 +4,5 @@
 
 function test_erlang() {
   prefix=$1
-  test "`$prefix/bin/escript $BASE_DIR/resources/test.erl`" = "hello"
+  test "`$prefix/bin/run-escript.sh $BASE_DIR/resources/test.erl`" = "hello"
 }

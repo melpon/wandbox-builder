@@ -904,13 +904,12 @@ class Compilers(object):
         for cv in erlang_vers:
             if cv == 'head':
                 display_name = 'erlang HEAD'
+                version_command = ['/bin/bash', '-c', 'cat `find /opt/wandbox/erlang-head/lib/erlang/releases/ -name OTP_VERSION | head -n 1`']
+                run_command = ['/opt/wandbox/erlang-{cv}/bin/run-escript.sh', 'prog.erl']
             else:
                 display_name = 'erlang'
-
-            if cv == 'head':
-                version_command = ['/bin/bash', '-c', 'cat `find /opt/wandbox/erlang-head/lib/erlang/releases/ -name OTP_VERSION | head -n 1`']
-            else:
                 version_command = ['/bin/echo', '{cv}']
+                run_command = ['/opt/wandbox/erlang-{cv}/bin/escript', 'prog.erl']
 
             compilers.append(format_value({
                 'name': 'erlang-{cv}',
@@ -924,7 +923,7 @@ class Compilers(object):
                 'initial-checked': [],
                 'display-name': display_name,
                 'display-compile-command': 'ecript prog.erl',
-                'run-command': ['/opt/wandbox/erlang-{cv}/bin/escript', 'prog.erl'],
+                'run-command': run_command,
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-erlangvm',
             }, cv=cv))
