@@ -14,7 +14,8 @@ cd coffeescript
 # build
 
 PATH=$NODEJS_PREFIX/bin:$PATH npm update
-PATH=$NODEJS_PREFIX/bin:$PATH node bin/cake --prefix $PREFIX install
+PATH=$NODEJS_PREFIX/bin:$PATH npm -g set prefix $PREFIX
+PATH=$NODEJS_PREFIX/bin:$PATH npm -g install
 
 cp $BASE_DIR/resources/run-coffee.sh.in $PREFIX/bin/run-coffee.sh
 sed -i "s#@nodejs_prefix@#$NODEJS_PREFIX#g" $PREFIX/bin/run-coffee.sh
