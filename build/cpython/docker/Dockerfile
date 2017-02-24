@@ -16,6 +16,6 @@ RUN apt-get update && \
       libssl-dev \
       openssl \
       libffi-dev \
-      mercurial && \
+      git && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

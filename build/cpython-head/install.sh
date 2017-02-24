@@ -4,7 +4,6 @@
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
-  echo "  find branches from https://hg.python.org/cpython/branches"
   exit 0
 fi
 
@@ -12,7 +11,7 @@ VERSION=$1
 PREFIX=/opt/wandbox/cpython-$VERSION
 
 if [ "$VERSION" = "head" ]; then
-  BRANCH=default
+  BRANCH=master
 elif [ "$VERSION" = "2.7-head" ]; then
   BRANCH=2.7
 else
@@ -22,9 +21,8 @@ fi
 # get sources
 
 cd ~/
-hg clone https://hg.python.org/cpython
+git clone --depth 1 --branch $BRANCH https://github.com/python/cpython.git
 cd cpython
-hg update $BRANCH
 
 # build
 

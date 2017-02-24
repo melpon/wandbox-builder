@@ -4,7 +4,6 @@
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
-  echo "  find versions from https://hg.python.org/cpython/tags"
   exit 0
 fi
 
@@ -14,9 +13,8 @@ PREFIX=/opt/wandbox/cpython-$VERSION
 # get sources
 
 cd ~/
-hg clone https://hg.python.org/cpython
+git clone --depth 1 --branch v$VERSION https://github.com/python/cpython.git
 cd cpython
-hg update v$VERSION
 
 # build
 
