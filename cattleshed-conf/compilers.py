@@ -263,8 +263,8 @@ class Switches(object):
 
     def make_boost_header(self):
         boost_vers = sort_version(set(a for a, _, _ in get_boost_versions_with_head()))
-        gcc_vers = sort_version(get_generic_versions('gcc', with_head=True))
-        clang_vers = sort_version(get_generic_versions('clang', with_head=True))
+        gcc_vers = ['head']  # sort_version(get_generic_versions('gcc', with_head=True))
+        clang_vers = ['head']  # sort_version(get_generic_versions('clang', with_head=True))
         compiler_vers = [('gcc', v) for v in gcc_vers] + [('clang', v) for v in clang_vers]
 
         boost_ver_set = set(get_boost_versions_with_head())
@@ -437,6 +437,66 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_gcc_pp(self):
+        boost_vers = sort_version(set(a for a, _, _ in get_boost_versions_with_head()))
+        gcc_vers = ['head']
+
+        boost_ver_set = set(get_boost_versions_with_head())
+        # boost versions
+        boost_switches = {}
+        for cv in gcc_vers:
+            xs = []
+            for bv in boost_vers:
+                if (bv, 'gcc', cv) not in boost_ver_set:
+                    continue
+                xs.append('{bv}'.format(bv=bv))
+            nothing = ['boost-nothing-gcc-{cv}-header'.format(cv=cv)]
+            boost_switches[cv] = nothing + ['boost-{x}-gcc-{cv}-header'.format(x=x, cv=cv) for x in sort_version(xs)]
+
+        compilers = []
+        for cv in gcc_vers:
+            switches = []
+            initial_checked = []
+
+            # default
+            switches += ['cpp-p']
+            initial_checked += ['cpp-p']
+
+            # boost
+            if cv in boost_switches:
+                bs = boost_switches[cv]
+                switches += bs
+                initial_checked += [bs[-1]]
+
+            # head specific
+            if cv == 'head':
+                display_name = 'gcc HEAD'
+                version_command = ["/bin/sh", "-c", "/opt/wandbox/gcc-head/bin/gcc --version | head -1 | cut -d' ' -f3-"]
+            else:
+                display_name = 'gcc'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'gcc-{cv}-pp',
+                'compiler-option-raw': True,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'display-name': display_name,
+                'display-compile-command': 'gcc prog.c',
+                'language': 'C',
+                'output-file': 'prog.c',
+                'run-command': [
+                    '/opt/wandbox/gcc-{cv}/bin/gcc',
+                    '-E',
+                    'prog.c',
+                ],
+                'displayable': True,
+                'switches': switches,
+                'initial-checked': initial_checked,
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make_gcc(self):
         boost_vers = sort_version(set(a for a, _, _ in get_boost_versions_with_head()))
         gcc_vers = sort_version(get_generic_versions('gcc', with_head=True), reverse=True)
@@ -582,6 +642,79 @@ class Compilers(object):
                 'run-command': './prog.exe',
                 'displayable': True,
                 'compiler-option-raw': True,
+                'switches': switches,
+                'initial-checked': initial_checked,
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+
+        return compilers
+
+    def make_clang_pp(self):
+        boost_vers = sort_version(set(a for a, _, _ in get_boost_versions_with_head()))
+        clang_vers = ['head']
+
+        boost_ver_set = set(get_boost_versions_with_head())
+        # boost versions
+        boost_switches = {}
+        for cv in clang_vers:
+            xs = []
+            for bv in boost_vers:
+                if (bv, 'clang', cv) not in boost_ver_set:
+                    continue
+                xs.append('{bv}'.format(bv=bv))
+            nothing = ['boost-nothing-clang-{cv}-header'.format(cv=cv)]
+            boost_switches[cv] = nothing + ['boost-{x}-clang-{cv}-header'.format(x=x, cv=cv) for x in sort_version(xs)]
+
+        compilers = []
+        for cv in clang_vers:
+            switches = []
+            initial_checked = []
+
+            # default
+            switches += ['cpp-p']
+            initial_checked += ['cpp-p']
+
+            # boost
+            if cv in boost_switches:
+                bs = boost_switches[cv]
+                switches += bs
+                initial_checked += [bs[-1]]
+
+            # -fansi-escape-codes
+            if cmpver(cv, '>=', '3.4'):
+                ansi_escape_codes = ['-fansi-escape-codes']
+            else:
+                ansi_escape_codes = []
+
+            # compile-command
+            compile_command = [
+                '/opt/wandbox/clang-{cv}/bin/clang',
+                '-fcolor-diagnostics'
+                ] + ansi_escape_codes + [
+                '-E']
+
+            compile_command += ['prog.cc']
+
+            # head specific
+            if cv == 'head':
+                display_name = 'clang HEAD'
+                version_command = ["/bin/sh", "-c", "/opt/wandbox/clang-{cv}/bin/clang --version | head -1 | cut -d' ' -f3-"]
+            else:
+                display_name = 'clang'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'clang-{cv}-pp',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'display-name': display_name,
+                'display-compile-command': 'clang -E prog.cc',
+                'language': 'CPP',
+                'output-file': 'prog.cc',
+                'runtime-option-raw': True,
+                'run-command': compile_command,
+                'displayable': True,
                 'switches': switches,
                 'initial-checked': initial_checked,
                 'jail-name': 'melpon2-default',
@@ -1515,8 +1648,10 @@ class Compilers(object):
     def make(self):
         return (
             self.make_gcc_c() +
+            self.make_gcc_pp() +
             self.make_gcc() +
             self.make_clang_c() +
+            self.make_clang_pp() +
             self.make_clang() +
             self.make_mono() +
             self.make_rill() +
