@@ -211,7 +211,7 @@ def test_lazyk():
 
 def test_bash():
     compiler = 'bash'
-    code = codecs.open('../build/bash-test.sh', 'r', 'utf-8').read()
+    code = codecs.open('../build/bash/resources/test.sh', 'r', 'utf-8').read()
     add_test(compiler, lambda: run(compiler, code, 'hello\n'))
 
 
