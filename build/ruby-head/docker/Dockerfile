@@ -4,20 +4,20 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-      git \
       autoconf \
-      wget \
-      gcc \
-      make \
       bison \
+      gcc \
+      git \
+      libffi-dev \
+      libgdbm-dev \
+      libgdbm3 \
+      libncurses5-dev \
+      libreadline6-dev \
       libssl-dev \
       libyaml-dev \
-      libreadline6-dev \
-      zlib1g-dev \
-      libncurses5-dev \
-      libffi-dev \
-      libgdbm3 \
-      libgdbm-dev \
-      ruby && \
+      make \
+      ruby \
+      wget \
+      zlib1g-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

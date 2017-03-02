@@ -4,11 +4,11 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-      wget \
       gcc \
-      make \
+      libncurses5-dev \
       libreadline6-dev \
-      libncurses5-dev && \
+      make \
+      wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

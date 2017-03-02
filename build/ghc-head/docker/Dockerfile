@@ -4,17 +4,17 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-      wget \
-      haskell-platform \
-      git \
       autoconf \
       automake \
+      bzip2 \
+      g++ \
+      git \
+      haskell-platform \
+      libgmp-dev \
       libtool \
       make \
-      libgmp-dev \
       ncurses-dev \
-      g++ \
       python \
-      bzip2 && \
+      wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

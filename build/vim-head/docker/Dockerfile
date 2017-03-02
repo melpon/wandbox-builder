@@ -4,15 +4,15 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-      git \
-      make \
       gettext \
-      tcl-dev \
+      git \
+      liblua5.3-dev \
       libperl-dev \
+      make \
       python-dev \
       python3-dev \
       ruby-dev \
-      liblua5.3-dev && \
+      tcl-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

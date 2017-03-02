@@ -6,9 +6,9 @@ RUN apt-get update && \
     apt-get install -y \
       build-essential \
       git \
-      wget \
       libssl-dev \
-      ncurses-dev && \
+      ncurses-dev \
+      wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

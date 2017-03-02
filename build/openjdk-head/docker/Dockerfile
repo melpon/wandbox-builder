@@ -6,7 +6,7 @@ RUN apt-get update && \
     apt-get build-dep -y \
       openjdk-8 && \
     apt-get install -y \
-      openjdk-8-jdk \
-      mercurial && \
+      mercurial \
+      openjdk-8-jdk && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

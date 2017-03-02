@@ -4,16 +4,16 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-      git \
-      wget \
-      gcc \
       g++ \
-      make \
+      gcc \
+      git \
       lbzip2 \
       m4 \
+      make \
       patch \
+      perl \
       python-minimal \
-      perl && \
+      wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

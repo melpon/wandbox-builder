@@ -4,14 +4,14 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-      wget \
-      libgmp-dev \
-      libmpfr-dev \
-      libmpc-dev \
+      build-essential \
       libc6-dev-i386 \
-      realpath \
+      libgmp-dev \
+      libmpc-dev \
+      libmpfr-dev \
       libtool \
-      build-essential && \
+      realpath \
+      wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

@@ -4,27 +4,27 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-      git \
-      cmake \
-      ninja-build \
-      clang \
-      python \
-      uuid-dev \
-      libicu-dev \
-      icu-devtools \
-      libbsd-dev \
-      libedit-dev \
-      libxml2-dev \
-      libsqlite3-dev \
-      swig \
-      libpython-dev \
-      libncurses5-dev \
-      pkg-config \
-      libblocksruntime-dev \
-      libcurl4-openssl-dev \
       autoconf \
+      clang \
+      cmake \
+      git \
+      icu-devtools \
+      libblocksruntime-dev \
+      libbsd-dev \
+      libcurl4-openssl-dev \
+      libedit-dev \
+      libicu-dev \
+      libkqueue-dev \
+      libncurses5-dev \
+      libpython-dev \
+      libsqlite3-dev \
       libtool \
+      libxml2-dev \
+      ninja-build \
+      pkg-config \
+      python \
+      swig \
       systemtap-sdt-dev \
-      libkqueue-dev && \
+      uuid-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

@@ -4,10 +4,10 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-      wget \
       lbzip2 \
+      libexpat1 \
       libffi6 \
-      libexpat1 && \
+      wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

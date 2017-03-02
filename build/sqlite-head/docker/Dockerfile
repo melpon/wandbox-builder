@@ -4,11 +4,11 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-      wget \
+      fossil \
       gcc \
       make \
-      fossil \
-      tcl && \
+      tcl \
+      wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

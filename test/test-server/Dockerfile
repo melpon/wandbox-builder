@@ -8,21 +8,21 @@ ENV LC_ALL en_US.UTF-8
 
 RUN apt-get update && \
     apt-get install -y \
-      libmpc3 \
       binutils \
+      clang \
       g++ \
       libc6-dev \
-      libgcc-5-dev \
-      libstdc++-5-dev \
-      libffi6 \
-      libgmp-dev \
-      clang \
       libedit2 \
-      libicu55 \
-      python-dev \
-      python3-dev \
+      libexpat1 \
       libffi6 \
-      libexpat1 && \
+      libffi6 \
+      libgcc-5-dev \
+      libgmp-dev \
+      libicu55 \
+      libmpc3 \
+      libstdc++-5-dev \
+      python-dev \
+      python3-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s libgmp.so /usr/lib/x86_64-linux-gnu/libgmp.so.3

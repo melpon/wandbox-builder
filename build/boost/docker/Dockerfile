@@ -4,10 +4,10 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-      wget \
+      build-essential \
       libbz2-dev \
-      zlib1g-dev \
-      build-essential && \
+      wget \
+      zlib1g-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

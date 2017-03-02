@@ -4,10 +4,10 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-      wget \
-      git \
       autoconf \
-      bison && \
+      bison \
+      git \
+      wget && \
     apt-get build-dep -y php && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

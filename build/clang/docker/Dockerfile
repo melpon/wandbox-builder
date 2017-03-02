@@ -4,17 +4,17 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-      wget \
-      libgmp-dev \
-      libmpfr-dev \
-      libmpc-dev \
-      libc6-dev-i386 \
-      realpath \
-      libtool \
       build-essential \
-      python \
       clang \
-      libstdc++-4.8-dev && \
+      libc6-dev-i386 \
+      libgmp-dev \
+      libmpc-dev \
+      libmpfr-dev \
+      libstdc++-4.8-dev \
+      libtool \
+      python \
+      realpath \
+      wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

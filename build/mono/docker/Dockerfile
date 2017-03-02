@@ -4,17 +4,16 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-      wget \
-      git \
       autoconf \
-      libtool \
       automake \
       build-essential \
-      mono-devel \
-      gettext \
-      gcc-4.8 \
+      cmake \
       g++-4.8 \
-      cmake && \
+      gcc-4.8 \
+      gettext \
+      git \
+      libtool \
+      mono-devel \
+      wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-

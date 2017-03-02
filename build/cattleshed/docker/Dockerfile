@@ -4,16 +4,16 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-      gcc \
-      g++ \
-      make \
-      libboost-all-dev \
       autoconf \
       automake \
-      m4 \
+      g++ \
+      gcc \
       git \
+      libboost-all-dev \
       libcap-dev \
-      libcap2-bin && \
+      libcap2-bin \
+      m4 \
+      make && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

@@ -4,20 +4,20 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-      gcc \
-      g++ \
-      make \
       autoconf \
       automake \
-      m4 \
-      git \
       cmake \
-      libpcre3-dev \
-      zlib1g-dev \
+      g++ \
+      gcc \
+      git \
       libgcrypt11-dev \
       libicu-dev \
+      libpcre3-dev \
+      libsqlite3-dev \
+      m4 \
+      make \
       python \
-      libsqlite3-dev && \
+      zlib1g-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
