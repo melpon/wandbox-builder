@@ -1054,6 +1054,34 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_ldc(self):
+        ldc_vers = get_generic_versions('ldc', with_head=True)
+        compilers = []
+        for cv in ldc_vers:
+            if cv == 'head':
+                display_name = 'ldc HEAD'
+            else:
+                display_name = 'ldc'
+
+            version_command = ['/bin/cat', '/opt/wandbox/ldc-{cv}/VERSION']
+
+            compilers.append(format_value({
+                'name': 'ldc-{cv}',
+                'displayable': True,
+                'language': 'D',
+                'output-file': 'prog.d',
+                'compiler-option-raw': True,
+                'compile-command': ['/opt/wandbox/ldc-{cv}/bin/ldc2', '-of=prog.exe', 'prog.d'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'ldc2 -of=prog.exe prog.d',
+                'run-command': './prog.exe',
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make_openjdk(self):
         openjdk_vers = get_generic_versions('openjdk', with_head=True)
         compilers = []
@@ -1682,6 +1710,7 @@ class Compilers(object):
             self.make_ghc() +
             self.make_dmd() +
             self.make_gdc() +
+            self.make_ldc() +
             self.make_openjdk() +
             self.make_rust() +
             self.make_cpython() +

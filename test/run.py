@@ -231,6 +231,7 @@ def register():
     test_generic(name='ghc', test_file='test.hs', expected='hello\n', with_head=True)
     test_gdc_head()
     test_generic(name='dmd', test_file='test.d', expected='hello\n', with_head=True)
+    test_generic(name='ldc', test_file='test.d', expected='hello\n', with_head=True)
     test_generic(name='openjdk', test_file='prog.java', expected='hello\n', with_head=True)
     test_generic(name='rust', test_file='test.rs', expected='hello\n', with_head=True)
     test_generic(name='cpython', test_file='test.py', expected='hello\n', with_head=True, head_versions=['head', '2.7-head'])

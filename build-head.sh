@@ -47,6 +47,7 @@ for compiler in \
     elixir-head \
     ghc-head \
     gdc-head \
+    ldc-head \
     dmd-head \
     openjdk-head \
     python-head \
