@@ -252,6 +252,7 @@ def register():
     test_lazyk()
     test_generic(name='vim', test_file='test.vim', expected='hello', with_head=True, stderr=True)
     test_generic(name='pypy', test_file='test.py', expected='hello\n', with_head=True)
+    test_generic(name='ocaml', test_file='test.ml', expected='hello\n', with_head=True)
     test_bash()
 
 

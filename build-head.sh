@@ -63,6 +63,7 @@ for compiler in \
     fpc-head \
     vim-head \
     pypy-head \
+    ocaml-head \
 ; do
   run $compiler > $LOG_DIR/$compiler.log 2>&1 || echo "$compiler: $?" >> $LOG_DIR/failed.log
 done

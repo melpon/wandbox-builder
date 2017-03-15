@@ -1672,6 +1672,34 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_ocaml(self):
+        ocaml_vers = get_generic_versions('ocaml', with_head=True)
+        compilers = []
+        for cv in ocaml_vers:
+            if cv == 'head':
+                display_name = 'ocaml HEAD'
+                version_command = ['/opt/wandbox/ocaml-{cv}/bin/ocamlc', '--version']
+            else:
+                display_name = 'ocaml'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'ocaml-{cv}',
+                'displayable': True,
+                'language': 'OCaml',
+                'output-file': 'prog.ml',
+                'compiler-option-raw': True,
+                'compile-command': ['/opt/wandbox/ocaml-{cv}/bin/ocamlc', 'prog.ml', '-o', 'prog'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'ocamlc prog.ml',
+                'run-command': ['./prog'],
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make_bash(self):
         compilers = []
         display_name = 'bash'
@@ -1731,6 +1759,7 @@ class Compilers(object):
             self.make_lazyk() +
             self.make_vim() +
             self.make_pypy() +
+            self.make_ocaml() +
             self.make_bash()
         )
 
