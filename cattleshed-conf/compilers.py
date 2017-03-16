@@ -1700,6 +1700,35 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_go(self):
+        go_vers = get_generic_versions('go', with_head=True)
+        compilers = []
+        for cv in go_vers:
+            if cv == 'head':
+                display_name = 'go HEAD'
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/go-{cv}/bin/go version | cut -d' ' -f3,4"]
+            else:
+                display_name = 'go'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'go-{cv}',
+                'displayable': True,
+                'language': 'Go',
+                'output-file': 'prog.go',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'go run prog.go',
+                'run-command': ['/opt/wandbox/go-{cv}/bin/go', 'run', 'prog.go'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
     def make_bash(self):
         compilers = []
         display_name = 'bash'
@@ -1760,6 +1789,7 @@ class Compilers(object):
             self.make_vim() +
             self.make_pypy() +
             self.make_ocaml() +
+            self.make_go() +
             self.make_bash()
         )
 
