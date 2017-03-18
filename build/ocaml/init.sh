@@ -4,5 +4,6 @@
 
 function test_ocaml() {
   prefix=$1
-  $prefix/bin/ocamlc $BASE_DIR/resources/test.ml -o test && test "`./test`" = "hello" && rm test && rm $BASE_DIR/resources/test.cmi && rm $BASE_DIR/resources/test.cmo
+  cd $BASE_DIR/resources
+  $prefix/bin/with-env.sh ocamlfind ocamlopt -linkpkg -package core -thread test.ml -o test && test "`./test`" = "Hello, world!" && rm test && rm test.cmi && rm test.cmx && rm test.o
 }

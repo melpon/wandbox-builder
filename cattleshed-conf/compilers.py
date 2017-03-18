@@ -366,6 +366,10 @@ class Switches(object):
                 'flags': ['-Mdelphi'],
                 'display-name': 'Delphi 7 mode',
             },
+            'ocaml-core': {
+                'flags': ['-package', 'core'],
+                'display-name': 'Jane Street Core',
+            },
         }
 
     def make(self):
@@ -1679,9 +1683,11 @@ class Compilers(object):
             if cv == 'head':
                 display_name = 'ocaml HEAD'
                 version_command = ['/opt/wandbox/ocaml-{cv}/bin/ocamlc', '--version']
+                initial_checked = []
             else:
                 display_name = 'ocaml'
                 version_command = ['/bin/echo', '{cv}']
+                initial_checked = ['ocaml-core']
 
             compilers.append(format_value({
                 'name': 'ocaml-{cv}',
@@ -1689,12 +1695,12 @@ class Compilers(object):
                 'language': 'OCaml',
                 'output-file': 'prog.ml',
                 'compiler-option-raw': True,
-                'compile-command': ['/opt/wandbox/ocaml-{cv}/bin/ocamlc', 'prog.ml', '-o', 'prog'],
+                'compile-command': ['/opt/wandbox/ocaml-{cv}/bin/with-env.sh', 'ocamlfind', 'ocamlopt', '-thread', '-linkpkg', 'prog.ml', '-o', 'prog'],
                 'version-command': version_command,
-                'switches': [],
-                'initial-checked': [],
+                'switches': ['ocaml-core'],
+                'initial-checked': initial_checked,
                 'display-name': display_name,
-                'display-compile-command': 'ocamlc prog.ml',
+                'display-compile-command': 'ocamlfind ocamlopt -thread -linkpkg prog.ml -o prog',
                 'run-command': ['./prog'],
                 'jail-name': 'melpon2-default',
             }, cv=cv))
