@@ -576,6 +576,7 @@ class Compilers(object):
                     '-Wl,-rpath,/opt/wandbox/gcc-{cv}/lib64',
                     '-lpthread',
                     '-I/opt/wandbox/boost-sml/include',
+                    '-I/opt/wandbox/boost-di/include',
                     '-I/opt/wandbox/range-v3/include',
                     'prog.cc'
                 ],
@@ -792,6 +793,7 @@ class Compilers(object):
                 '-Wl,-rpath,/opt/wandbox/clang-{cv}/lib',
                 '-lpthread',
                 '-I/opt/wandbox/boost-sml/include',
+                '-I/opt/wandbox/boost-di/include',
                 '-I/opt/wandbox/range-v3/include']
 
             if cmpver(cv, '==', '3.2'):

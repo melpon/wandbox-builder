@@ -91,6 +91,8 @@ docker run --net=host -i -v `pwd`:/var/work -v $BASE_DIR/../wandbox:/opt/wandbox
   git clone --depth 1 https://github.com/boost-experimental/sml.git /opt/wandbox/boost-sml
   rm -rf /opt/wandbox/msgpack-c || true
   git clone --depth 1 https://github.com/msgpack/msgpack-c.git /opt/wandbox/msgpack-c
+  rm -rf /opt/wandbox/boost-di || true
+  git clone --depth 1 https://github.com/boost-experimental/di.git /opt/wandbox/boost-di
 "
 
 ./build/docker-rm.sh
