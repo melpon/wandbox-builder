@@ -8,7 +8,7 @@ PREFIX=/opt/wandbox/sqlite-head
 
 cd ~/
 
-USER=wandbox-builder fossil clone https://www.sqlite.org/cgi/src sqlite.fossil
+USER=wandbox-builder fossil clone https://www.sqlite.org/src sqlite.fossil
 mkdir source
 cd source
 fossil open ../sqlite.fossil
