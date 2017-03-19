@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -48,8 +48,6 @@ else
 fi
 
 make install
-
-test_mono $PREFIX
 
 cd ~/
 rm -r mono-$VERSION

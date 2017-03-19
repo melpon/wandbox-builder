@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 VERSION=$1
 PREFIX=/opt/wandbox/nodejs-head
@@ -20,5 +20,3 @@ make install
 # update
 
 PATH=$PREFIX/bin:$PATH npm update -g
-
-test_nodejs $PREFIX

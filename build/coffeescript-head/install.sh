@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/coffeescript-head
 NODEJS_PREFIX=/opt/wandbox/nodejs-6.9.5
@@ -23,7 +23,5 @@ sed -i "s#@prefix@#$PREFIX#g" $PREFIX/bin/run-coffee.sh
 chmod +x $PREFIX/bin/run-coffee.sh
 
 echo "`$PREFIX/bin/run-coffee.sh --version | cut -d' ' -f3` `git rev-parse --short master`" > $PREFIX/bin/VERSION
-
-test_coffeescript $PREFIX
 
 rm -r ~/*

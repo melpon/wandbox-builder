@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/swift-head
 
@@ -54,8 +54,5 @@ utils/build-script \
   --reconfigure
 
 # test
-
-cd ~/
-test_swift $PREFIX
 
 rm -r ~/*

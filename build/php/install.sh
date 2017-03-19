@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -28,7 +28,5 @@ cd php-$VERSION
 
 make -j2
 make install
-
-test_php $PREFIX
 
 rm -r ~/*

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/vim-head
 
@@ -30,7 +30,5 @@ make install
 # write version
 
 git tag | tail -n 1 | cut -d'v' -f2 > $PREFIX/VERSION
-
-test_vim $PREFIX
 
 rm -r ~/*

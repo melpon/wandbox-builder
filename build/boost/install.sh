@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 3 ]; then
   echo "$0 <version> <compiler> <compiler_version>"
@@ -77,17 +77,6 @@ else
   ./b2 stage release link=shared runtime-link=shared $WITHOUTS -j2
   ./b2 install release link=shared runtime-link=shared $WITHOUTS --prefix=$PREFIX
 fi
-
-# test
-
-EXTRA_FLAGS=
-if [ "$COMPILER" = "clang" ]; then
-  if compare_version "$COMPILER_VERSION" ">=" "3.5.0"; then
-    EXTRA_FLAGS="-lc++abi"
-  fi
-fi
-
-test_boost_$COMPILER $PREFIX $COMPILER_PREFIX $EXTRA_FLAGS
 
 cd ~/
 rm -r boost-$VERSION-$COMPILER-$COMPILER_VERSION

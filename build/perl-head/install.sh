@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/perl-head
 
@@ -19,5 +19,3 @@ make install
 
 rm $PREFIX/bin/perl || true
 ln -s $PREFIX/bin/perl5.* $PREFIX/bin/perl
-
-test_perl $PREFIX

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/elixir-head
 VERSION=head
@@ -24,5 +24,3 @@ cp $BASE_DIR/resources/run-elixir.sh.in $PREFIX/bin/run-elixir.sh
 chmod +x $PREFIX/bin/run-elixir.sh
 sed -i "s/@erlang_version@/$ERLANG_VERSION/g" $PREFIX/bin/run-elixir.sh
 sed -i "s/@version@/$VERSION/g" $PREFIX/bin/run-elixir.sh
-
-test_elixir $PREFIX

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -28,5 +28,3 @@ cp -r dmd2 $PREFIX
 
 cd ~/
 rm -r ~/*
-
-test_dmd $PREFIX

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -32,8 +32,5 @@ sed -e 's/-ltcl8.6/-Wl,-Bstatic -ltcl8.6 -Wl,-Bdynamic/' -i src/auto/config.mk
 
 make -j2
 make install
-
-
-test_vim $PREFIX
 
 rm -r ~/*

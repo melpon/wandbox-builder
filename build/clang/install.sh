@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -193,12 +193,4 @@ elif compare_version "$VERSION" "<=" "3.5.0"; then
   cd ..
 fi
 
-if compare_version "$VERSION" "<=" "3.2"; then
-  EXTRA_FLAGS="-I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5"
-elif compare_version "$VERSION" "<=" "3.5.0"; then
-  EXTRA_FLAGS="-stdlib=libc++ -nostdinc++"
-else
-  EXTRA_FLAGS="-stdlib=libc++ -nostdinc++ -lc++abi"
-fi
-
-test_clang $PREFIX "$EXTRA_FLAGS"
+rm -r ~/

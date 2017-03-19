@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -63,5 +63,3 @@ cd build_OPT.OBJ
 SHELL=/bin/bash ../configure --prefix=$PREFIX --disable-shared-js
 make -j$JOBS
 make install
-
-test_spidermonkey $PREFIX

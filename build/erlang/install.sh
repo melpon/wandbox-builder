@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -43,5 +43,3 @@ make install
 cd ..
 rm -rf otp_src_$VERSION
 rm otp_src_$VERSION.tar.gz
-
-test_erlang $PREFIX

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -36,7 +36,5 @@ cp $BASE_DIR/resources/run-groovy.sh.in $PREFIX/bin/run-groovy.sh
 sed -i "s#@java_prefix@#$JAVA_PREFIX#g" $PREFIX/bin/run-groovy.sh
 sed -i "s#@prefix@#$PREFIX#g" $PREFIX/bin/run-groovy.sh
 chmod +x $PREFIX/bin/run-groovy.sh
-
-test_groovy $PREFIX
 
 rm -r ~/*

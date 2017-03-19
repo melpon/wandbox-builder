@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/ghc-head
 
@@ -25,5 +25,3 @@ rm -r $PREFIX/share
 
 cd ~/
 rm -r ~/*
-
-test_ghc $PREFIX

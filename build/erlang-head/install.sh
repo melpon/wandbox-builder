@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/erlang-head
 
@@ -34,5 +34,3 @@ chmod +x $PREFIX/bin/run-escript.sh
 
 cd ..
 rm -rf ~/otp
-
-test_erlang $PREFIX

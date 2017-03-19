@@ -61,13 +61,6 @@ else
   ./b2 install release link=shared runtime-link=shared $WITHOUTS --prefix=$PREFIX
 fi
 
-if [ "$COMPILER" = "clang-head" ]; then
-  EXTRA_FLAGS="-lc++abi"
-  test_boost_clang $PREFIX $COMPILER_PREFIX $EXTRA_FLAGS
-else
-  test_boost_gcc $PREFIX $COMPILER_PREFIX
-fi
-
 cd ~/
 rm -r boost-$VERSION-$COMPILER
 

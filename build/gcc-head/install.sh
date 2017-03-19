@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/gcc-head
 
@@ -28,5 +28,3 @@ cd build
 
 make -j2
 make install
-
-test_gcc $PREFIX

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -27,5 +27,3 @@ mv go-go$VERSION $PREFIX
 cd $PREFIX/src
 
 ./make.bash
-
-test_go $PREFIX

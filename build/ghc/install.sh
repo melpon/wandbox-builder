@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -38,5 +38,3 @@ rm -r $PREFIX/share
 
 cd ~/
 rm -r ~/*
-
-test_ghc $PREFIX

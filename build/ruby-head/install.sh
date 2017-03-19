@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/ruby-head
 
@@ -16,7 +16,5 @@ autoconf
 ./configure --disable-install-rdoc --disable-install-doc --prefix=$PREFIX
 make -j2
 make install
-
-test_ruby $PREFIX
 
 rm -r ~/*

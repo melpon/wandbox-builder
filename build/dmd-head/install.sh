@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/dmd-head
 
@@ -34,5 +34,3 @@ cd ..
 
 rm -r $PREFIX || true
 cp -r ~/dmd-head/install $PREFIX
-
-test_dmd $PREFIX

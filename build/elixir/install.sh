@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -39,5 +39,3 @@ cp $BASE_DIR/resources/run-elixir.sh.in $PREFIX/bin/run-elixir.sh
 chmod +x $PREFIX/bin/run-elixir.sh
 sed -i "s/@erlang_version@/$ERLANG_VERSION/g" $PREFIX/bin/run-elixir.sh
 sed -i "s/@version@/$VERSION/g" $PREFIX/bin/run-elixir.sh
-
-test_elixir $PREFIX

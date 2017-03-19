@@ -28,12 +28,16 @@ function run() {
     cat $compiler/VERSIONS | while read line; do
       if [ "$line" != "" ]; then
         COMMAND="cd /var/work/$compiler && ./install.sh $line"
+        TEST_COMMAND="cd /var/work/$compiler && ../test-all.sh $compiler"
         docker run --net=host -i -v $BASE_DIR:/var/work -v $BASE_DIR/../wandbox:/opt/wandbox melpon/wandbox:$compiler /bin/bash -c "$COMMAND"
+        docker run --net=host -i -v $BASE_DIR:/var/work -v $BASE_DIR/../wandbox:/opt/wandbox melpon/wandbox:test-server /bin/bash -c "$TEST_COMMAND"
       fi
     done
   else
     COMMAND="cd /var/work/$compiler && exec ./install.sh"
+    TEST_COMMAND="cd /var/work/$compiler && exec ./test.sh"
     docker run --net=host -i -v $BASE_DIR:/var/work -v $BASE_DIR/../wandbox:/opt/wandbox melpon/wandbox:$compiler /bin/bash -c "$COMMAND"
+    docker run --net=host -i -v $BASE_DIR:/var/work -v $BASE_DIR/../wandbox:/opt/wandbox melpon/wandbox:test-server /bin/bash -c "$TEST_COMMAND"
   fi
 }
 
@@ -67,6 +71,7 @@ for compiler in \
     go-head \
 ; do
   run $compiler > $LOG_DIR/$compiler.log 2>&1 || echo "$compiler: $?" >> $LOG_DIR/failed.log
+  ./build/docker-rm.sh
 done
 
 cd ..

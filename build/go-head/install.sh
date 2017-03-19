@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/go-head
 
@@ -17,5 +17,3 @@ mv go $PREFIX
 cd $PREFIX/src
 
 ./make.bash
-
-test_go $PREFIX

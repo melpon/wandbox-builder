@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/ldc-head
 
@@ -37,5 +37,3 @@ LDC_VERSION=`$PREFIX/bin/ldc2 --version | head -n 1 | cut -d' ' -f7 | cut -c2- |
 DMD_VERSION=`$PREFIX/bin/ldc2 --version | head -n 2 | tail -n 1 | cut -d' ' -f6 | cut -c2-`
 
 echo "$LDC_VERSION dmd-$DMD_VERSION" > $PREFIX/VERSION
-
-test_ldc $PREFIX

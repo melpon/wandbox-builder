@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -43,5 +43,3 @@ $PREFIX/bin/opam install -y core
 cp $BASE_DIR/resources/with-env.sh.in $PREFIX/bin/with-env.sh
 sed -i "s#@prefix@#$PREFIX#g" $PREFIX/bin/with-env.sh
 chmod +x $PREFIX/bin/with-env.sh
-
-test_ocaml $PREFIX

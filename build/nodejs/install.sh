@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -29,5 +29,3 @@ make install
 # update
 
 PATH=$PREFIX/bin:$PATH npm update -g
-
-test_nodejs $PREFIX

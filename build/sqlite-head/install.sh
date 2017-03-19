@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/sqlite-head
 
@@ -22,7 +22,5 @@ cd build
 
 make -j2
 make install
-
-test_sqlite $PREFIX
 
 rm -r ~/*

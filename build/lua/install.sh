@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -27,7 +27,5 @@ sed -i -e "s|^INSTALL_TOP=.*|INSTALL_TOP= $PREFIX|" Makefile
 
 make linux
 make install
-
-test_lua $PREFIX
 
 rm -r ~/*

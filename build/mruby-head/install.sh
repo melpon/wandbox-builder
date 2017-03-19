@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/mruby-head
 
@@ -19,7 +19,5 @@ cp -r bin $PREFIX
 # get version
 
 echo "`$PREFIX/bin/mruby --version | cut -d' ' -f2` (`git rev-parse --short HEAD`)" > $PREFIX/VERSION
-
-test_mruby $PREFIX
 
 rm -r ~/*

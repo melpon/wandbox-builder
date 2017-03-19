@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -25,7 +25,5 @@ cd ruby-$VERSION
 ./configure --disable-install-rdoc --disable-install-doc --prefix=$PREFIX
 make -j2
 make install
-
-test_ruby $PREFIX
 
 rm -r ~/*

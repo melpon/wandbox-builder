@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 BOOTSTRAP_VERSION=3.0.2
 PREFIX=/opt/wandbox/fpc-head
@@ -37,9 +37,5 @@ chmod +x $PREFIX/bin/run-fpc.sh
 # make symlink
 
 ln -sf /opt/wandbox/fpc-head/lib/fpc/*/ppcx64 /opt/wandbox/fpc-head/bin/ppcx64
-
-# tests
-
-test_fpc $PREFIX
 
 rm -r ~/*

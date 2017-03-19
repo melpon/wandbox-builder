@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -69,5 +69,3 @@ fi
 
 make -j2
 make install
-
-test_gcc $PREFIX

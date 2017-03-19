@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -45,5 +45,3 @@ LDC_VERSION=`/opt/wandbox/ldc-$VERSION/bin/ldc2 --version | head -n 1 | cut -d' 
 DMD_VERSION=`/opt/wandbox/ldc-$VERSION/bin/ldc2 --version | head -n 2 | tail -n 1 | cut -d' ' -f6 | cut -c2-`
 
 echo "$LDC_VERSION dmd-$DMD_VERSION" > $PREFIX/VERSION
-
-test_ldc $PREFIX

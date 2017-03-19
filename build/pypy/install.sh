@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -47,7 +47,5 @@ PYPY_VERSION=`/opt/wandbox/pypy-$VERSION/bin/pypy --version 2>&1 | tail -n 1 | c
 CPYTHON_VERSION=`/opt/wandbox/pypy-$VERSION/bin/pypy --version 2>&1 | head -n 1 | cut -d' ' -f2`
 
 echo "$PYPY_VERSION cpython-$CPYTHON_VERSION" > $PREFIX/VERSION
-
-test_pypy $PREFIX
 
 rm -r ~/*

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -44,9 +44,5 @@ chmod +x $PREFIX/bin/run-fpc.sh
 # make symlink
 
 ln -sf /opt/wandbox/fpc-$VERSION/lib/fpc/*/ppcx64 /opt/wandbox/fpc-$VERSION/bin/ppcx64
-
-# tests
-
-test_fpc $PREFIX
 
 rm -r ~/*

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -50,7 +50,5 @@ fi
 cp $BASE_DIR/resources/run-java.sh.in $PREFIX/bin/run-java.sh
 sed -i "s#@prefix@#$PREFIX#g" $PREFIX/bin/run-java.sh
 chmod +x $PREFIX/bin/run-java.sh
-
-test_openjdk $PREFIX
 
 rm -r ~/openjdk

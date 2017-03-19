@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/rust-head
 
@@ -19,5 +19,3 @@ cd rust
 ./configure --prefix=$PREFIX
 make -j2
 make install
-
-test_rust $PREFIX

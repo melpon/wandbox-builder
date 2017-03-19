@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/groovy-head
 JAVA_PREFIX=/opt/wandbox/openjdk-jdk8u121-b13/jvm/openjdk-1.8.0-internal
@@ -24,7 +24,5 @@ cp $BASE_DIR/resources/run-groovy.sh.in $PREFIX/bin/run-groovy.sh
 sed -i "s#@java_prefix@#$JAVA_PREFIX#g" $PREFIX/bin/run-groovy.sh
 sed -i "s#@prefix@#$PREFIX#g" $PREFIX/bin/run-groovy.sh
 chmod +x $PREFIX/bin/run-groovy.sh
-
-test_groovy $PREFIX
 
 rm -r ~/*

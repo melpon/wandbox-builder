@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/clang-head
 
@@ -45,5 +45,3 @@ export CXX="clang++"
 make -j2
 make install
 cd ..
-
-test_clang $PREFIX "-lc++abi"

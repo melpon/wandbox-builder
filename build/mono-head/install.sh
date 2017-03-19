@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/mono-head
 
@@ -21,8 +21,6 @@ export CXX="g++-4.8 -static-libgcc -static-libstdc++"
 
 make -j2
 make install
-
-test_mono $PREFIX
 
 cd ~/
 rm -r mono-head

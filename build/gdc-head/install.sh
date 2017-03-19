@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/gdc-head
 
@@ -50,5 +50,3 @@ cd build
 
 make -j2
 make install
-
-test_gdc $PREFIX

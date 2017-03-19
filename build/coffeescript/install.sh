@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -26,7 +26,5 @@ cp $BASE_DIR/resources/run-coffee.sh.in $PREFIX/bin/run-coffee.sh
 sed -i "s#@nodejs_prefix@#$NODEJS_PREFIX#g" $PREFIX/bin/run-coffee.sh
 sed -i "s#@prefix@#$PREFIX#g" $PREFIX/bin/run-coffee.sh
 chmod +x $PREFIX/bin/run-coffee.sh
-
-test_coffeescript $PREFIX
 
 rm -r ~/*

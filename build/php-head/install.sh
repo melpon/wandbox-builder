@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/php-head
 
@@ -18,7 +18,5 @@ cd php-src
 
 make -j2
 make install
-
-test_php $PREFIX
 
 rm -r ~/*

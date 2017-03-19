@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -25,7 +25,5 @@ cd rust
 ./configure --prefix=$PREFIX
 make -j2
 make install
-
-test_rust $PREFIX
 
 rm -r ~/*

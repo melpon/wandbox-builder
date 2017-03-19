@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -32,7 +32,5 @@ cd sqlite-autoconf-$NUMVER
 ./configure --prefix=$PREFIX
 make -j2
 make install
-
-test_sqlite $PREFIX
 
 rm -r ~/*

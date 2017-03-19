@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -37,7 +37,5 @@ make install
 if [ ! -e /opt/wandbox/perl-$VERSION/bin/perl ]; then
   ln -s /opt/wandbox/perl-$VERSION/bin/perl$VERSION /opt/wandbox/perl-$VERSION/bin/perl
 fi
-
-test_perl $PREFIX
 
 rm -r ~/*

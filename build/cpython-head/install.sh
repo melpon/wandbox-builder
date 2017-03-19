@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -29,15 +29,5 @@ cd cpython
 ./configure --enable-optimizations --prefix=$PREFIX
 make -j2
 make install
-
-
-if [ "$VERSION" = "head" ]; then
-  PYTHON=python3
-elif [ "$VERSION" = "2.7-head" ]; then
-  PYTHON=python
-else
-  exit 1
-fi
-test_cpython $PREFIX/bin/$PYTHON
 
 rm -r ~/cpython

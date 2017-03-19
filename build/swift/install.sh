@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -88,8 +88,5 @@ utils/build-script \
   --reconfigure
 
 # test
-
-cd ~/
-test_swift $PREFIX
 
 rm -r ~/*

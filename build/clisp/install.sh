@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -29,7 +29,5 @@ sed -i 's/@LTLIBSIGSEGV@/-Wl,-Bstatic @LTLIBSIGSEGV@ -Wl,-Bdynamic/' src/makemak
 ./configure --prefix=$PREFIX build
 make -C build
 make install -C build
-
-test_clisp $PREFIX
 
 rm -r ~/*

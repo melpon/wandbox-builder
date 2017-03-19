@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -25,7 +25,5 @@ cd mruby-$VERSION
 ./minirake
 mkdir $PREFIX || true
 cp -r bin $PREFIX
-
-test_mruby $PREFIX
 
 rm -r ~/*

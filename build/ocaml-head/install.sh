@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./init.sh
+. ../init.sh
 
 PREFIX=/opt/wandbox/ocaml-head
 
@@ -34,5 +34,3 @@ $PREFIX/bin/opam install -y ocamlfind
 cp $BASE_DIR/resources/with-env.sh.in $PREFIX/bin/with-env.sh
 sed -i "s#@prefix@#$PREFIX#g" $PREFIX/bin/with-env.sh
 chmod +x $PREFIX/bin/with-env.sh
-
-test_ocaml $PREFIX
