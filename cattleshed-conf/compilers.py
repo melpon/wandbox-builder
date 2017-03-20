@@ -1737,6 +1737,35 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_sbcl(self):
+        sbcl_vers = get_generic_versions('sbcl', with_head=True)
+        compilers = []
+        for cv in sbcl_vers:
+            if cv == 'head':
+                display_name = 'sbcl HEAD'
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/sbcl-{cv}/bin/run-sbcl.sh --version | cut -d' ' -f2"]
+            else:
+                display_name = 'sbcl'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'sbcl-{cv}',
+                'displayable': True,
+                'language': 'Lisp',
+                'output-file': 'prog.lisp',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'sbcl --script prog.lisp',
+                'run-command': ['/opt/wandbox/sbcl-{cv}/bin/run-sbcl.sh', '--script', 'prog.lisp'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-sbcl',
+            }, cv=cv))
+        return compilers
+
     def make_bash(self):
         compilers = []
         display_name = 'bash'
@@ -1798,6 +1827,7 @@ class Compilers(object):
             self.make_pypy() +
             self.make_ocaml() +
             self.make_go() +
+            self.make_sbcl() +
             self.make_bash()
         )
 

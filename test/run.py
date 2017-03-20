@@ -254,6 +254,7 @@ def register():
     test_generic(name='pypy', test_file='test.py', expected='hello\n', with_head=True)
     test_generic(name='ocaml', test_file='test.ml', expected='Hello, world!\n', with_head=True)
     test_generic(name='go', test_file='test.go', expected='hello\n', with_head=True)
+    test_generic(name='sbcl', test_file='test.lisp', expected='hello', with_head=True)
     test_bash()
 
 
