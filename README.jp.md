@@ -84,6 +84,8 @@ Wandbox Builder にコンパイラを追加するには、Docker 環境下でビ
 ここでは、コンパイラを追加するための具体的な手順を説明する。
 例として SBCL (Steel Bank Common Lisp) を追加する。
 
+最終的な内容は [このコミット](https://github.com/melpon/wandbox-builder/commit/ca3260f3a262d5b7f845ebf20de3332899e7d745) だが、どのような手順でこの内容を記述したのかを書いていく。
+
 まず、コンパイラのためのディレクトリを作る。
 
 ```
@@ -198,7 +200,9 @@ hello
 つまり sbcl は、実行時に `SBCL_HOME` 環境変数を設定した上で動かす実行する必要がある。
 毎回指定するのは大変なので、環境変数を設定して `sbcl` を実行するスクリプトを用意しておく。
 
-```bash:build/sbcl/resources/run-sbcl.sh.in
+build/sbcl/resources/run-sbcl.sh.in:
+
+```bash
 #!/bin/bash
 
 export SBCL_HOME=@prefix@/lib/sbcl
@@ -210,7 +214,9 @@ export SBCL_HOME=@prefix@/lib/sbcl
 これで一通り確認できたので、これらの処理を `docker/Dockerfile` や `install.sh`, `test.sh` に記述していく。
 `apt-get install` で入れたパッケージは `docker/Dockerfile` に記述する。
 
-```docker:docker/Dockerfile
+docker/Dockerfile:
+
+```docker
 FROM ubuntu:16.04
 
 MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
@@ -256,10 +262,6 @@ cd sbcl-${VERSION}
 # apply patches
 
 sed -i 's/with-timeout 10/with-timeout 60/g' contrib/sb-concurrency/tests/test-frlock.lisp
-
-if compare_version "$VERSION" "==" "1.2.16"; then
-  patch -p1 < $BASE_DIR/resources/sb-bsd-sockets-1.2.16.patch
-fi
 
 # build
 
@@ -321,7 +323,9 @@ $ ./docker-run.sh sbcl
 どうやら 1.2.16 では、ブートストラップ用の sbcl コンパイラのバージョンによっては sb-bsd-socket で問題が出るらしい。
 以下のようなパッチファイルを作り、それを適用してからコンパイルするように書き換える。
 
-```patch:resources/sb-bsd-sockets-1.2.16.patch
+resources/sb-bsd-sockets-1.2.16.patch:
+
+```patch
 # https://bugs.launchpad.net/sbcl/+bug/1596043
 --- a/contrib/sb-bsd-sockets/tests.lisp	2017-03-20 09:13:10.837459900 +0000
 +++ b/contrib/sb-bsd-sockets/tests.lisp	2017-03-20 09:13:36.209903467 +0000
