@@ -215,6 +215,12 @@ def test_bash():
     add_test(compiler, lambda: run(compiler, code, 'hello\n'))
 
 
+def test_pony_head():
+    compiler = 'pony'
+    code = codecs.open('../build/pony-head/resources/test/main.pony', 'r', 'utf-8').read()
+    add_test(compiler, lambda: run(compiler, code, 'hello\n'))
+
+
 def register():
     test_list()
     test_boost()
@@ -255,6 +261,7 @@ def register():
     test_generic(name='ocaml', test_file='test.ml', expected='Hello, world!\n', with_head=True)
     test_generic(name='go', test_file='test.go', expected='hello\n', with_head=True)
     test_generic(name='sbcl', test_file='test.lisp', expected='hello', with_head=True)
+    test_pony_head()
     test_bash()
 
 
