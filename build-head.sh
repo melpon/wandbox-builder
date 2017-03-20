@@ -70,6 +70,7 @@ for compiler in \
     ocaml-head \
     go-head \
     sbcl-head \
+    pony-head \
 ; do
   run $compiler > $LOG_DIR/$compiler.log 2>&1 || echo "$compiler: $?" >> $LOG_DIR/failed.log
   ./build/docker-rm.sh
