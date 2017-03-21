@@ -273,10 +273,6 @@ cd sbcl-${VERSION}
 
 sed -i 's/with-timeout 10/with-timeout 60/g' contrib/sb-concurrency/tests/test-frlock.lisp
 
-if compare_version "$VERSION" "==" "1.2.16"; then
-  patch -p1 < $BASE_DIR/resources/sb-bsd-sockets-1.2.16.patch
-fi
-
 # build
 
 export INSTALL_ROOT="$PREFIX"
