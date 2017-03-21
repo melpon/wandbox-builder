@@ -1789,6 +1789,37 @@ class Compilers(object):
         })
         return compilers
 
+    def make_pony(self):
+        pony_vers = get_generic_versions('pony', with_head=True)
+        compilers = []
+        for cv in pony_vers:
+            if cv == 'head':
+                display_name = 'pony HEAD'
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/pony-{cv}/bin/ponyc --version | head -n 1 | cut -d' ' -f1"]
+            else:
+                display_name = 'pony'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'pony-{cv}',
+                'displayable': True,
+                'language': 'Pony',
+                'output-file': 'prog.pony',
+                'compiler-option-raw': True,
+                'compile-command': ['/bin/bash', '-c', "mkdir -p /tmp/prog && cp ./prog.pony /tmp/prog/main.pony && /opt/wandbox/pony-{cv}/bin/ponyc /tmp/prog"],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'ponyc ./prog',
+                'run-command': ['./prog'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
+
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -1828,7 +1859,8 @@ class Compilers(object):
             self.make_ocaml() +
             self.make_go() +
             self.make_sbcl() +
-            self.make_bash()
+            self.make_bash() +
+            self.make_pony()
         )
 
 def make_config():
