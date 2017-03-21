@@ -206,7 +206,7 @@ It worked fine.
 So sbcl requires that `SBCL_HOME` environment variable is set at runtime.
 
 Wandbox has not a feature to specify environments.
-Thus, prepare a script to set the environment variable and execute `sbcl`.
+So prepare a script to set the environment variable and execute `sbcl`.
 Wandbox run this script.
 
 build/sbcl/resources/run-sbcl.sh.in:
