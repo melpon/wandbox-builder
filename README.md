@@ -86,6 +86,8 @@ There is some naming rules. Please follow them.
 In this section, I explain how to add a new compiler in practice.
 For example, let's say to add SBCL (Steel Bank Common Lisp).
 
+Eventually it will be [this commit](https://github.com/melpon/wandbox-builder/commit/ca3260f3a262d5b7f845ebf20de3332899e7d745).
+
 At first, make a directory for it.
 
 ```
@@ -178,7 +180,7 @@ Finally build succeeded. Let's install the built artifacts.
 I could install sbcl.
 
 Next, add tests for the built compiler.
-It often occurs that it works fine on built environment but it doesn't on production environment.
+it often occurs that it works fine on built environment but it doesn't on production environment.
 In production environment, there may not be some packages which is used on build environment.
 
 So make a staging environment and check the built compiler works fine on the environment.
@@ -202,9 +204,14 @@ hello
 
 It worked fine.
 So sbcl requires that `SBCL_HOME` environment variable is set at runtime.
-Since it's hard to set it at every execution, prepare a script to set the environment variable and execute `sbcl`.
 
-```bash:build/sbcl/resources/run-sbcl.sh.in
+Wandbox has not a feature to specify environments.
+Thus, prepare a script to set the environment variable and execute `sbcl`.
+Wandbox run this script.
+
+build/sbcl/resources/run-sbcl.sh.in:
+
+```bash
 #!/bin/bash
 
 export SBCL_HOME=@prefix@/lib/sbcl
@@ -216,7 +223,9 @@ This script will be put in the installation directory after replacing `@prefix@`
 Entire process was confirmed. Describe it to `docker/Dockerfile`, `install.sh` and `test.sh`.
 Packages which is installed with `apt-get install` should be described in `docker/Dockerfile`.
 
-```docker:docker/Dockerfile
+docker/Dockerfile:
+
+```docker
 FROM ubuntu:16.04
 
 MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
@@ -328,7 +337,9 @@ At this point, an error occurred.
 It seems that 1.2.16 causes a problem with some version of compiler for bootstrapping.
 To fix this, make a patch file like below and change scripts to apply it before compiling SBCL.
 
-```patch:resources/sb-bsd-sockets-1.2.16.patch
+resources/sb-bsd-sockets-1.2.16.patch:
+
+```patch
 # https://bugs.launchpad.net/sbcl/+bug/1596043
 --- a/contrib/sb-bsd-sockets/tests.lisp	2017-03-20 09:13:10.837459900 +0000
 +++ b/contrib/sb-bsd-sockets/tests.lisp	2017-03-20 09:13:36.209903467 +0000
@@ -343,7 +354,9 @@ To fix this, make a patch file like below and change scripts to apply it before 
    t)
 ```
 
-```bash:install.sh
+install.sh:
+
+```bash
 ...
 
 if compare_version "$VERSION" "==" "1.2.16"; then
