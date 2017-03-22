@@ -409,3 +409,6 @@ $ ./run-test.sh 'sbcl-*'
 
 If some error occurs in this phase, there should be some problems in 2. section or 3. section. Please fix them and try again.
 
+## License
+
+These programs in Wandbox Builder are licensed by Boost Software License 1.0.
