@@ -1806,7 +1806,7 @@ class Compilers(object):
                 'language': 'Pony',
                 'output-file': 'prog.pony',
                 'compiler-option-raw': True,
-                'compile-command': ['/bin/bash', '-c', "mkdir -p /tmp/prog && cp ./prog.pony /tmp/prog/main.pony && /opt/wandbox/pony-{cv}/bin/ponyc /tmp/prog"],
+                'compile-command': ['/bin/bash', '-c', "mkdir -p /tmp/prog && cp ./prog.pony /tmp/prog/main.pony && /opt/wandbox/pony-{cv}/bin/ponyc /tmp/prog \"$@\"", "dummy"],
                 'version-command': version_command,
                 'switches': [],
                 'initial-checked': [],
