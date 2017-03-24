@@ -1818,6 +1818,34 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_crystal(self):
+        crystal_vers = get_generic_versions('crystal', with_head=True)
+        compilers = []
+        for cv in crystal_vers:
+            if cv == 'head':
+                display_name = 'crystal HEAD'
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/crystal-{cv}/bin/crystal version 2>&1 | tail -n 1 | cut -d' ' -f2-4"]
+            else:
+                display_name = 'crystal'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'crystal-{cv}',
+                'displayable': True,
+                'language': 'Crystal',
+                'output-file': 'prog.cr',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'crystal run prog.cr',
+                'run-command': ['/opt/wandbox/crystal-{cv}/bin/crystal', 'run', 'prog.cr'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
 
 
     def make(self):
@@ -1860,7 +1888,8 @@ class Compilers(object):
             self.make_go() +
             self.make_sbcl() +
             self.make_bash() +
-            self.make_pony()
+            self.make_pony() +
+            self.make_crystal()
         )
 
 def make_config():

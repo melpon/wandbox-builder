@@ -13,13 +13,16 @@ RUN apt-get update && \
       g++ \
       libc6-dev \
       libedit2 \
+      libevent-dev \
       libexpat1 \
       libffi6 \
       libffi6 \
+      libgc-dev \
       libgcc-5-dev \
       libgmp-dev \
       libicu55 \
       libmpc3 \
+      libpcre3-dev \
       libstdc++-5-dev \
       python-dev \
       python3-dev && \
