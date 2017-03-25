@@ -72,7 +72,18 @@ for compiler in \
     sbcl-head \
     pony-head \
 ; do
+  start_time=`date +%s`
+
   run $compiler > $LOG_DIR/$compiler.log 2>&1 || echo "$compiler: $?" >> $LOG_DIR/failed.log
+
+  end_time=`date +%s`
+  ss=`expr ${end_time} - ${start_time} || true`
+  hh=`expr ${ss} / 3600 || true`
+  ss=`expr ${ss} % 3600 || true`
+  mm=`expr ${ss} / 60 || true`
+  ss=`expr ${ss} % 60 || true`
+  echo "$compiler: `printf %02d:%02d:%02d $hh $mm $ss`" >> $LOG_DIR/time.log
+
   $BASE_DIR/docker-rm.sh
 done
 
