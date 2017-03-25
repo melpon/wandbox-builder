@@ -1847,6 +1847,35 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_nim(self):
+        nim_vers = get_generic_versions('nim', with_head=True)
+        compilers = []
+        for cv in nim_vers:
+            if cv == 'head':
+                display_name = 'nim HEAD'
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/nim-{cv}/bin/nim --version 2>&1 | head -n 1 | cut -d' ' -f3,4"]
+            else:
+                display_name = 'nim'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'nim-{cv}',
+                'displayable': True,
+                'language': 'Nim',
+                'output-file': 'prog.nim',
+                'compiler-option-raw': True,
+                'compile-command': ['/bin/bash', '-c', '/opt/wandbox/nim-{cv}/bin/nim c "$@" prog.nim', 'dummy'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'nim c ./prog.nim',
+                'run-command': ['./prog'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+            }, cv=cv))
+        return compilers
+
 
     def make(self):
         return (
@@ -1889,7 +1918,8 @@ class Compilers(object):
             self.make_sbcl() +
             self.make_bash() +
             self.make_pony() +
-            self.make_crystal()
+            self.make_crystal() +
+            self.make_nim()
         )
 
 def make_config():
