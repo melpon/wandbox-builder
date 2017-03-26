@@ -72,6 +72,7 @@ There is some naming rules. Please follow them.
 - `test.sh`: Test script executed in staging docker environment.
   - Normally it receives version name by program argument and runs tests using the specified version compiler
 - `VERSIONS`: When installing multiple different version compilers, describe the list of available versions to this file.
+  - These compilers should be sorted by newerst.
 
 `install.sh` and `test.sh` MUST meet below requirements.
 
