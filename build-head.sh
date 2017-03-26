@@ -71,6 +71,7 @@ for compiler in \
     go-head \
     sbcl-head \
     pony-head \
+    nim-head \
 ; do
   start_time=`date +%s`
 
