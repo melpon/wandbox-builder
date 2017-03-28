@@ -23,7 +23,7 @@ cd $BASE_DIR
 function run() {
   compiler=$1
   if [ "$compiler" = "boost-head" -o \
-       "$compiler" = "python-head" -o \
+       "$compiler" = "cpython-head" -o \
        "$compiler" = "scala-head" ]; then
     cat $compiler/VERSIONS | while read line; do
       if [ "$line" != "" ]; then
@@ -54,7 +54,7 @@ for compiler in \
     ldc-head \
     dmd-head \
     openjdk-head \
-    python-head \
+    cpython-head \
     ruby-head \
     scala-head \
     groovy-head \
