@@ -1,4 +1,4 @@
-// This file is a "Hello, world!" in Perl language for wandbox-vscode.
+// This file is a "Hello, world!" in Perl language for wandbox.
 
 print "Hello, Wandbox!\n";
 

@@ -1,4 +1,4 @@
-// This file is a "Hello, world!" in C++ language by clang for wandbox.
+// This file is a "Hello, world!" in C++ language by Clang for wandbox.
 #include <iostream>
 #include <cstdlib>
 
@@ -6,6 +6,9 @@ int main()
 {
     std::cout << "Hello, Wandbox!" << std::endl;
 }
+
+// Clang reference:
+//   https://clang.llvm.org/
 
 // C++ language references:
 //   https://msdn.microsoft.com/library/3bstk3k5.aspx
