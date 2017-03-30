@@ -438,6 +438,7 @@ class Compilers(object):
                 'switches': switches,
                 'initial-checked': initial_checked,
                 'jail-name': 'melpon2-default',
+                'templates': ['gcc-c'],
             }, cv=cv))
         return compilers
 
@@ -498,6 +499,7 @@ class Compilers(object):
                 'switches': switches,
                 'initial-checked': initial_checked,
                 'jail-name': 'melpon2-default',
+                'templates': ['gcc-pp'],
             }, cv=cv))
         return compilers
 
@@ -591,6 +593,7 @@ class Compilers(object):
                 'switches': switches,
                 'initial-checked': initial_checked,
                 'jail-name': 'melpon2-default',
+                'templates': ['gcc'],
             }, cv=cv))
         return compilers
 
@@ -650,6 +653,7 @@ class Compilers(object):
                 'switches': switches,
                 'initial-checked': initial_checked,
                 'jail-name': 'melpon2-default',
+                'templates': ['clang-c'],
             }, cv=cv))
 
         return compilers
@@ -723,6 +727,7 @@ class Compilers(object):
                 'switches': switches,
                 'initial-checked': initial_checked,
                 'jail-name': 'melpon2-default',
+                'templates': ['clang-pp'],
             }, cv=cv))
 
         return compilers
@@ -846,6 +851,7 @@ class Compilers(object):
                 'switches': switches,
                 'initial-checked': initial_checked,
                 'jail-name': 'melpon2-default',
+                'templates': ['clang'],
             }, cv=cv))
 
         return compilers
@@ -875,6 +881,7 @@ class Compilers(object):
                 'display-compile-command': 'mcs -out:prog.exe prog.cs',
                 'run-command': ['/opt/wandbox/mono-{cv}/bin/mono', 'prog.exe'],
                 'jail-name': 'melpon2-default',
+                'templates': ['mono'],
             }, cv=cv))
         return compilers
 
@@ -901,6 +908,7 @@ class Compilers(object):
                 'display-compile-command': 'rillc -o prog.exe prog.rill',
                 'run-command': './prog.exe',
                 'jail-name': 'melpon2-default',
+                'templates': ['rill'],
             }, cv=cv))
         return compilers
 
@@ -932,6 +940,7 @@ class Compilers(object):
                 'run-command': run_command,
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-erlangvm',
+                'templates': ['erlang'],
             }, cv=cv))
         return compilers
 
@@ -964,6 +973,7 @@ class Compilers(object):
                 'run-command': ['/opt/wandbox/elixir-{cv}/bin/run-elixir.sh', 'prog.exs'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-erlangvm',
+                'templates': ['elixir'],
             }, cv=cv))
         return compilers
 
@@ -995,6 +1005,7 @@ class Compilers(object):
                 'display-compile-command': 'ghc prog.hs -o prog.exe',
                 'run-command': './prog.exe',
                 'jail-name': 'melpon2-default',
+                'templates': ['ghc'],
             }, cv=cv))
         return compilers
 
@@ -1026,6 +1037,7 @@ class Compilers(object):
                 'display-compile-command': 'dmd prog.d -ofprog.exe',
                 'run-command': './prog.exe',
                 'jail-name': 'melpon2-default',
+                'templates': ['dmd'],
             }, cv=cv))
         return compilers
 
@@ -1057,6 +1069,7 @@ class Compilers(object):
                 'display-compile-command': 'gdc prog.d -o prog.exe',
                 'run-command': './prog.exe',
                 'jail-name': 'melpon2-default',
+                'templates': ['gdc'],
             }, cv=cv))
         return compilers
 
@@ -1085,6 +1098,7 @@ class Compilers(object):
                 'display-compile-command': 'ldc2 -of=prog.exe prog.d',
                 'run-command': './prog.exe',
                 'jail-name': 'melpon2-default',
+                'templates': ['ldc'],
             }, cv=cv))
         return compilers
 
@@ -1113,6 +1127,7 @@ class Compilers(object):
                 'display-compile-command': 'javac prog.java',
                 'run-command': ['/opt/wandbox/openjdk-{cv}/bin/run-java.sh'],
                 'jail-name': 'melpon2-jvm',
+                'templates': ['openjdk'],
             }, cv=cv))
         return compilers
 
@@ -1144,6 +1159,7 @@ class Compilers(object):
                 'display-compile-command': 'rust prog.rs',
                 'run-command': './prog',
                 'jail-name': 'melpon2-default',
+                'templates': ['rust'],
             }, cv=cv))
         return compilers
 
@@ -1187,6 +1203,7 @@ class Compilers(object):
                 'run-command': ['/opt/wandbox/cpython-{cv}/bin/{python}', 'prog.py'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
+                'templates': ['cpython'],
             }, cv=cv, python=python))
         return compilers
 
@@ -1219,6 +1236,7 @@ class Compilers(object):
                 'run-command': ['/opt/wandbox/ruby-{cv}/bin/ruby', 'prog.rb'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
+                'templates': ['ruby'],
             }, cv=cv))
         return compilers
 
@@ -1251,6 +1269,7 @@ class Compilers(object):
                 'run-command': ['/opt/wandbox/mruby-{cv}/bin/mruby', 'prog.rb'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
+                'templates': ['mruby'],
             }, cv=cv))
         return compilers
 
@@ -1279,6 +1298,7 @@ class Compilers(object):
                 'display-compile-command': 'scalac prog.scala',
                 'run-command': ['/opt/wandbox/scala-{cv}/bin/run-scala.sh'],
                 'jail-name': 'melpon2-jvm',
+                'templates': ['scala'],
             }, cv=cv))
         return compilers
 
@@ -1308,6 +1328,7 @@ class Compilers(object):
                 'runtime-option-raw': True,
                 'run-command': ['/opt/wandbox/groovy-{cv}/bin/run-groovy.sh', 'prog.groovy'],
                 'jail-name': 'melpon2-jvm',
+                'templates': ['groovy'],
             }, cv=cv))
         return compilers
 
@@ -1337,6 +1358,7 @@ class Compilers(object):
                 'runtime-option-raw': True,
                 'run-command': ['/opt/wandbox/nodejs-{cv}/bin/node', 'prog.js'],
                 'jail-name': 'melpon2-default',
+                'templates': ['nodejs'],
             }, cv=cv))
         return compilers
 
@@ -1366,6 +1388,7 @@ class Compilers(object):
                 'runtime-option-raw': True,
                 'run-command': ['/opt/wandbox/coffeescript-{cv}/bin/run-coffee.sh', 'prog.coffee'],
                 'jail-name': 'melpon2-default',
+                'templates': ['coffeescript'],
             }, cv=cv))
         return compilers
 
@@ -1391,6 +1414,7 @@ class Compilers(object):
                 'runtime-option-raw': True,
                 'run-command': ['/opt/wandbox/spidermonkey-{cv}/bin/js', 'prog.js'],
                 'jail-name': 'melpon2-default',
+                'templates': ['spidermonkey'],
             }, cv=cv))
         return compilers
 
@@ -1419,6 +1443,7 @@ class Compilers(object):
                 'display-compile-command': 'swiftc prog.swift',
                 'run-command': ['./prog'],
                 'jail-name': 'melpon2-default',
+                'templates': ['swift'],
             }, cv=cv))
         return compilers
 
@@ -1451,6 +1476,7 @@ class Compilers(object):
                 'run-command': ['/opt/wandbox/perl-{cv}/bin/perl', 'prog.pl'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
+                'templates': ['perl'],
             }, cv=cv))
         return compilers
 
@@ -1483,6 +1509,7 @@ class Compilers(object):
                 'run-command': ['/opt/wandbox/php-{cv}/bin/php', 'prog.php'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
+                'templates': ['php'],
             }, cv=cv))
         return compilers
 
@@ -1508,6 +1535,7 @@ class Compilers(object):
                 'run-command': ['/opt/wandbox/lua-{cv}/bin/lua', 'prog.lua'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
+                'templates': ['lua'],
             }, cv=cv))
         return compilers
 
@@ -1541,6 +1569,7 @@ class Compilers(object):
                 'run-command': ['/bin/sh', '-c', 'cat prog.sql | /opt/wandbox/sqlite-{cv}/bin/sqlite3'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
+                'templates': ['sqlite'],
             }, cv=cv))
         return compilers
 
@@ -1569,6 +1598,7 @@ class Compilers(object):
                 'display-compile-command': 'fpc prog.pas',
                 'run-command': ['./prog'],
                 'jail-name': 'melpon2-default',
+                'templates': ['fpc'],
             }, cv=cv))
         return compilers
 
@@ -1594,6 +1624,7 @@ class Compilers(object):
                 'run-command': ['/opt/wandbox/clisp-{cv}/bin/clisp', 'prog.lisp'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
+                'templates': ['clisp'],
             }, cv=cv))
         return compilers
 
@@ -1618,6 +1649,7 @@ class Compilers(object):
             'run-command': ['/opt/wandbox/lazyk/bin/lazyk', 'prog.lazy'],
             'runtime-option-raw': True,
             'jail-name': 'melpon2-default',
+            'templates': ['lazyk'],
         })
         return compilers
 
@@ -1647,6 +1679,7 @@ class Compilers(object):
                 'run-command': ['/opt/wandbox/vim-{cv}/bin/vim', '-X', '-N', '-u', 'NONE', '-i', 'NONE', '-V1', '-e', '-s', '-S', 'prog.vim', '+quit'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
+                'templates': ['vim'],
             }, cv=cv))
         return compilers
 
@@ -1675,6 +1708,7 @@ class Compilers(object):
                 'run-command': ['/opt/wandbox/pypy-{cv}/bin/pypy', 'prog.py'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
+                'templates': ['pypy'],
             }, cv=cv))
         return compilers
 
@@ -1705,6 +1739,7 @@ class Compilers(object):
                 'display-compile-command': 'ocamlfind ocamlopt -thread -linkpkg prog.ml -o prog',
                 'run-command': ['./prog'],
                 'jail-name': 'melpon2-default',
+                'templates': ['ocaml'],
             }, cv=cv))
         return compilers
 
@@ -1734,6 +1769,7 @@ class Compilers(object):
                 'run-command': ['/opt/wandbox/go-{cv}/bin/go', 'run', 'prog.go'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
+                'templates': ['go'],
             }, cv=cv))
         return compilers
 
@@ -1763,6 +1799,7 @@ class Compilers(object):
                 'run-command': ['/opt/wandbox/sbcl-{cv}/bin/run-sbcl.sh', '--script', 'prog.lisp'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-sbcl',
+                'templates': ['sbcl'],
             }, cv=cv))
         return compilers
 
@@ -1786,6 +1823,7 @@ class Compilers(object):
             'run-command': ['/bin/bash', 'prog.sh'],
             'runtime-option-raw': True,
             'jail-name': 'melpon2-default',
+            'templates': ['bash'],
         })
         return compilers
 
@@ -1815,6 +1853,7 @@ class Compilers(object):
                 'run-command': ['./prog'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
+                'templates': ['pony'],
             }, cv=cv))
         return compilers
 
@@ -1844,6 +1883,7 @@ class Compilers(object):
                 'run-command': ['/opt/wandbox/crystal-{cv}/bin/crystal', 'run', 'prog.cr'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
+                'templates': ['crystal'],
             }, cv=cv))
         return compilers
 
@@ -1873,6 +1913,7 @@ class Compilers(object):
                 'run-command': ['./prog'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
+                'templates': ['nim'],
             }, cv=cv))
         return compilers
 
@@ -1922,10 +1963,38 @@ class Compilers(object):
             self.make_nim()
         )
 
+
+class Templates(object):
+    def __init__(self, compilers):
+        self._compilers = compilers
+
+    def make(self):
+        templates = {}
+
+        for compiler in self._compilers:
+            for name in compiler['templates']:
+                with open('templates/{}/{}'.format(name, compiler['output-file'])) as f:
+                    code = f.read()
+                templates[name] = {
+                    'code': code,
+                    # TODO(melpon): implement these parameters
+                    # 'codes': [],
+                    # 'stdin': '',
+                    # 'options': '',
+                    # 'compiler-option-raw': '',
+                    # 'runtime-option-raw': '',
+                }
+        return templates
+
+
 def make_config():
+    switches = Switches().make()
+    compilers = Compilers().make()
+    templates = Templates(compilers).make()
     return {
-        'switches': Switches().make(),
-        'compilers': Compilers().make(),
+        'switches': switches,
+        'compilers': compilers,
+        'templates': templates,
     }
 
 if __name__ == '__main__':

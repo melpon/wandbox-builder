@@ -1,0 +1,9 @@
+//  This file is a "Hello, world!" in Rill language for wandbox.
+import std.stdio;
+
+def main() {
+    "Hello, Wandbox!".print();
+}
+
+// Rill language references:
+//   https://github.com/yutopp/rill
