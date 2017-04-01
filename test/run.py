@@ -258,6 +258,7 @@ def register():
     test_generic(name='pony', test_file='test/main.pony', expected='hello\n', with_head=True)
     test_generic(name='crystal', test_file='test.cr', expected='hello\n', with_head=True)
     test_generic(name='nim', test_file='test.nim', expected='hello\n', with_head=True)
+    test_generic(name='openssl', test_file='test.ssl.sh', expected='-----BEGIN RSA PRIVATE KEY-----\n', with_head=True)
     test_bash()
 
 

@@ -72,6 +72,7 @@ for compiler in \
     sbcl-head \
     pony-head \
     nim-head \
+    openssl-head \
 ; do
   start_time=`date +%s`
 

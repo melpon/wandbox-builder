@@ -1917,6 +1917,35 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_openssl(self):
+        openssl_vers = get_generic_versions('openssl', with_head=True)
+        compilers = []
+        for cv in openssl_vers:
+            if cv == 'head':
+                display_name = 'OpenSSL HEAD'
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/openssl-{cv}/bin/with-env.sh openssl version | cut -d' ' -f2"]
+            else:
+                display_name = 'OpenSSL'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'openssl-{cv}',
+                'displayable': True,
+                'language': 'OpenSSL',
+                'output-file': 'prog.ssl.sh',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'bash prog.ssl.sh',
+                'run-command': ['/opt/wandbox/openssl-{cv}/bin/with-env.sh', '/bin/bash', 'prog.ssl.sh'],
+                'runtime-option-raw': False,
+                'jail-name': 'melpon2-default',
+                'templates': ['openssl'],
+            }, cv=cv))
+        return compilers
 
     def make(self):
         return (
@@ -1960,7 +1989,8 @@ class Compilers(object):
             self.make_bash() +
             self.make_pony() +
             self.make_crystal() +
-            self.make_nim()
+            self.make_nim() +
+            self.make_openssl()
         )
 
 
