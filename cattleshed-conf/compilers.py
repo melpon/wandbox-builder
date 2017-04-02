@@ -580,6 +580,7 @@ class Compilers(object):
                     '-I/opt/wandbox/boost-sml/include',
                     '-I/opt/wandbox/boost-di/include',
                     '-I/opt/wandbox/range-v3/include',
+                    '-I/opt/wandbox/nlohmann-json/src',
                     'prog.cc'
                 ],
                 'version-command': version_command,
@@ -799,7 +800,8 @@ class Compilers(object):
                 '-lpthread',
                 '-I/opt/wandbox/boost-sml/include',
                 '-I/opt/wandbox/boost-di/include',
-                '-I/opt/wandbox/range-v3/include']
+                '-I/opt/wandbox/range-v3/include',
+                '-I/opt/wandbox/nlohmann-json/src']
 
             if cmpver(cv, '==', '3.2'):
                 # /usr/include/c++/5/type_traits:310:39: error: use of undeclared identifier '__float128'
