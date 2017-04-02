@@ -15,7 +15,7 @@ cd perl
 ./Configure -des -Dprefix=$PREFIX -Dusedevel
 
 make -j2
+rm -r $PREFIX || true
 make install
 
-rm $PREFIX/bin/perl || true
 ln -s $PREFIX/bin/perl5.* $PREFIX/bin/perl
