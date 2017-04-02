@@ -193,4 +193,4 @@ elif compare_version "$VERSION" "<=" "3.5.0"; then
   cd ..
 fi
 
-rm -r ~/
+rm -r ~/*
