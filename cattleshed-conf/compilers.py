@@ -124,6 +124,10 @@ class Switches(object):
 
     def make_c(self):
         pairs = [
+            ('std-c-default', {
+                'flags': [],
+                'display-name': 'Compiler Default',
+            }),
             ('c89', {
                 'flags': ['-std=c89'],
                 'display-name': 'C89',
@@ -161,6 +165,10 @@ class Switches(object):
 
     def make_cxx(self):
         pairs = [
+            ('std-c++-default', {
+                'flags': [],
+                'display-name': 'Compiler Default',
+            }),
             ('c++98', {
                 'flags': ['-std=c++98'],
                 'display-name': 'C++03',
@@ -400,7 +408,7 @@ class Compilers(object):
             switches += ["optimize", "cpp-verbose"]
 
             # C
-            switches += ['c89', 'gnu89', 'c99', 'gnu99']
+            switches += ['std-c-default', 'c89', 'gnu89', 'c99', 'gnu99']
             if cmpver(cv, '==', '4.6.4'):
                 switches += ['c1x', 'gnu1x']
             if cmpver(cv, '>=', '4.7.3'):
@@ -544,7 +552,7 @@ class Compilers(object):
                 switches += ['sprout', 'msgpack']
 
             # C++
-            switches += ["c++98", "gnu++98"]
+            switches += ['std-c++-default', 'c++98', 'gnu++98']
             if cmpver(cv, '>=', '4.7.0'):
                 switches += ['c++11', 'gnu++11']
             else:
@@ -611,7 +619,7 @@ class Compilers(object):
             initial_checked += ['warning']
 
             # C
-            switches += ['c89', 'gnu89', 'c99', 'gnu99', 'c11', 'gnu11']
+            switches += ['std-c-default', 'c89', 'gnu89', 'c99', 'gnu99', 'c11', 'gnu11']
             initial_checked += [switches[-1]]
 
             # pedantic
@@ -769,7 +777,7 @@ class Compilers(object):
                 switches += ['sprout', 'msgpack']
 
             # C++
-            switches += ['c++98', 'gnu++98', 'c++11', 'gnu++11']
+            switches += ['std-c++-default', 'c++98', 'gnu++98', 'c++11', 'gnu++11']
             if cmpver(cv, '>=', '3.2'):
                 if cmpver(cv, '>=', '3.5.0'):
                     switches += ['c++14', 'gnu++14']
