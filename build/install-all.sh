@@ -15,15 +15,23 @@ BASE_DIR=$BASE_DIR/$BUILD
 
 function already_installed() {
   build=$1
-  if [ "$build" = "boost" ]; then
-    version=$2
-    compiler=$3
-    compiler_version=$4
-    test -d /opt/wandbox/boost-$version/$compiler-$compiler_version
-  else
-    version=$2
-    test -d /opt/wandbox/${build}-$version
-  fi
+  case "$build" in
+    "boost" )
+      version=$2
+      compiler=$3
+      compiler_version=$4
+      test -d /opt/wandbox/boost-$version/$compiler-$compiler_version
+      ;;
+    "boost-head" )
+      version=$2
+      compiler=$3
+      test -d /opt/wandbox/boost-$version/$compiler
+      ;;
+    * )
+      version=$2
+      test -d /opt/wandbox/${build}-$version
+      ;;
+  esac
 }
 
 cat VERSIONS | while read line; do

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ../init.sh
+. ./init.sh
 
 if [ $# -lt 3 ]; then
   echo "$0 <version> <compiler> <compiler_version>"
