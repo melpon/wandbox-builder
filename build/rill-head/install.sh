@@ -4,12 +4,13 @@
 
 PREFIX=/opt/wandbox/rill-head
 
+set -ex
+
 eval `opam config env`
 
 # llvm (only install)
 
-cd /root/llvm-3.9.1.src/build && \
-    cmake -DCMAKE_INSTALL_PREFIX=$PREFIX -P cmake_install.cmake
+PATH=/opt/llvm/bin:$PATH
 cp /opt/llvm/bin/llc $PREFIX/bin/.
 cp /opt/llvm/bin/llvm-config $PREFIX/bin/.
 
