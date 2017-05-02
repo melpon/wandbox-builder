@@ -1685,7 +1685,7 @@ class Compilers(object):
                 'switches': [],
                 'initial-checked': [],
                 'display-name': display_name,
-                'display-compile-command': 'vim -X -N -u NONE -i NONE -V1 -e -s -S source prog.vim +qall!',
+                'display-compile-command': 'vim -X -N -u NONE -i NONE -V1 -e -s -S prog.vim +qall!',
                 'run-command': ['/opt/wandbox/vim-{cv}/bin/vim', '-X', '-N', '-u', 'NONE', '-i', 'NONE', '-V1', '-e', '-s', '-S', 'prog.vim', '+qall!'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
