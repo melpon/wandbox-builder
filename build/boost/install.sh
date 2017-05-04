@@ -37,6 +37,11 @@ if [ $COMPILER = "gcc" ]; then
     ADDFLAGS="$ADDFLAGS <cxxflags>-Wno-deprecated-declarations"
   fi
 
+  if compare_version $COMPILER_VERSION "<=" "5.3.0"; then
+    if compare_version $VERSION "==" "1.64.0"; then
+      WITHOUTS="$WITHOUTS --without-context --without-coroutine --without-fiber"
+    fi
+  fi
   if compare_version $COMPILER_VERSION ">=" "4.8.1"; then
     if compare_version $COMPILER_VERSION "<=" "4.8.5"; then
       if compare_version $VERSION "==" "1.58.0"; then
