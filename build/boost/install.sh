@@ -51,6 +51,17 @@ if [ $COMPILER = "gcc" ]; then
   fi
 fi
 
+# for zapcc settings
+
+if [ "$COMPILER" = "zapcc" ]; then
+  CLANG_COMPILER_PREFIX=/opt/wandbox/clang-head
+  # create symlink zapcc to clang
+  rm $COMPILER_PREFIX/bin/clang || true
+  rm $COMPILER_PREFIX/bin/clang++ || true
+  ln -s $COMPILER_PREFIX/bin/zapcc $COMPILER_PREFIX/bin/clang
+  ln -s $COMPILER_PREFIX/bin/zapcc++ $COMPILER_PREFIX/bin/clang++
+fi
+
 # get sources
 
 cd ~/
@@ -77,14 +88,25 @@ if [ "$COMPILER" = "clang" ]; then
   sed "s#using[ 	]*gcc.*;#using clang : : $COMPILER_PREFIX/bin/clang++ : <cxxflags>-I$COMPILER_PREFIX/include/c++/v1 <cxxflags>-nostdinc++ <linkflags>-L$COMPILER_PREFIX/lib $ADDFLAGS <linkflags>-stdlib=libc++ <linkflags>-Wl,-rpath,$COMPILER_PREFIX/lib ;#" -i project-config.jam
   ./b2 toolset=clang stage release link=shared runtime-link=shared $WITHOUTS -j2
   ./b2 toolset=clang install release link=shared runtime-link=shared $WITHOUTS --prefix=$PREFIX
+elif [ "$COMPILER" = "zapcc" ]; then
+  sed "s#using[ 	]*gcc.*;#using clang : : $COMPILER_PREFIX/bin/clang++ : <cxxflags>-I$CLANG_COMPILER_PREFIX/include/c++/v1 <cxxflags>-nostdinc++ <linkflags>-L$CLANG_COMPILER_PREFIX/lib $ADDFLAGS <linkflags>-stdlib=libc++ <linkflags>-Wl,-rpath,$CLANG_COMPILER_PREFIX/lib ;#" -i project-config.jam
+  ./b2 toolset=clang stage release link=shared runtime-link=shared $WITHOUTS -j2
+  ./b2 toolset=clang install release link=shared runtime-link=shared $WITHOUTS --prefix=$PREFIX
 else
   sed "s#using[ 	]*gcc.*;#using gcc : : $COMPILER_PREFIX/bin/g++ : <linkflags>-Wl,-rpath,$COMPILER_PREFIX/lib,-rpath,$COMPILER_PREFIX/lib64 $ADDFLAGS ;#" -i project-config.jam
   ./b2 stage release link=shared runtime-link=shared $WITHOUTS -j2
   ./b2 install release link=shared runtime-link=shared $WITHOUTS --prefix=$PREFIX
 fi
 
+# clean
+
 cd ~/
 rm -r boost-$VERSION-$COMPILER-$COMPILER_VERSION
+
+if [ "$COMPILER" = "zapcc" ]; then
+  rm $COMPILER_PREFIX/bin/clang
+  rm $COMPILER_PREFIX/bin/clang++
+fi
 
 # share boost header
 

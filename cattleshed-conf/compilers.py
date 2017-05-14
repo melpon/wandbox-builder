@@ -224,7 +224,8 @@ class Switches(object):
         boost_vers = sort_version(set(a for a, _, _ in get_boost_versions_with_head()))
         gcc_vers = sort_version(get_generic_versions('gcc', with_head=True))
         clang_vers = sort_version(get_generic_versions('clang', with_head=True))
-        compiler_vers = [('gcc', v) for v in gcc_vers] + [('clang', v) for v in clang_vers]
+        zapcc_vers = sort_version(get_generic_versions('zapcc', with_head=False))
+        compiler_vers = [('gcc', v) for v in gcc_vers] + [('clang', v) for v in clang_vers] + [('zapcc', v) for v in zapcc_vers]
 
         boost_ver_set = set(get_boost_versions_with_head())
         boost_libs = {}
@@ -870,17 +871,17 @@ class Compilers(object):
         boost_vers = sort_version(set(a for a, _, _ in get_boost_versions_with_head()))
         zapcc_vers = sort_version(get_generic_versions('zapcc', with_head=False), reverse=True)
 
-        # boost_ver_set = set(get_boost_versions_with_head())
-        # # boost versions
-        # boost_switches = {}
-        # xs = []
-        # cv = 'head'
-        # for bv in boost_vers:
-        #     if (bv, 'clang', cv) not in boost_ver_set:
-        #         continue
-        #     xs.append('{bv}'.format(bv=bv))
-        # nothing = ['boost-nothing-clang-{cv}'.format(cv=cv)]
-        # boost_switches[cv] = nothing + ['boost-{x}-clang-{cv}'.format(x=x, cv=cv) for x in sort_version(xs)]
+        boost_ver_set = set(get_boost_versions_with_head())
+        # boost versions
+        boost_switches = {}
+        for cv in zapcc_vers:
+            xs = []
+            for bv in boost_vers:
+                if (bv, 'zapcc', cv) not in boost_ver_set:
+                    continue
+                xs.append('{bv}'.format(bv=bv))
+            nothing = ['boost-nothing-zapcc-{cv}'.format(cv=cv)]
+            boost_switches[cv] = nothing + ['boost-{x}-zapcc-{cv}'.format(x=x, cv=cv) for x in sort_version(xs)]
 
         compilers = []
         for cv in zapcc_vers:
@@ -891,11 +892,11 @@ class Compilers(object):
             switches += ['warning', 'optimize', 'cpp-verbose']
             initial_checked += ['warning']
 
-            # # boost
-            # if cv in boost_switches:
-            #     bs = boost_switches[cv]
-            #     switches += bs
-            #     initial_checked += [bs[-1]]
+            # boost
+            if cv in boost_switches:
+                bs = boost_switches[cv]
+                switches += bs
+                initial_checked += [bs[-1]]
 
             # libs
             switches += ['sprout', 'msgpack']
