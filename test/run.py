@@ -224,6 +224,7 @@ def register():
     test_generic(name='gcc', test_file='test.cpp', expected='hello\n', with_head=True)
     test_generic(name='clang', test_file='test.c', expected='hello\n', with_head=True, post_name='-c')
     test_generic(name='clang', test_file='test.cpp', expected='hello\n', with_head=True)
+    test_generic(name='zapcc', test_file='test.cpp', expected='hello\n', with_head=False)
     test_preprocessor()
     test_generic(name='mono', test_file='test.cs', expected='hello\n', with_head=True)
     test_generic(name='erlang', test_file='test.erl', expected='hello\n', with_head=True)

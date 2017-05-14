@@ -866,6 +866,94 @@ class Compilers(object):
 
         return compilers
 
+    def make_zapcc(self):
+        boost_vers = sort_version(set(a for a, _, _ in get_boost_versions_with_head()))
+        zapcc_vers = sort_version(get_generic_versions('zapcc', with_head=False), reverse=True)
+
+        # boost_ver_set = set(get_boost_versions_with_head())
+        # # boost versions
+        # boost_switches = {}
+        # xs = []
+        # cv = 'head'
+        # for bv in boost_vers:
+        #     if (bv, 'clang', cv) not in boost_ver_set:
+        #         continue
+        #     xs.append('{bv}'.format(bv=bv))
+        # nothing = ['boost-nothing-clang-{cv}'.format(cv=cv)]
+        # boost_switches[cv] = nothing + ['boost-{x}-clang-{cv}'.format(x=x, cv=cv) for x in sort_version(xs)]
+
+        compilers = []
+        for cv in zapcc_vers:
+            switches = []
+            initial_checked = []
+
+            # default
+            switches += ['warning', 'optimize', 'cpp-verbose']
+            initial_checked += ['warning']
+
+            # # boost
+            # if cv in boost_switches:
+            #     bs = boost_switches[cv]
+            #     switches += bs
+            #     initial_checked += [bs[-1]]
+
+            # libs
+            switches += ['sprout', 'msgpack']
+
+            # C++
+            switches += ['std-c++-default', 'c++98', 'gnu++98', 'c++11', 'gnu++11', 'c++14', 'gnu++14', 'c++1z', 'gnu++1z']
+            initial_checked += [switches[-1]]
+
+            # pedantic
+            switches += ['cpp-no-pedantic', 'cpp-pedantic', 'cpp-pedantic-errors']
+
+            # -fansi-escape-codes
+            ansi_escape_codes = ['-fansi-escape-codes']
+
+            # compile-command
+            compile_command = [
+                '/opt/wandbox/zapcc-{cv}/bin/zapcc++',
+                '-oprog.exe',
+                '-fcolor-diagnostics'
+                ] + ansi_escape_codes + [
+                '-I/opt/wandbox/clang-head/include/c++/v1',
+                '-L/opt/wandbox/clang-head/lib',
+                '-Wl,-rpath,/opt/wandbox/clang-head/lib',
+                '-lpthread',
+                '-I/opt/wandbox/boost-sml/include',
+                '-I/opt/wandbox/boost-di/include',
+                '-I/opt/wandbox/range-v3/include',
+                '-I/opt/wandbox/nlohmann-json/src']
+
+            compile_command += ['-stdlib=libc++', '-nostdinc++']
+            compile_command += ['-lc++abi']
+            compile_command += ['-DBOOST_NO_AUTO_PTR']
+
+            compile_command += ['prog.cc']
+
+            # head specific
+            display_name = 'zapcc'
+            version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'zapcc-{cv}',
+                'compile-command': compile_command,
+                'version-command': version_command,
+                'display-name': display_name,
+                'display-compile-command': 'zapcc++ prog.cc',
+                'language': 'C++',
+                'output-file': 'prog.cc',
+                'run-command': './prog.exe',
+                'displayable': True,
+                'compiler-option-raw': True,
+                'switches': switches,
+                'initial-checked': initial_checked,
+                'jail-name': 'melpon2-zapcc',
+                'templates': ['zapcc'],
+            }, cv=cv))
+
+        return compilers
+
     def make_mono(self):
         mono_vers = sort_version(get_generic_versions('mono', with_head=True), reverse=True)
         compilers = []
@@ -1965,6 +2053,7 @@ class Compilers(object):
             self.make_clang_c() +
             self.make_clang_pp() +
             self.make_clang() +
+            self.make_zapcc() +
             self.make_mono() +
             self.make_rill() +
             self.make_erlang() +
