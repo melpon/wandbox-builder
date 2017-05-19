@@ -103,7 +103,7 @@ docker run --net=host -i -v `pwd`:/var/work -v $BASE_DIR/../wandbox:/opt/wandbox
 
   # copy static files
   mkdir /opt/wandbox/static || true
-  cp -r static/ wandbox/static/
+  cp -r static/* wandbox/static/
 
   # header only library
   rm -rf /opt/wandbox/sprout || true
