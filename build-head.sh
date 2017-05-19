@@ -57,6 +57,7 @@ for compiler in \
     openjdk-head \
     cpython-head \
     ruby-head \
+    mruby-head \
     scala-head \
     groovy-head \
     nodejs-head \
