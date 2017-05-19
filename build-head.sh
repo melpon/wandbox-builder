@@ -10,6 +10,7 @@ if [ $# -lt 1 ]; then
 fi
 
 set -ex
+STARTED_AT="`date --iso-8601=seconds`"
 
 REMOTE_HOST=$1
 
@@ -89,6 +90,8 @@ for compiler in \
   $BASE_DIR/docker-rm.sh
 done
 
+BUILDING_FINISHED_AT="`date --iso-8601=seconds`"
+
 cd ..
 
 # change owner to root
@@ -119,4 +122,10 @@ docker run --net=host -i -v `pwd`:/var/work -v $BASE_DIR/../wandbox:/opt/wandbox
 
 ./build/docker-rm.sh
 
-./sync.sh $REMOTE_HOST --all
+./sync.sh $REMOTE_HOST --all || true
+
+ALL_FINISHED_AT="`date --iso-8601=seconds`"
+
+echo "started at $STARTED_AT"
+echo "building finished at $BUILDING_FINISHED_AT"
+echo "all finished at $ALL_FINISHED_AT"
