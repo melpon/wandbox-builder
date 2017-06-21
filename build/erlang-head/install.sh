@@ -26,6 +26,8 @@ cd otp
             --disable-sctp
 
 make -j2
+
+rm -r $PREFIX || true
 make install
 
 cp $BASE_DIR/resources/run-escript.sh.in $PREFIX/bin/run-escript.sh
