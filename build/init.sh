@@ -51,6 +51,14 @@ function wget_strict_sha256() {
   sha256=$2
   shift 2
 
+  if [ ! -e $sha256 ]; then
+    set +x
+    app=`basename $CURRENT_DIR`
+    echo "a sha256 file '$sha256' not found."
+    echo "run below command to create the sha256 file:"
+    echo "  cd .. && ./sha256-calc.sh $app $url"
+    exit 1
+  fi
   wget $url "$@"
   if sha256sum -c $sha256; then
     :
@@ -70,4 +78,5 @@ function run_with_log() {
   status=${PIPESTATUS[0]}
   echo "$*: $status" >> logs/result.log
 }
+CURRENT_DIR=`pwd`
 BASE_DIR=$(cd $(dirname $0); pwd)
