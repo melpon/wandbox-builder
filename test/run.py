@@ -227,7 +227,7 @@ def register():
     test_generic(name='zapcc', test_file='test.cpp', expected='hello\n', with_head=False)
     test_preprocessor()
     test_generic(name='mono', test_file='test.cs', expected='hello\n', with_head=True)
-    test_generic(name='erlang', test_file='test.erl', expected='hello\n', with_head=True)
+    test_generic(name='erlang', test_file='prog.erl', expected='hello\n', with_head=True)
     test_generic(name='elixir', test_file='test.exs', expected='hello\n', with_head=True)
     test_generic(name='ghc', test_file='test.hs', expected='hello\n', with_head=True)
     test_gdc_head()

@@ -1,4 +1,0 @@
-#!/bin/bash
-
-PATH=@prefix@/bin:$PATH
-escript "$@"

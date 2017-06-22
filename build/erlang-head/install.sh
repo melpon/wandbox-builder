@@ -30,9 +30,5 @@ make -j2
 rm -r $PREFIX || true
 make install
 
-cp $BASE_DIR/resources/run-escript.sh.in $PREFIX/bin/run-escript.sh
-sed -i "s#@prefix@#$PREFIX#g" $PREFIX/bin/run-escript.sh
-chmod +x $PREFIX/bin/run-escript.sh
-
 cd ..
 rm -rf ~/otp

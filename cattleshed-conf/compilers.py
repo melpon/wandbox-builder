@@ -1018,24 +1018,29 @@ class Compilers(object):
             if cv == 'head':
                 display_name = 'erlang HEAD'
                 version_command = ['/bin/bash', '-c', 'cat `find /opt/wandbox/erlang-head/lib/erlang/releases/ -name OTP_VERSION | head -n 1`']
-                run_command = ['/opt/wandbox/erlang-{cv}/bin/run-escript.sh', 'prog.erl']
             else:
                 display_name = 'erlang'
                 version_command = ['/bin/echo', '{cv}']
-                run_command = ['/opt/wandbox/erlang-{cv}/bin/escript', 'prog.erl']
+
+            compile_command = ['/opt/wandbox/erlang-{cv}/bin/erlc', 'prog.erl']
+            run_command = ['/opt/wandbox/erlang-{cv}/bin/erl',
+                           'prog.beam',
+                           '-noshell',
+                           '-eval', 'prog:main()',
+                           '-eval', 'init:stop()']
 
             compilers.append(format_value({
                 'name': 'erlang-{cv}',
                 'displayable': True,
                 'language': 'Erlang',
                 'output-file': 'prog.erl',
-                'compiler-option-raw': False,
-                'compile-command': ['/bin/true'],
+                'compiler-option-raw': True,
+                'compile-command': compile_command,
                 'version-command': version_command,
                 'switches': [],
                 'initial-checked': [],
                 'display-name': display_name,
-                'display-compile-command': 'ecript prog.erl',
+                'display-compile-command': 'erlc prog.erl',
                 'run-command': run_command,
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-erlangvm',

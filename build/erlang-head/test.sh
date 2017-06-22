@@ -4,4 +4,6 @@
 
 PREFIX=/opt/wandbox/erlang-head
 
-test "`$PREFIX/bin/run-escript.sh $BASE_DIR/resources/test.erl`" = "hello"
+$PREFIX/bin/erlc $BASE_DIR/resources/test.erl
+test "`$PREFIX/bin/erl test.beam -noshell -eval 'test:main()' -eval 'init:stop()'`" = "hello"
+rm test.beam

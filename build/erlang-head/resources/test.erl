@@ -1,3 +1,6 @@
+-module(test).
 
-main(_) ->
+-export([main/0]).
+
+main() ->
     io:format("hello~n", []).
