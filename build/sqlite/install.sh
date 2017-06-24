@@ -15,6 +15,7 @@ PREFIX=/opt/wandbox/sqlite-$VERSION
 case "$VERSION" in
   "3.8.1" ) YEAR=2013; NUMVER=3080100 ;;
   "3.17.0" ) YEAR=2017; NUMVER=3170000 ;;
+  "3.19.3" ) YEAR=2017; NUMVER=3190300 ;;
   * ) exit 1
 esac
 
