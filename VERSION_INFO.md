@@ -13,7 +13,7 @@ I check below URLs to update versions about once a month.
 | dmd | https://github.com/dlang/dmd/releases |
 | elixir | https://github.com/elixir-lang/elixir/releases |
 | erlang | https://github.com/erlang/otp/releases |
-| fpc | https://www.freepascal.org/download.var |
+| fpc | https://sourceforge.net/projects/freepascal/files/Linux/ |
 | gcc | https://github.com/gcc-mirror/gcc/releases |
 | gdc | - |
 | ghc | https://www.haskell.org/ghc/download.html |
