@@ -28,7 +28,7 @@ I check below URLs to update versions about once a month.
 | nodejs | https://nodejs.org/en/download/releases/ |
 | ocaml | https://github.com/ocaml/ocaml/releases |
 | openjdk | http://hg.openjdk.java.net/jdk10/jdk10/tags<br>http://hg.openjdk.java.net/jdk9/jdk9/tags<br>http://hg.openjdk.java.net/ |
-| openssl | https://github.com/openssl/openssl/releases |
+| openssl | https://www.openssl.org/source/old/ |
 | perl | http://www.cpan.org/src/README.html |
 | php | https://github.com/php/php-src/releases |
 | pony | https://github.com/ponylang/ponyc/releases |
