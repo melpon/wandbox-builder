@@ -75,6 +75,7 @@ for compiler in \
     pony-head \
     nim-head \
     openssl-head \
+    rust-head \
 ; do
   start_time=`date +%s`
 
