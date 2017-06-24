@@ -4,7 +4,8 @@
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
-  echo "  find versions from http://hg.openjdk.java.net/jdk9/jdk9/tags"
+  echo "  find versions from http://hg.openjdk.java.net/jdk10/jdk10/tags"
+  echo "                     http://hg.openjdk.java.net/jdk9/jdk9/tags"
   echo "                     http://hg.openjdk.java.net/jdk8u/jdk8u/tags"
   echo "                     http://hg.openjdk.java.net/jdk7u/jdk7u/tags"
   exit 0
@@ -16,6 +17,8 @@ PREFIX=/opt/wandbox/openjdk-$VERSION
 # get sources
 
 case "$VERSION" in
+  "jdk-10+13" ) URL=http://hg.openjdk.java.net/jdk10/jdk10 ;;
+  "jdk-9+175" ) URL=http://hg.openjdk.java.net/jdk9/jdk9 ;;
   "jdk-9+155" ) URL=http://hg.openjdk.java.net/jdk9/jdk9 ;;
   "jdk8u121-b13" ) URL=http://hg.openjdk.java.net/jdk8u/jdk8u ;;
   "jdk7u121-b00" ) URL=http://hg.openjdk.java.net/jdk7u/jdk7u ;;
