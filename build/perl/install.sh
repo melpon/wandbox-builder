@@ -13,6 +13,8 @@ PREFIX=/opt/wandbox/perl-$VERSION
 # devel version
 if compare_version "$VERSION" "==" "5.25.10"; then
   FLAGS="-Dusedevel"
+elif compare_version "$VERSION" "==" "5.27.1"; then
+  FLAGS="-Dusedevel"
 else
   FLAGS=""
 fi
