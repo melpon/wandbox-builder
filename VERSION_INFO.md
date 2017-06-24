@@ -22,7 +22,7 @@ I check below URLs to update versions about once a month.
 | lazyk | - |
 | ldc | https://github.com/ldc-developers/ldc/releases |
 | lua | https://www.lua.org/ftp/ |
-| mono | http://www.mono-project.com/docs/about-mono/releases/ |
+| mono | https://download.mono-project.com/sources/mono/ |
 | mruby | https://github.com/mruby/mruby/releases |
 | nim | https://github.com/nim-lang/Nim/releases |
 | nodejs | https://nodejs.org/en/download/releases/ |
