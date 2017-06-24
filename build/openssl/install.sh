@@ -11,11 +11,14 @@ VERSION=$1
 PREFIX=/opt/wandbox/openssl-$VERSION
 
 case "$VERSION" in
-  "1.1.0e" ) URL="https://www.openssl.org/source/openssl-1.1.0e.tar.gz" ;;
-  "1.0.2k" ) URL="https://www.openssl.org/source/openssl-1.0.2k.tar.gz" ;;
+  "1.1.0f" ) URL="https://www.openssl.org/source/old/1.1.0/openssl-1.1.0f.tar.gz" ;;
+  "1.1.0e" ) URL="https://www.openssl.org/source/old/1.1.0/openssl-1.1.0e.tar.gz" ;;
+  "1.0.2l" ) URL="https://www.openssl.org/source/old/1.0.2/openssl-1.0.2l.tar.gz" ;;
+  "1.0.2k" ) URL="https://www.openssl.org/source/old/1.0.2/openssl-1.0.2k.tar.gz" ;;
   "1.0.1u" ) URL="https://www.openssl.org/source/old/1.0.1/openssl-1.0.1u.tar.gz" ;;
   "1.0.0s" ) URL="https://www.openssl.org/source/old/1.0.0/openssl-1.0.0s.tar.gz" ;;
   "0.9.8zh" ) URL="https://www.openssl.org/source/old/0.9.x/openssl-0.9.8zh.tar.gz" ;;
+  * ) exit 1
 esac
 
 # get sources
