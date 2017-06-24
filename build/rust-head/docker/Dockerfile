@@ -8,7 +8,9 @@ RUN apt-get update && \
       curl \
       g++ \
       git \
+      libssl-dev \
       make \
+      pkg-config \
       python-minimal && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
