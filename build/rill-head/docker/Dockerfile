@@ -8,11 +8,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN cd /root && \
-    wget http://www.llvm.org/releases/3.9.1/llvm-3.9.1.src.tar.xz && \
-    echo "1fd90354b9cf19232e8f168faf2220e79be555df3aa743242700879e8fd329ee *llvm-3.9.1.src.tar.xz" | sha256sum -c && \
-    tar Jxfv llvm-3.9.1.src.tar.xz && \
-    rm llvm-3.9.1.src.tar.xz && \
-    cd llvm-3.9.1.src && \
+    wget http://www.llvm.org/releases/4.0.1/llvm-4.0.1.src.tar.xz && \
+    echo "da783db1f82d516791179fe103c71706046561f7972b18f0049242dee6712b51 *llvm-4.0.1.src.tar.xz" | sha256sum -c && \
+    tar Jxfv llvm-4.0.1.src.tar.xz && \
+    rm llvm-4.0.1.src.tar.xz && \
+    cd llvm-4.0.1.src && \
     mkdir build && \
     cd build && \
     cmake -G 'Unix Makefiles' \
@@ -29,7 +29,7 @@ RUN cd /root && \
     cmake --build . --target install && \
     cp bin/llvm-config /opt/llvm/bin/. && \
     cp bin/llc /opt/llvm/bin/. && \
-    rm -r /root/llvm-3.9.1.src
+    rm -r /root/llvm-4.0.1.src
 
 RUN wget https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh -O - | sh -s /usr/local/bin && \
     opam init -y -a && \
@@ -45,4 +45,5 @@ RUN wget https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh -O - |
             ocamlgraph \
             ounit && \
     OPAMDOWNLOADJOBS=1 PATH=$PATH:/opt/llvm/bin LIBRARY_PATH=$LIBRARY_PATH:/opt/llvm/lib \
-        opam install -y llvm.3.9
+        opam install -y llvm.4.0.0 && \
+    cp ~/.opam/4.04.0/lib/llvm/static/*.cmxa ~/.opam/4.04.0/lib/llvm/.
