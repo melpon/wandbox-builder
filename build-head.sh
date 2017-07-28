@@ -120,6 +120,8 @@ docker run --net=host -i -v `pwd`:/var/work -v $BASE_DIR/../wandbox:/opt/wandbox
   git clone --depth 1 https://github.com/boost-experimental/di.git /opt/wandbox/boost-di
   rm -rf /opt/wandbox/nlohmann-json || true
   git clone --depth 1 https://github.com/nlohmann/json.git /opt/wandbox/nlohmann-json
+  rm -rf /opt/wandbox/cmcstl2 || true
+  git clone --depth 1 https://github.com/CaseyCarter/cmcstl2.git /opt/wandbox/cmcstl2
 "
 
 ./build/docker-rm.sh
