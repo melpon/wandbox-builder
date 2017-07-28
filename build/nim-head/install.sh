@@ -22,4 +22,5 @@ cd ..
 
 # install
 ./koch install /opt
+rm -r "$PREFIX"
 mv /opt/nim "$PREFIX"
