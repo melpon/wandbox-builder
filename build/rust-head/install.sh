@@ -14,8 +14,12 @@ cd rust
 
 # apply patch
 
+# config
+
+cp ./src/bootstrap/config.toml.example ./config.toml
+sed -i -e 's$#prefix = "/usr/local"$prefix = "'$PREFIX'"$' ./config.toml
+
 # build
 
-./configure --prefix=$PREFIX
-make -j2
-make install
+./x.py build -j2
+./x.py install
