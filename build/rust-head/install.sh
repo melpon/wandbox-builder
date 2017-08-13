@@ -22,4 +22,15 @@ sed -i -e 's$#prefix = "/usr/local"$prefix = "'$PREFIX'"$' ./config.toml
 # build
 
 ./x.py build -j2
-./x.py install
+rm -r $PREFIX
+# enable install commands:
+#   ./x.py install analysis
+#   ./x.py install cargo
+#   ./x.py install rls
+#   ./x.py install src
+#   ./x.py install src/doc
+#   ./x.py install src/librustc
+#   ./x.py install src/libstd # default
+
+./x.py install # src/libstd
+./x.py install src/librustc
