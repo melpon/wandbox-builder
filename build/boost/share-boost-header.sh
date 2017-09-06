@@ -23,8 +23,14 @@ if [ ! -d "$HEADER_PREFIX" ]; then
   mkdir boost-$VERSION-$COMPILER-$COMPILER_VERSION
   cd boost-$VERSION-$COMPILER-$COMPILER_VERSION
 
+  if compare_version $VERSION ">=" "1.65.0"; then
+    URL=https://dl.bintray.com/boostorg/release/$VERSION/source/boost_$VERSION_TARNAME.tar.gz
+  else
+    URL=http://downloads.sourceforge.net/project/boost/boost/$VERSION/boost_$VERSION_TARNAME.tar.gz
+  fi
+
   wget_strict_sha256 \
-    http://downloads.sourceforge.net/project/boost/boost/$VERSION/boost_$VERSION_TARNAME.tar.gz \
+    $URL \
     $BASE_DIR/resources/boost_$VERSION_TARNAME.tar.gz.sha256
   tar xf boost_$VERSION_TARNAME.tar.gz
   cd boost_$VERSION_TARNAME
