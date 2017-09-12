@@ -132,8 +132,10 @@ if compare_version "$VERSION" "==" "3.5.0"; then
   popd
 fi
 
-sed -i s#\"/usr/include/c++/v1#\"$PREFIX/include/c++/v1# source/tools/clang/lib/Frontend/InitHeaderSearch.cpp
-sed -i s#getDriver\(\).SysRoot\ +\ \"/usr/include/c++/v1\"#\"$PREFIX/include/c++/v1\"# source/tools/clang/lib/Driver/ToolChains.cpp
+if compare_version "$VERSION" "<" "5.0.0"; then
+  sed -i s#\"/usr/include/c++/v1#\"$PREFIX/include/c++/v1# source/tools/clang/lib/Frontend/InitHeaderSearch.cpp
+  sed -i s#getDriver\(\).SysRoot\ +\ \"/usr/include/c++/v1\"#\"$PREFIX/include/c++/v1\"# source/tools/clang/lib/Driver/ToolChains.cpp
+fi
 
 # build
 
