@@ -10,6 +10,7 @@ RUN apt-get update && \
       g++ \
       gcc \
       git \
+      libcurl4-openssl-dev \
       libgcrypt11-dev \
       libicu-dev \
       libpcre3-dev \

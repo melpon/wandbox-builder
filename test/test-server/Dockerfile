@@ -16,7 +16,6 @@ RUN apt-get update && \
       libevent-dev \
       libexpat1 \
       libffi6 \
-      libffi6 \
       libgc-dev \
       libgcc-5-dev \
       libgmp-dev \
@@ -26,6 +25,9 @@ RUN apt-get update && \
       libstdc++-5-dev \
       python-dev \
       python3-dev && \
+    # for kennel deps
+    apt-get install -y \
+      libcurl4-openssl-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s libgmp.so /usr/lib/x86_64-linux-gnu/libgmp.so.3
