@@ -11,7 +11,8 @@ cd crystal/
 git submodule update --recursive --init
 
 # build
-make -j2 clean crystal verbose=1
+make clean verbose=1
+make -j2 crystal verbose=1
 
 # install
 mkdir -p "$PREFIX"
