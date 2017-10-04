@@ -14,7 +14,7 @@ RUN apt-get update && \
       libtool \
       make \
       ncurses-dev \
-      python \
+      python3-minimal \
       wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
