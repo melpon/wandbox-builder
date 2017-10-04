@@ -3,7 +3,7 @@
 . ../init.sh
 
 PREFIX=/opt/wandbox/groovy-head
-JAVA_PREFIX=/opt/wandbox/openjdk-jdk8u121-b13/jvm/openjdk-1.8.0-internal
+JAVA_PREFIX=/opt/wandbox/openjdk-jdk-9+155/jvm/openjdk-9-internal
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 # get sources
