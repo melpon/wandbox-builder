@@ -37,6 +37,7 @@ export PATH=$PREFIX/bin:$PATH
 export OPAMROOT=$PREFIX/.opam
 $PREFIX/bin/opam init < /dev/null
 $PREFIX/bin/opam install -y core
+$PREFIX/bin/opam install -y ocamlfind
 
 # run ocaml
 
