@@ -573,6 +573,8 @@ class Compilers(object):
                     switches += ['c++1y', 'gnu++1y']
             if cmpver(cv, '>=', '5.1.0'):
                 switches += ['c++1z', 'gnu++1z']
+            if cmpver(cv, '==', 'head'):
+                switches += ['c++2a', 'gnu++2a']
             initial_checked += [switches[-1]]
 
             # pedantic
