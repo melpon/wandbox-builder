@@ -76,6 +76,7 @@ for compiler in \
     nim-head \
     openssl-head \
     rust-head \
+    luajit-head \
 ; do
   start_time=`date +%s`
 

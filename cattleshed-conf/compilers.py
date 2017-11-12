@@ -1636,7 +1636,7 @@ class Compilers(object):
         lua_vers = get_generic_versions('lua', with_head=False)
         compilers = []
         for cv in lua_vers:
-            display_name = 'lua'
+            display_name = 'Lua'
             version_command = ['/bin/echo', '{cv}']
 
             compilers.append(format_value({
@@ -1652,6 +1652,39 @@ class Compilers(object):
                 'display-name': display_name,
                 'display-compile-command': 'lua prog.lua',
                 'run-command': ['/opt/wandbox/lua-{cv}/bin/lua', 'prog.lua'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+                'templates': ['lua'],
+            }, cv=cv))
+        return compilers
+
+    def make_luajit(self):
+        luajit_vers = get_generic_versions('luajit', with_head=True)
+        compilers = []
+        for cv in luajit_vers:
+            if cv == 'head':
+                display_name = 'LuaJIT HEAD'
+            else:
+                display_name = 'LuaJIT'
+
+            if cv == 'head':
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/luajit-{cv}/bin/luajit -v | head -n 1 | cut -d' ' -f2"]
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'luajit-{cv}',
+                'displayable': True,
+                'language': 'Lua',
+                'output-file': 'prog.lua',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'luajit prog.lua',
+                'run-command': ['/opt/wandbox/luajit-{cv}/bin/luajit', 'prog.lua'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
                 'templates': ['lua'],
@@ -2097,6 +2130,7 @@ class Compilers(object):
             self.make_perl() +
             self.make_php() +
             self.make_lua() +
+            self.make_luajit() +
             self.make_sqlite() +
             self.make_fpc() +
             self.make_clisp() +
