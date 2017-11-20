@@ -9,7 +9,7 @@ fi
 
 VERSION=$1
 PREFIX=/opt/wandbox/groovy-$VERSION
-JAVA_PREFIX=/opt/wandbox/openjdk-jdk8u121-b13/jvm/openjdk-1.8.0-internal
+JAVA_PREFIX=/opt/wandbox/openjdk-jdk8u121-b13/jvm/openjdk-1.8.0_121
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 VERSION_BRANCH=$(echo $VERSION | sed 's/\./_/g')

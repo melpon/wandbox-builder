@@ -10,7 +10,7 @@ fi
 
 VERSION=$1
 PREFIX=/opt/wandbox/scala-$VERSION
-JAVA_PREFIX=/opt/wandbox/openjdk-jdk8u121-b13/jvm/openjdk-1.8.0-internal
+JAVA_PREFIX=/opt/wandbox/openjdk-jdk8u121-b13/jvm/openjdk-1.8.0_121
 
 # get sources
 
