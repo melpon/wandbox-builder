@@ -1,3 +1,4 @@
+1.66.0 gcc-head
 1.65.1 gcc-head
 1.65.0 gcc-head
 1.64.0 gcc-head
@@ -12,8 +13,8 @@
 1.55.0 gcc-head
 1.54.0 gcc-head
 1.53.0 gcc-head
-1.52.0 gcc-head
 
+1.66.0 clang-head
 1.65.1 clang-head
 1.65.0 clang-head
 1.64.0 clang-head
