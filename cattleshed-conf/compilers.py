@@ -2109,7 +2109,7 @@ class Compilers(object):
             compilers.append(format_value({
                 'name': 'emacs-{cv}',
                 'displayable': True,
-                'language': 'Emacs Lisp Script',
+                'language': 'Lisp',
                 'output-file': 'prog.el',
                 'compiler-option-raw': False,
                 'compile-command': ['/bin/true'],
