@@ -2099,6 +2099,32 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_emacs(self):
+        emacs_vers = get_generic_versions('emacs', with_head=False)
+        compilers = []
+        for cv in emacs_vers:
+            display_name = 'Emacs'
+            version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'emacs-{cv}',
+                'displayable': True,
+                'language': 'Lisp',
+                'output-file': 'prog.el',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'emacs --script prog.el',
+                'run-command': ['/opt/wandbox/emacs-{cv}/bin/emacs', '--script', 'prog.el'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+                'templates': ['emacs'],
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -2144,7 +2170,8 @@ class Compilers(object):
             self.make_pony() +
             self.make_crystal() +
             self.make_nim() +
-            self.make_openssl()
+            self.make_openssl() +
+            self.make_emacs()
         )
 
 
