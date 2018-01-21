@@ -217,6 +217,14 @@ class Switches(object):
                 'flags': '-std=gnu++1z',
                 'display-name': 'C++1z(GNU)',
             }),
+            ('c++17', {
+                'flags': ['-std=c++17'],
+                'display-name': 'C++17',
+            }),
+            ('gnu++17', {
+                'flags': '-std=gnu++17',
+                'display-name': 'C++17(GNU)',
+            }),
             ('c++2a', {
                 'flags': ['-std=c++2a'],
                 'display-name': 'C++2a',
@@ -567,12 +575,12 @@ class Compilers(object):
             else:
                 switches += ['c++0x', 'gnu++0x']
             if cmpver(cv, '>=', '4.8.0'):
-                if cmpver(cv, '>=', '5.2.0'):
+                if cmpver(cv, '>=', '4.9.0'):
                     switches += ['c++14', 'gnu++14']
                 else:
                     switches += ['c++1y', 'gnu++1y']
             if cmpver(cv, '>=', '5.1.0'):
-                switches += ['c++1z', 'gnu++1z']
+                switches += ['c++17', 'gnu++17']
             if cmpver(cv, '==', 'head'):
                 switches += ['c++2a', 'gnu++2a']
             initial_checked += [switches[-1]]
@@ -796,7 +804,10 @@ class Compilers(object):
                 else:
                     switches += ['c++1y', 'gnu++1y']
             if cmpver(cv, '>=', '3.5.0'):
-                switches += ['c++1z', 'gnu++1z']
+                if cmpver(cv, '>=', '5.0.0'):
+                    switches += ['c++17', 'gnu++17']
+                else:
+                    switches += ['c++1z', 'gnu++1z']
             if cmpver(cv, '==', 'head'):
                 switches += ['c++2a', 'gnu++2a']
             initial_checked += [switches[-1]]
