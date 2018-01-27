@@ -15,7 +15,11 @@ STARTED_AT="`date --iso-8601=seconds`"
 REMOTE_HOST=$1
 
 LOG_DIR=$(cd $(dirname $0); pwd)/build-head
-rm -r $LOG_DIR || true
+if [ -d $LOG_DIR ]; then
+  rm -r $LOG_DIR.yesterday || true
+  cp -r $LOG_DIR $LOG_DIR.yesterday
+  rm -r $LOG_DIR
+fi
 mkdir $LOG_DIR
 
 BASE_DIR=$(cd $(dirname $0); pwd)/build
