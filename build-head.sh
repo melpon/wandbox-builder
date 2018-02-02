@@ -9,12 +9,21 @@ if [ $# -lt 1 ]; then
   exit 1
 fi
 
+CURRENT_DIR=$(cd $(dirname $0); pwd)
+
+if [ -e $CURRENT_DIR/build-head.lock ]; then
+  echo "$0 already running - the file $CURRENT_DIR/build-head.lock exists"
+  exit 1
+fi
+touch build-head.lock
+trap "rm $CURRENT_DIR/build-head.lock > /dev/null 2>&1" EXIT
+
 set -ex
 STARTED_AT="`date --iso-8601=seconds`"
 
 REMOTE_HOST=$1
 
-LOG_DIR=$(cd $(dirname $0); pwd)/build-head
+LOG_DIR=$CURRENT_DIR/build-head
 if [ -d $LOG_DIR ]; then
   rm -r $LOG_DIR.yesterday || true
   cp -r $LOG_DIR $LOG_DIR.yesterday
