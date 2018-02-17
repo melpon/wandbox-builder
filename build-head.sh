@@ -24,10 +24,11 @@ STARTED_AT="`date --iso-8601=seconds`"
 REMOTE_HOST=$1
 
 LOG_DIR=$CURRENT_DIR/build-head
+CONTAINER_LOG_DIR=/var/work/build-head
 if [ -d $LOG_DIR ]; then
-  rm -r $LOG_DIR.yesterday || true
+  docker run -i -v $CURRENT_DIR:/var/work ubuntu:16.04 rm -r $CONTAINER_LOG_DIR.yesterday
   cp -r $LOG_DIR $LOG_DIR.yesterday
-  rm -r $LOG_DIR
+  docker run -i -v $CURRENT_DIR:/var/work ubuntu:16.04 rm -r $CONTAINER_LOG_DIR
 fi
 mkdir $LOG_DIR
 
