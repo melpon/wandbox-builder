@@ -91,6 +91,7 @@ for compiler in \
     openssl-head \
     rust-head \
     luajit-head \
+    fsharp-head \
 ; do
   start_time=`date +%s`
 
