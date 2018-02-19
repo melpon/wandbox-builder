@@ -2124,15 +2124,40 @@ class Compilers(object):
                 'output-file': 'prog.el',
                 'compiler-option-raw': False,
                 'compile-command': ['/bin/true'],
-                'version-command': version_command,
-                'switches': [],
-                'initial-checked': [],
-                'display-name': display_name,
                 'display-compile-command': 'emacs --script prog.el',
                 'run-command': ['/opt/wandbox/emacs-{cv}/bin/emacs', '--script', 'prog.el'],
                 'runtime-option-raw': True,
                 'jail-name': 'melpon2-default',
                 'templates': ['emacs'],
+            }, cv=cv))
+        return compilers
+
+    def make_fsharp(self):
+        fsharp_vers = sort_version(get_generic_versions('fsharp', with_head=True), reverse=True)
+        compilers = []
+        for cv in fsharp_vers:
+            if cv == 'head':
+                display_name = 'fsharpc HEAD'
+                version_command = ['/bin/cat', '/opt/wandbox/fsharp-{cv}/VERSION']
+            else:
+                display_name = 'fsharpc'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'fsharp-{cv}',
+                'displayable': True,
+                'language': 'F#',
+                'output-file': 'prog.fs',
+                'compiler-option-raw': True,
+                'compile-command': ['/opt/wandbox/fsharp-{cv}/bin/run-fsharpc.sh', '--out:prog.exe', '--standalone', 'prog.fs'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'fsharpc --out:prog.exe --standalone prog.fs',
+                'run-command': ['/opt/wandbox/fsharp-{cv}/bin/run-mono.sh', 'prog.exe'],
+                'jail-name': 'melpon2-default',
+                'templates': ['fsharp'],
             }, cv=cv))
         return compilers
 
@@ -2182,7 +2207,8 @@ class Compilers(object):
             self.make_crystal() +
             self.make_nim() +
             self.make_openssl() +
-            self.make_emacs()
+            self.make_emacs() +
+            self.make_fsharp()
         )
 
 
