@@ -14,6 +14,7 @@ RUN apt-get update && \
       git \
       libtool \
       mono-devel \
+      python-minimal \
       wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
