@@ -20,6 +20,7 @@ cd scala
 
 # build
 
+export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 ~/sbt compile
 ~/sbt dist/mkPack
 
