@@ -19,4 +19,6 @@ cd php-src
 make -j2
 make install
 
+cp $BASE_DIR/resources/php.ini $PREFIX/lib
+
 rm -r ~/*
