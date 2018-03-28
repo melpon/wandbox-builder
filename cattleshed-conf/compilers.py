@@ -1928,7 +1928,7 @@ class Compilers(object):
                 'switches': [],
                 'initial-checked': [],
                 'display-name': display_name,
-                'display-compile-command': ['go', 'prog.go', '-o', 'prog'],
+                'display-compile-command': ['go', 'build', '-o', 'prog', 'prog.go'],
                 'compile-command': ['/opt/wandbox/go-{cv}/bin/go', 'build', '-o', 'prog', 'prog.go'],
                 'run-command': ['./prog'],
                 'runtime-option-raw': True,
