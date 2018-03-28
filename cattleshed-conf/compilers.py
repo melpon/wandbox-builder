@@ -1922,7 +1922,7 @@ class Compilers(object):
                 'displayable': True,
                 'language': 'Go',
                 'output-file': 'prog.go',
-                'compiler-option-raw': False,
+                'compiler-option-raw': True,
                 'compile-command': ['/bin/true'],
                 'version-command': version_command,
                 'switches': [],
