@@ -10,6 +10,9 @@ cd ~/
 git clone --depth 1 https://github.com/mruby/mruby.git
 cd mruby
 
+# config
+sed -i -e "s#conf.gembox 'default'#conf.gembox 'full-core'#" build_config.rb
+
 # build
 
 ./minirake

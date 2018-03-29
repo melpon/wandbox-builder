@@ -20,6 +20,9 @@ wget_strict_sha256 \
 tar xf $VERSION.tar.gz
 cd mruby-$VERSION
 
+# config
+sed -i -e "s#conf.gembox 'default'#conf.gembox 'full-core'#" build_config.rb
+
 # build
 
 ./minirake
