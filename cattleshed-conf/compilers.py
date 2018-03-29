@@ -395,6 +395,10 @@ class Switches(object):
                 'flags': ['-package', 'core'],
                 'display-name': 'Jane Street Core',
             },
+            'go-gcflags-m': {
+                'flags': ['-gcflags', '-m'],
+                'display-name': "-gcflags '-m'",
+            },
         }
 
     def make(self):
@@ -1922,15 +1926,16 @@ class Compilers(object):
                 'displayable': True,
                 'language': 'Go',
                 'output-file': 'prog.go',
-                'compiler-option-raw': False,
+                'compiler-option-raw': True,
                 'compile-command': ['/bin/true'],
                 'version-command': version_command,
-                'switches': [],
+                'switches': ['go-gcflags-m'],
                 'initial-checked': [],
                 'display-name': display_name,
-                'display-compile-command': 'go run prog.go',
-                'run-command': ['/opt/wandbox/go-{cv}/bin/go', 'run', 'prog.go'],
-                'runtime-option-raw': True,
+                'display-compile-command': 'go build -o prog',
+                'compile-command': ['/opt/wandbox/go-{cv}/bin/go', 'build', '-o', 'prog'],
+                'run-command': ['./prog'],
+                'runtime-option-raw': False,
                 'jail-name': 'melpon2-default',
                 'templates': ['go'],
             }, cv=cv))
