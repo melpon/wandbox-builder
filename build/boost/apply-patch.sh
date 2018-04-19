@@ -49,3 +49,7 @@ if compare_version "$VERSION" ">=" "1.51.0"; then
     patch -p0 -i $BASE_DIR/resources/boost-1.51.0-__GLIBC_HAVE_LONG_LONG.patch
   fi
 fi
+
+if compare_version "$VERSION" "==" "1.67.0"; then
+  patch -p2 -i $BASE_DIR/resources/boost-1.67.0-asio.patch
+fi
