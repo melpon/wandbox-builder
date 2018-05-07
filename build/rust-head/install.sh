@@ -22,7 +22,7 @@ sed -i -e 's$#prefix = "/usr/local"$prefix = "'$PREFIX'"$' ./config.toml
 # build
 
 ./x.py build -j2
-rm -r $PREFIX
+rm -r $PREFIX || true
 # enable install commands:
 #   ./x.py install analysis
 #   ./x.py install cargo
