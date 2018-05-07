@@ -16,6 +16,7 @@ case $VERSION in
   "7.10.3" ) URL="http://downloads.haskell.org/~ghc/7.10.3/ghc-7.10.3b-x86_64-deb8-linux.tar.bz2" ;;
   "8.0.2" ) URL="http://downloads.haskell.org/~ghc/8.0.2/ghc-8.0.2-x86_64-deb8-linux.tar.xz" ;;
   "8.2.1" ) URL="https://downloads.haskell.org/~ghc/8.2.1/ghc-8.2.1-x86_64-deb8-linux.tar.xz" ;;
+  "8.4.2" ) URL="https://downloads.haskell.org/~ghc/8.4.2/ghc-8.4.2-x86_64-deb8-linux.tar.xz" ;;
   * ) exit 1 ;;
 esac
 
