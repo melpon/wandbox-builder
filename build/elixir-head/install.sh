@@ -4,7 +4,7 @@
 
 PREFIX=/opt/wandbox/elixir-head
 VERSION=head
-ERLANG_VERSION=head
+ERLANG_VERSION=20.1
 
 cd ~/
 
