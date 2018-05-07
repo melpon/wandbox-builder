@@ -3,7 +3,7 @@
 . ../init.sh
 
 PREFIX=/opt/wandbox/ghc-head
-WITH_GHC=/opt/wandbox/ghc-8.0.2/bin/ghc
+WITH_GHC=/opt/wandbox/ghc-8.4.2/bin/ghc
 
 # get sources
 
