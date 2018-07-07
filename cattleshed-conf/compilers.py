@@ -585,7 +585,7 @@ class Compilers(object):
                     switches += ['c++1y', 'gnu++1y']
             if cmpver(cv, '>=', '5.1.0'):
                 switches += ['c++17', 'gnu++17']
-            if cmpver(cv, '==', 'head'):
+            if cmpver(cv, '>=', '8.1.0'):
                 switches += ['c++2a', 'gnu++2a']
             initial_checked += [switches[-1]]
 
@@ -613,6 +613,7 @@ class Compilers(object):
                     '-I/opt/wandbox/range-v3/include',
                     '-I/opt/wandbox/nlohmann-json/src',
                     '-I/opt/wandbox/cmcstl2/include',
+                    '-I/opt/wandbox/te/include',
                     'prog.cc'
                 ],
                 'version-command': version_command,
@@ -812,7 +813,7 @@ class Compilers(object):
                     switches += ['c++17', 'gnu++17']
                 else:
                     switches += ['c++1z', 'gnu++1z']
-            if cmpver(cv, '==', 'head'):
+            if cmpver(cv, '>=', '5.0.0'):
                 switches += ['c++2a', 'gnu++2a']
             initial_checked += [switches[-1]]
 
@@ -839,7 +840,8 @@ class Compilers(object):
                 '-I/opt/wandbox/boost-di/include',
                 '-I/opt/wandbox/range-v3/include',
                 '-I/opt/wandbox/nlohmann-json/src',
-                '-I/opt/wandbox/cmcstl2/include']
+                '-I/opt/wandbox/cmcstl2/include',
+                '-I/opt/wandbox/te/include']
 
             if cmpver(cv, '==', '3.2'):
                 # /usr/include/c++/5/type_traits:310:39: error: use of undeclared identifier '__float128'
@@ -954,7 +956,8 @@ class Compilers(object):
                 '-I/opt/wandbox/boost-di/include',
                 '-I/opt/wandbox/range-v3/include',
                 '-I/opt/wandbox/nlohmann-json/src',
-                '-I/opt/wandbox/cmcstl2/include']
+                '-I/opt/wandbox/cmcstl2/include',
+                '-I/opt/wandbox/te/include']
 
             compile_command += ['-stdlib=libc++', '-nostdinc++']
             compile_command += ['-lc++abi']
