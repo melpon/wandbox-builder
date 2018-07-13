@@ -274,6 +274,9 @@ class Switches(object):
                     if cmpver(cv, '==', '3.3') or cmpver(cv, '==', '3.4'):
                         libs += ['-lsupc++']
 
+                if cmpver(bv, '<=', '1.64.0'):
+                    libs += ['-DBOOST_NO_AUTO_PTR']
+
                 pairs.append(format_value(('boost-{bv}-{c}-{cv}', {
                     'flags': [
                         '-I/opt/wandbox/boost-{bv}/{c}-{cv}/include',
@@ -861,12 +864,12 @@ class Compilers(object):
                 compile_command += ['-lsupc++']
             if cmpver(cv, '>=', '3.5.0'):
                 compile_command += ['-lc++abi']
-            if cmpver(cv, '==', 'head'):
-                # /opt/wandbox/boost-1.63.0/clang-head/include/boost/smart_ptr/scoped_ptr.hpp:74:31: error: no type named 'auto_ptr' in namespace 'std'
-                #     explicit scoped_ptr( std::auto_ptr<T> p ) BOOST_NOEXCEPT : px( p.release() )
-                #                              ~~~~~^
-                #compile_command += ['-D_LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR']
-                compile_command += ['-DBOOST_NO_AUTO_PTR']
+            # if cmpver(cv, '==', 'head'):
+            #     # /opt/wandbox/boost-1.63.0/clang-head/include/boost/smart_ptr/scoped_ptr.hpp:74:31: error: no type named 'auto_ptr' in namespace 'std'
+            #     #     explicit scoped_ptr( std::auto_ptr<T> p ) BOOST_NOEXCEPT : px( p.release() )
+            #     #                              ~~~~~^
+            #     #compile_command += ['-D_LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR']
+            #     compile_command += ['-DBOOST_NO_AUTO_PTR']
 
             compile_command += ['prog.cc']
 
