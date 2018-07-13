@@ -118,9 +118,8 @@ def format_value(value, **kwargs):
 
 
 class Switches(object):
-    def resolve_conflicts(self, pairs):
-        conflicts = [p[0] for p in pairs]
-        return [(p[0], merge(p[1], { 'conflicts': conflicts })) for p in pairs]
+    def resolve_conflicts(self, pairs, group):
+        return [(p[0], merge(p[1], { 'group': group })) for p in pairs]
 
     def make_c(self):
         pairs = [
@@ -161,7 +160,7 @@ class Switches(object):
                 'display-name': 'C11(GNU)',
             }),
         ]
-        return self.resolve_conflicts(pairs)
+        return self.resolve_conflicts(pairs, 'std-c')
 
     def make_cxx(self):
         pairs = [
@@ -234,7 +233,7 @@ class Switches(object):
                 'display-name': 'C++2a(GNU)',
             }),
         ]
-        return self.resolve_conflicts(pairs)
+        return self.resolve_conflicts(pairs, 'std-cxx')
 
     def make_boost(self):
         boost_vers = sort_version(set(a for a, _, _ in get_boost_versions_with_head()))
@@ -283,7 +282,7 @@ class Switches(object):
                     'display-name': 'Boost {bv}',
                     'display-flags': '-I/opt/wandbox/boost-{bv}/{c}-{cv}/include',
                 }), bv=bv, c=c, cv=cv))
-            result.append(self.resolve_conflicts(pairs))
+            result.append(self.resolve_conflicts(pairs, 'boost-{c}-{cv}'.format(c=c, cv=cv)))
         return merge(*result)
 
     def make_boost_header(self):
@@ -313,7 +312,7 @@ class Switches(object):
                     'display-flags': '-I/opt/wandbox/boost-{bv}/{c}-{cv}/include',
                     'runtime': True,
                 }), bv=bv, c=c, cv=cv))
-            result.append(self.resolve_conflicts(pairs))
+            result.append(self.resolve_conflicts(pairs, 'boost-{c}-{cv}-header'.format(c=c, cv=cv)))
         return merge(*result)
 
     def make_pedantic(self):
@@ -334,7 +333,7 @@ class Switches(object):
                 'display-flags': '-pedantic-errors',
             }),
         ]
-        return self.resolve_conflicts(pairs)
+        return self.resolve_conflicts(pairs, 'cpp-pedantic')
 
     def make_default(self):
         return {
