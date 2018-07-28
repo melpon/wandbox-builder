@@ -25,8 +25,10 @@ fi
 
 mkdir -p ~/tmp/gcc-$VERSION/
 cd ~/tmp/gcc-$VERSION/
+
+  # http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-$VERSION/gcc-$VERSION.tar.gz \
 wget_strict_sha256 \
-  http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-$VERSION/gcc-$VERSION.tar.gz \
+  https://bigsearcher.com/mirrors/gcc/releases/gcc-$VERSION/gcc-$VERSION.tar.gz \
   $BASE_DIR/resources/gcc-$VERSION.tar.gz.sha256
 
 tar xf gcc-$VERSION.tar.gz
