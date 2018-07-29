@@ -10,7 +10,9 @@ fi
 VERSION=$1
 PREFIX=/opt/wandbox/elixir-$VERSION
 
-if compare_version "$VERSION" ">=" "1.4.5"; then
+if compare_version "$VERSION" ">=" "1.6.6"; then
+  ERLANG_VERSION=21.0
+elif compare_version "$VERSION" ">=" "1.4.5"; then
   ERLANG_VERSION=20.0
 elif compare_version "$VERSION" ">=" "1.3.0"; then
   ERLANG_VERSION=19.2
