@@ -215,6 +215,12 @@ def test_bash():
     add_test(compiler, lambda: run(compiler, code, 'hello\n'))
 
 
+def test_cmake_head():
+    compiler = 'cmake-head'
+    code = codecs.open('../build/cmake-head/resources/test.cmake', 'r', 'utf-8').read()
+    add_test(compiler, lambda: run(compiler, code, '-- hello\n'))
+
+
 def register():
     test_list()
     test_boost()
@@ -263,6 +269,7 @@ def register():
     test_generic(name='openssl', test_file='test.ssl.sh', expected='-----BEGIN RSA PRIVATE KEY-----\n', with_head=True)
     test_generic(name='emacs', test_file='test.el', expected='hello\n', with_head=False)
     test_generic(name='fsharp', test_file='test.fs', expected='hello\n', with_head=True)
+    test_cmake_head()
     test_bash()
 
 

@@ -2171,6 +2171,40 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_cmake(self):
+        # cmake_vers = get_generic_versions('cmake', with_head=True)
+        cmake_vers = ['head']
+        compilers = []
+        for cv in cmake_vers:
+            if cv == 'head':
+                display_name = 'cmake HEAD'
+            else:
+                display_name = 'cmake'
+
+            if cv == 'head':
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/cmake-{cv}/bin/cmake --version | head -1 | cut -d' ' -f3"]
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'cmake-{cv}',
+                'displayable': True,
+                'language': 'CMake',
+                'output-file': 'prog.cmake',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'cmake -P prog.cmake',
+                'run-command': ['/opt/wandbox/cmake-{cv}/bin/cmake', '-P', 'prog.cmake'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+                'templates': ['cmake'],
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -2218,7 +2252,8 @@ class Compilers(object):
             self.make_nim() +
             self.make_openssl() +
             self.make_emacs() +
-            self.make_fsharp()
+            self.make_fsharp() +
+            self.make_cmake()
         )
 
 

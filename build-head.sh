@@ -92,6 +92,7 @@ for compiler in \
     rust-head \
     luajit-head \
     fsharp-head \
+    cmake-head \
 ; do
   start_time=`date +%s`
 
