@@ -2,10 +2,6 @@ FROM ubuntu:16.04
 
 MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
-RUN locale-gen en_US.UTF-8 && \
-    update-locale LC_ALL=en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
-
 RUN apt-get update && \
     apt-get install -y \
       binutils \
@@ -23,6 +19,7 @@ RUN apt-get update && \
       libmpc3 \
       libpcre3-dev \
       libstdc++-5-dev \
+      locales \
       python-dev \
       python3-dev && \
     # for kennel deps
@@ -31,3 +28,9 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s libgmp.so /usr/lib/x86_64-linux-gnu/libgmp.so.3
+
+RUN locale-gen en_US.UTF-8 && \
+    update-locale LC_ALL=en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
