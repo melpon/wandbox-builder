@@ -73,7 +73,6 @@ for compiler in \
     ruby-head \
     mruby-head \
     scala-head \
-    groovy-head \
     nodejs-head \
     coffeescript-head \
     swift-head \
@@ -94,6 +93,9 @@ for compiler in \
     fsharp-head \
     cmake-head \
 ; do
+  # remove groovy-head for out of memory
+  # groovy-head
+
   start_time=`date +%s`
 
   run $compiler > $LOG_DIR/$compiler.log 2>&1 || echo "$compiler: $?" >> $LOG_DIR/failed.log

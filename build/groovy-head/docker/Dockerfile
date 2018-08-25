@@ -10,3 +10,5 @@ RUN apt-get update && \
       wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+ENV GRADLE_SCANS_ACCEPT=yes
