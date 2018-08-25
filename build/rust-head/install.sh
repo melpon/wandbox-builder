@@ -23,6 +23,7 @@ sed -i -e 's$#prefix = "/usr/local"$prefix = "'$PREFIX'"$' ./config.toml
 
 ./x.py build -j2
 rm -r $PREFIX || true
+mkdir $PREFIX
 # enable install commands:
 #   ./x.py install analysis
 #   ./x.py install cargo
