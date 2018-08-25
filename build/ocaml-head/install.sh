@@ -15,6 +15,7 @@ git submodule update --recursive -i
 
 ./configure -prefix $PREFIX
 make world.opt
+rm -rf $PREFIX || true
 make install
 
 # install opam
@@ -24,10 +25,9 @@ sh opam_installer.sh $PREFIX/bin
 
 export PATH=$PREFIX/bin:$PATH
 export OPAMROOT=$PREFIX/.opam
-rm -rf $PREFIX/.opam || true
-$PREFIX/bin/opam init < /dev/null
-# $PREFIX/bin/opam install -y core
-$PREFIX/bin/opam install -y ocamlfind
+opam init < /dev/null
+# opam install -y core
+opam install -y ocamlfind
 
 # run ocaml
 

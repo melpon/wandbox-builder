@@ -1891,10 +1891,12 @@ class Compilers(object):
             if cv == 'head':
                 display_name = 'ocaml HEAD'
                 version_command = ['/opt/wandbox/ocaml-{cv}/bin/ocamlc', '--version']
+                switches = []
                 initial_checked = []
             else:
                 display_name = 'ocaml'
                 version_command = ['/bin/echo', '{cv}']
+                switches = ['ocaml-core']
                 initial_checked = ['ocaml-core']
 
             compilers.append(format_value({
@@ -1905,7 +1907,7 @@ class Compilers(object):
                 'compiler-option-raw': True,
                 'compile-command': ['/opt/wandbox/ocaml-{cv}/bin/with-env.sh', 'ocamlfind', 'ocamlopt', '-thread', '-linkpkg', 'prog.ml', '-o', 'prog'],
                 'version-command': version_command,
-                'switches': ['ocaml-core'],
+                'switches': switches,
                 'initial-checked': initial_checked,
                 'display-name': display_name,
                 'display-compile-command': 'ocamlfind ocamlopt -thread -linkpkg prog.ml -o prog',
