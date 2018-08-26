@@ -92,6 +92,7 @@ for compiler in \
     luajit-head \
     fsharp-head \
     cmake-head \
+    dotnetcore-head \
 ; do
   # remove groovy-head for out of memory
   # groovy-head
