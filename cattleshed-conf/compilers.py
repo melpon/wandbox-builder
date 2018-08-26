@@ -2207,6 +2207,35 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_dotnetcore(self):
+        dotnetcore_vers = sort_version(get_generic_versions('dotnetcore', with_head=True), reverse=True)
+        compilers = []
+        for cv in dotnetcore_vers:
+            if cv == 'head':
+                display_name = '.NET Core HEAD'
+                version_command = ['/opt/wandbox/dotnetcore-{cv}/dotnet', '--version']
+            else:
+                display_name = '.NET Core'
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'dotnetcore-{cv}',
+                'displayable': True,
+                'language': 'C#',
+                'output-file': 'Program.cs',
+                'compiler-option-raw': True,
+                'compile-command': ['/opt/wandbox/dotnetcore-{cv}/bin/build-dotnet.sh'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'dotnet build',
+                'run-command': ['/opt/wandbox/dotnetcore-{cv}/bin/run-dotnet.sh'],
+                'jail-name': 'melpon2-dotnetcore',
+                'templates': ['dotnetcore'],
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -2255,7 +2284,8 @@ class Compilers(object):
             self.make_openssl() +
             self.make_emacs() +
             self.make_fsharp() +
-            self.make_cmake()
+            self.make_cmake() +
+            self.make_dotnetcore()
         )
 
 

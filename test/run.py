@@ -269,6 +269,7 @@ def register():
     test_generic(name='openssl', test_file='test.ssl.sh', expected='-----BEGIN RSA PRIVATE KEY-----\n', with_head=True)
     test_generic(name='emacs', test_file='test.el', expected='hello\n', with_head=False)
     test_generic(name='fsharp', test_file='test.fs', expected='hello\n', with_head=True)
+    test_generic(name='dotnetcore', test_file='test.cs', expected='hello\n', with_head=True)
     test_cmake_head()
     test_bash()
 

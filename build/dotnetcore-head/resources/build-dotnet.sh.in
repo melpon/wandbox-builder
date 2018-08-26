@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e
+
+export NUGET_PACKAGES=@prefix@/.nuget/packages
+
+mkdir prog
+mv Program.cs prog/
+cd prog
+COREAPP_VERSION=`ls -1 @prefix@/shared/Microsoft.NETCore.App | head -n 1 | cut -d'.' -f1,2`
+echo "
+<Project Sdk=\"Microsoft.NET.Sdk\">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp$COREAPP_VERSION</TargetFramework>
+  </PropertyGroup>
+</Project>
+" > prog.csproj
+@prefix@/dotnet build "$@"
