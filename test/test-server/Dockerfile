@@ -14,6 +14,7 @@ RUN apt-get update && \
       libffi6 \
       libgc-dev \
       libgcc-5-dev \
+      libgfortran3 \
       libgmp-dev \
       libicu55 \
       libmpc3 \

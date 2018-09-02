@@ -93,6 +93,7 @@ for compiler in \
     fsharp-head \
     cmake-head \
     dotnetcore-head \
+    r-head \
 ; do
   # remove groovy-head for out of memory
   # groovy-head

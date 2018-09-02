@@ -271,6 +271,7 @@ def register():
     test_generic(name='fsharp', test_file='test.fs', expected='hello\n', with_head=True)
     test_generic(name='dotnetcore', test_file='test.cs', expected='hello\n', with_head=True)
     test_cmake_head()
+    test_generic(name='r', test_file='test.R', expected='hello', with_head=True)
     test_bash()
 
 

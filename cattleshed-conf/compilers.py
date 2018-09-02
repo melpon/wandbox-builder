@@ -2236,6 +2236,39 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_r(self):
+        r_vers = get_generic_versions('r', with_head=True)
+        compilers = []
+        for cv in r_vers:
+            if cv == 'head':
+                display_name = 'R devel'
+            else:
+                display_name = 'R'
+
+            if cv == 'head':
+                version_command = ['/bin/cat', '/opt/wandbox/r-{cv}/VERSION']
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'r-{cv}',
+                'displayable': True,
+                'language': 'R',
+                'output-file': 'prog.R',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'Rscript prog.R',
+                'run-command': ['/opt/wandbox/r-{cv}/bin/Rscript', 'prog.R'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+                'templates': ['r'],
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -2285,7 +2318,8 @@ class Compilers(object):
             self.make_emacs() +
             self.make_fsharp() +
             self.make_cmake() +
-            self.make_dotnetcore()
+            self.make_dotnetcore() +
+            self.make_r()
         )
 
 
