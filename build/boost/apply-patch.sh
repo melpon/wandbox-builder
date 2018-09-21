@@ -50,6 +50,11 @@ if compare_version "$VERSION" ">=" "1.51.0"; then
   fi
 fi
 
-if compare_version "$VERSION" "==" "1.67.0"; then
-  patch -p2 -i $BASE_DIR/resources/boost-1.67.0-asio.patch
+if compare_version "$VERSION" "==" "1.66.0"; then
+  patch -p1 -i $BASE_DIR/resources/boost-1.66.0-asio.patch
+fi
+if compare_version "$VERSION" ">=" "1.67.0"; then
+  if compare_version "$VERSION" "<=" "1.68.0"; then
+    patch -p2 -i $BASE_DIR/resources/boost-1.67.0-asio.patch
+  fi
 fi
