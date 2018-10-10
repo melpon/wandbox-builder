@@ -14,5 +14,5 @@ sh build_all.sh
 
 # install
 ./koch install /opt
-rm -r "$PREFIX"
+[ -e "$PREFIX" ] && rm -r "$PREFIX"
 mv /opt/nim "$PREFIX"
