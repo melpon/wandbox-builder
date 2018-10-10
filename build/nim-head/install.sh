@@ -8,17 +8,9 @@ cd ~/
 
 # get sources
 git clone --depth 1 https://github.com/nim-lang/Nim.git
-
 cd Nim
-git submodule update --recursive --init
-git clone --depth 1 https://github.com/nim-lang/csources.git
-
-# build
-cd csources
-sh ./build.sh
-cd ..
-./bin/nim c koch
-./koch boot -d:release
+# clones `csources.git`, bootstraps Nim compiler and compiles tools
+sh build_all.sh
 
 # install
 ./koch install /opt
