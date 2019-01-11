@@ -18,7 +18,12 @@ VERSION_TARNAME=$(echo $VERSION | sed 's/\./_/g')
 
 # set flags
 
-WITHOUTS="--without-mpi --without-signals --without-python --without-test"
+if compare_version $VERSION "<=" "1.68.0"; then
+  WITHOUTS="--without-mpi --without-signals --without-python --without-test"
+else
+  WITHOUTS="--without-mpi --without-python --without-test"
+fi
+
 ADDFLAGS=""
 if [ $COMPILER = "clang-head" ]; then
   ADDFLAGS="<cxxflags>-Wno-unused-local-typedefs"
