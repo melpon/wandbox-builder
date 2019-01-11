@@ -17,6 +17,9 @@ PREFIX=/opt/wandbox/openjdk-$VERSION
 # get sources
 
 case "$VERSION" in
+  "jdk-11+28" )
+    VERSION_FLAGS="--with-version-string=11+28"
+    URL=http://hg.openjdk.java.net/jdk/jdk11 ;;
   "jdk-10+23" )
     VERSION_FLAGS="--with-version-string=10+23"
     URL=http://hg.openjdk.java.net/jdk10/jdk10 ;;
