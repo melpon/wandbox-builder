@@ -3,18 +3,18 @@
 . ../init.sh
 
 PREFIX=/opt/wandbox/openjdk-head
+BOOTSTRAP_JDK="/opt/wandbox/openjdk-jdk-11+28/jvm/openjdk-11"
 
 # get sources
 
 cd ~/
-hg clone http://hg.openjdk.java.net/jdk10/jdk10 openjdk
+hg clone http://hg.openjdk.java.net/jdk/jdk12 openjdk
 cd openjdk
-bash get_source.sh
 
 # build
 
-bash configure --prefix=$PREFIX --with-memory-size=2048 --with-num-cores=3
-make all
+bash configure --prefix=$PREFIX --with-memory-size=2048 --with-num-cores=3 --with-boot-jdk=$BOOTSTRAP_JDK
+make images
 make install
 
 cp $BASE_DIR/resources/run-java.sh.in $PREFIX/bin/run-java.sh
