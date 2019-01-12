@@ -18,6 +18,8 @@ PREFIX=/opt/wandbox/openjdk-$VERSION
 
 case "$VERSION" in
   "jdk-11+28" )
+    JDK_MAJOR=11
+    BOOTSTRAP_JDK="/opt/wandbox/openjdk-jdk-10+23/jvm/openjdk-10"
     VERSION_FLAGS="--with-version-string=11+28"
     URL=http://hg.openjdk.java.net/jdk/jdk11 ;;
   "jdk-10+23" )
@@ -53,11 +55,15 @@ esac
 cd ~/
 hg clone $URL openjdk
 cd openjdk
-bash get_source.sh
-if [ "$VERSION" = "jdk7u121-b00" ]; then
-  bash ./make/scripts/hgforest.sh checkout $VERSION
+if [ "$VERSION" = "jdk-11+28" ]; then
+  :
 else
-  bash ./common/bin/hgforest.sh checkout $VERSION
+  bash get_source.sh
+  if [ "$VERSION" = "jdk7u121-b00" ]; then
+    bash ./make/scripts/hgforest.sh checkout $VERSION
+  else
+    bash ./common/bin/hgforest.sh checkout $VERSION
+  fi
 fi
 
 # build
@@ -70,10 +76,18 @@ if [ "$VERSION" = "jdk7u121-b00" ]; then
   rm -r $PREFIX || true
   cp -r build/linux-amd64 $PREFIX
 else
-  bash configure --prefix=$PREFIX --with-memory-size=2048 --with-num-cores=3 $VERSION_FLAGS
-  make all
-  rm -r $PREFIX || true
-  make install
+  if [ $JDK_MAJOR -eq 11 ]; then
+    # JDK11 needs JDK10 or JDK11 for bootstrapping
+    bash configure --prefix=$PREFIX --with-memory-size=2048 --with-num-cores=3 --with-boot-jdk=$BOOTSTRAP_JDK $VERSION_FLAGS
+    make images
+    rm -r $PREFIX || true
+    make install
+  else
+    bash configure --prefix=$PREFIX --with-memory-size=2048 --with-num-cores=3 $VERSION_FLAGS
+    make all
+    rm -r $PREFIX || true
+    make install
+  fi
 fi
 
 cp $BASE_DIR/resources/run-java.sh.in $PREFIX/bin/run-java.sh
