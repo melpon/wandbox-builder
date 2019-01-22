@@ -22,4 +22,4 @@ bin/nim c koch
 # install
 sh install.sh ~/tmp
 [ -e "$PREFIX" ] && rm -r "$PREFIX"
-mv ~/tmp "$PREFIX"
+mv ~/tmp/nim "$PREFIX"
