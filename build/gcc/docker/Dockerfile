@@ -5,6 +5,7 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 RUN apt-get update && \
     apt-get install -y \
       build-essential \
+      gcc-multilib \
       libc6-dev-i386 \
       libgmp-dev \
       libmpc-dev \

@@ -57,6 +57,15 @@ def get_generic_versions(name, with_head):
     return head + lines
 
 
+def get_gcc_versions(includes_gcc_1, with_head):
+    vers = get_generic_versions('gcc', with_head=with_head)
+    # remove gcc 1.x
+    if not includes_gcc_1:
+        return filter(lambda ver: cmpver(ver, '>=', '2.0'), vers)
+    else:
+        return vers
+
+
 # foo-1.23.4
 def compare(a, b):
     name_a, version_a = a.split('-')
@@ -237,7 +246,7 @@ class Switches(object):
 
     def make_boost(self):
         boost_vers = sort_version(set(a for a, _, _ in get_boost_versions_with_head()))
-        gcc_vers = sort_version(get_generic_versions('gcc', with_head=True))
+        gcc_vers = sort_version(get_gcc_versions(includes_gcc_1=False, with_head=True))
         clang_vers = sort_version(get_generic_versions('clang', with_head=True))
         zapcc_vers = sort_version(get_generic_versions('zapcc', with_head=False))
         compiler_vers = [('gcc', v) for v in gcc_vers] + [('clang', v) for v in clang_vers] + [('zapcc', v) for v in zapcc_vers]
@@ -414,33 +423,39 @@ class Switches(object):
 
 class Compilers(object):
     def make_gcc_c(self):
-        gcc_vers = sort_version(get_generic_versions('gcc', with_head=True), reverse=True)
+        gcc_vers = sort_version(get_gcc_versions(includes_gcc_1=True, with_head=True), reverse=True)
 
         compilers = []
         for cv in gcc_vers:
             switches = []
             initial_checked = []
 
-            # default
-            if cmpver(cv, '>=', '4.5.4'):
-                switches += ['warning']
-                initial_checked += ['warning']
+            # gcc-1.xx
+            if cmpver(cv, '<=', '1.42'):
+                # no switches
+                switches = []
+                initial_checked = []
             else:
-                switches += ['oldgcc-warning']
-                initial_checked += ['oldgcc-warning']
-            switches += ["optimize", "cpp-verbose"]
+                # default
+                if cmpver(cv, '>=', '4.5.4'):
+                    switches += ['warning']
+                    initial_checked += ['warning']
+                else:
+                    switches += ['oldgcc-warning']
+                    initial_checked += ['oldgcc-warning']
+                switches += ["optimize", "cpp-verbose"]
 
-            # C
-            switches += ['std-c-default', 'c89', 'gnu89', 'c99', 'gnu99']
-            if cmpver(cv, '==', '4.6.4'):
-                switches += ['c1x', 'gnu1x']
-            if cmpver(cv, '>=', '4.7.3'):
-                switches += ['c11', 'gnu11']
-            initial_checked += [switches[-1]]
+                # C
+                switches += ['std-c-default', 'c89', 'gnu89', 'c99', 'gnu99']
+                if cmpver(cv, '==', '4.6.4'):
+                    switches += ['c1x', 'gnu1x']
+                if cmpver(cv, '>=', '4.7.3'):
+                    switches += ['c11', 'gnu11']
+                initial_checked += [switches[-1]]
 
-            # pedantic
-            if cmpver(cv, '>=', '4.5.4'):
-                switches += ["cpp-no-pedantic", "cpp-pedantic", "cpp-pedantic-errors"]
+                # pedantic
+                if cmpver(cv, '>=', '4.5.4'):
+                    switches += ["cpp-no-pedantic", "cpp-pedantic", "cpp-pedantic-errors"]
 
             # head specific
             if cv == 'head':
@@ -450,14 +465,23 @@ class Compilers(object):
                 display_name = 'gcc'
                 version_command = ['/bin/echo', '{cv}']
 
-            compilers.append(format_value({
-                'name': 'gcc-{cv}-c',
-                'compile-command': [
+            if cmpver(cv, '<=', '1.42'):
+                compile_command = [
+                    '/opt/wandbox/gcc-{cv}/bin/gcc',
+                    '-oprog.exe',
+                    'prog.c'
+                ]
+            else:
+                compile_command = [
                     '/opt/wandbox/gcc-{cv}/bin/gcc',
                     '-oprog.exe',
                     '-Wl,-rpath,/opt/wandbox/gcc-{cv}/lib64',
                     'prog.c'
-                ],
+                ]
+
+            compilers.append(format_value({
+                'name': 'gcc-{cv}-c',
+                'compile-command': compile_command,
                 'version-command': version_command,
                 'display-name': display_name,
                 'display-compile-command': 'gcc prog.c',
@@ -536,7 +560,7 @@ class Compilers(object):
 
     def make_gcc(self):
         boost_vers = sort_version(set(a for a, _, _ in get_boost_versions_with_head()))
-        gcc_vers = sort_version(get_generic_versions('gcc', with_head=True), reverse=True)
+        gcc_vers = sort_version(get_gcc_versions(includes_gcc_1=False, with_head=True), reverse=True)
 
         boost_ver_set = set(get_boost_versions_with_head())
         # boost versions

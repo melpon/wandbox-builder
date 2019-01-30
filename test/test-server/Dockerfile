@@ -8,6 +8,7 @@ RUN apt-get update && \
       clang \
       g++ \
       libc6-dev \
+      libc6-dev-i386 \
       libedit2 \
       libevent-dev \
       libexpat1 \

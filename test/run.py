@@ -166,6 +166,23 @@ def run_boost(version, compiler, compiler_version, code, expected):
     assert r.json()['program_output'] == expected
 
 
+def test_gcc_c():
+    code = codecs.open('../build/gcc/resources/test.c', 'r', 'utf-8').read()
+    code_head = codecs.open('../build/gcc-head/resources/test.c', 'r', 'utf-8').read()
+    code_gcc_1 = codecs.open('../build/gcc/resources/test_gcc_1.c', 'r', 'utf-8').read()
+
+    for cv in get_generic_versions('gcc', with_head=True):
+        compiler = 'gcc-{cv}-c'.format(cv=cv)
+        if compiler.startswith('gcc-1.'):
+            # gcc-1.xx
+            add_test(compiler, lambda compiler=compiler: run(compiler, code_gcc_1, 'hello\n'))
+        elif compiler.startswith('gcc-head'):
+            # gcc-head
+            add_test(compiler, lambda compiler=compiler: run(compiler, code_head, 'hello\n'))
+        else:
+            add_test(compiler, lambda compiler=compiler: run(compiler, code, 'hello\n'))
+
+
 def test_boost():
     code = codecs.open('../build/boost/resources/test.cpp', 'r', 'utf-8').read()
     for version, compiler, compiler_version in get_boost_versions():
@@ -226,7 +243,7 @@ def register():
     test_boost()
     test_boost_head()
     test_rill_head()
-    test_generic(name='gcc', test_file='test.c', expected='hello\n', with_head=True, post_name='-c')
+    test_gcc_c()
     test_generic(name='gcc', test_file='test.cpp', expected='hello\n', with_head=True)
     test_generic(name='clang', test_file='test.c', expected='hello\n', with_head=True, post_name='-c')
     test_generic(name='clang', test_file='test.cpp', expected='hello\n', with_head=True)
