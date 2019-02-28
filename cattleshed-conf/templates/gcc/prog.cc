@@ -11,10 +11,9 @@ int main()
 //   https://gcc.gnu.org/
 
 // C++ language references:
-//   https://msdn.microsoft.com/library/3bstk3k5.aspx
-//   http://www.cplusplus.com/
+//   https://cppreference.com/
 //   https://isocpp.org/
 //   http://www.open-std.org/jtc1/sc22/wg21/
 
 // Boost libraries references:
-//   http://www.boost.org/doc/
+//   https://www.boost.org/doc/
