@@ -34,6 +34,8 @@ function already_installed() {
   esac
 }
 
+cd $BASE_DIR
+
 cat VERSIONS | while read line; do
   if [ "$line" != "" ]; then
     if already_installed $BUILD $line; then
@@ -43,3 +45,5 @@ cat VERSIONS | while read line; do
     fi
   fi
 done
+
+cd ..
