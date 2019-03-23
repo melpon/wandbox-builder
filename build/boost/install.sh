@@ -89,7 +89,7 @@ cd boost_$VERSION_TARNAME
 
 DIR=`pwd`
 pushd $BASE_DIR
-./apply-patch.sh $DIR $VERSION
+./apply-patch.sh $DIR $VERSION $COMPILER $COMPILER_VERSION
 popd
 
 # build

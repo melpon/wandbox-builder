@@ -2,8 +2,8 @@
 
 . ./init.sh
 
-if [ $# -lt 2 ]; then
-  echo "$0 <boost-directory> <version>"
+if [ $# -lt 4 ]; then
+  echo "$0 <boost-directory> <version> <compiler> <compiler_version>"
   exit 0
 fi
 
@@ -15,6 +15,8 @@ if [ ! -e "boost/chrono/config.hpp" ]; then
 fi
 
 VERSION=$2
+COMPILER=$3
+COMPILER_VERSION=$4
 
 if compare_version "$VERSION" "<=" "1.49.0"; then
   # https://www.tablix.org/~avian/blog/archives/2015/02/working_around_broken_boost_thread/
@@ -56,5 +58,18 @@ fi
 if compare_version "$VERSION" ">=" "1.67.0"; then
   if compare_version "$VERSION" "<=" "1.68.0"; then
     patch -p2 -i $BASE_DIR/resources/boost-1.67.0-asio.patch
+  fi
+fi
+
+# https://github.com/boostorg/build/pull/368
+# PTH feature is removed since clang-8.0.0: http://releases.llvm.org/8.0.0/tools/clang/docs/ReleaseNotes.html#non-comprehensive-list-of-changes-in-this-release
+if compare_version "$VERSION" "<=" "1.68.0"; then
+  if [ "$COMPILER" = "clang" ]; then
+    if compare_version "$COMPILER_VERSION" ">=" "8.0.0"; then
+      sed "s/without-pth/without-pch/g" -i tools/build/src/tools/clang-linux.jam
+      sed "s/include-pth/include-pch/g" -i tools/build/src/tools/clang-linux.jam
+      sed "s/emit-pth/emit-pch/g" -i tools/build/src/tools/clang-linux.jam
+      sed "s/pth-file/pch-file/g" -i tools/build/src/tools/clang-linux.jam
+    fi
   fi
 fi
