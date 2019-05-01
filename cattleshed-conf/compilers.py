@@ -1964,7 +1964,7 @@ class Compilers(object):
                 'initial-checked': [],
                 'display-name': display_name,
                 'display-compile-command': 'go build -o prog',
-                'compile-command': ['/opt/wandbox/go-{cv}/bin/go', 'build', '-o', 'prog'],
+                'compile-command': ['/bin/bash', '-c', 'GO111MODULE=off /opt/wandbox/go-{cv}/bin/go build -o prog'],
                 'run-command': ['./prog'],
                 'runtime-option-raw': False,
                 'jail-name': 'melpon2-default',
