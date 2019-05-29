@@ -7,6 +7,8 @@ RUN apt-get update && \
         nodejs \
         npm \
         wget && \
-        apt-get clean && \
-        rm -rf /var/lib/apt/lists/*
-
+    npm install n -g && \
+    n stable && \
+    apt purge -y nodejs npm && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
