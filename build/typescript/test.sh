@@ -10,5 +10,5 @@ fi
 VERSION=$1
 PREFIX=/opt/wandbox/typescript-$VERSION
 
-test "`$PREFIX/node_modules/typescriptbin/tsc $BASE_DIR/resources/test.ts` && node $BASE_DIR/resources/test.js" = "hello"
+test "`$PREFIX/node_modules/typescript/bin/tsc $BASE_DIR/resources/test.ts` && node $BASE_DIR/resources/test.js" = "hello"
 rm $BASE_DIR/resources/test.js
