@@ -8,24 +8,18 @@ if [ $# -lt 1 ]; then
 fi
 
 VERSION=$1
-PREFIX=/opt/wandbox/nodejs-$VERSION
+PREFIX=/opt/wandbox/typescript-$VERSION
 
 # get sources
 
-cd ~/
-wget_strict_sha256 \
-  https://nodejs.org/dist/v$VERSION/node-v$VERSION.tar.gz \
-  $BASE_DIR/resources/node-v$VERSION.tar.gz.sha256
+mkdir $PREFIX
+cd $PREFIX
 
-tar xf node-v$VERSION.tar.gz
-cd node-v$VERSION
+# create package.json
 
-# build
+echo "{ \"dependencies\": { \"typescript\": \"$VERSION\" } }" > package.json
 
-./configure --prefix=$PREFIX --partly-static
-make -j2
-make install
+# install
 
-# update
-
-PATH=$PREFIX/bin:$PATH npm update -g
+npm install
+PATH=$PREFIX/node_modules/typescript/bin:$PATH
