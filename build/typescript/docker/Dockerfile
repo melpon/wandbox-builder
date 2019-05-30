@@ -4,11 +4,11 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-        nodejs \
-        npm \
-        wget && \
-    npm install n -g && \
-    n stable && \
-    apt purge -y nodejs npm && \
+      g++ \
+      gcc \
+      git \
+      make \
+      python-minimal \
+      wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
