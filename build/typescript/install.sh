@@ -31,7 +31,9 @@ cd node-v$NODE_VERSION
 make -j2
 make install
 
-PATH=$PREFIX/bin:$PATH npm update -g
+PATH=$PREFIX/bin:$PATH
+
+npm update -g
 
 cd ../
 
@@ -39,7 +41,7 @@ cd ../
 
 echo "{ \"dependencies\": { \"typescript\": \"$VERSION\" } }" > package.json
 
-$PREFIX/bin/npm install
+npm install
 
 cp $BASE_DIR/resources/run-tsc.sh.in $PREFIX/bin/run-tsc.sh
 sed -i "s#@prefix@#$PREFIX#g" $PREFIX/bin/run-tsc.sh
