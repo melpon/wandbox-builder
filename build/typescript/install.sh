@@ -10,7 +10,7 @@ fi
 VERSION=$1
 PREFIX=/opt/wandbox/typescript-$VERSION
 
-# get sources
+# create dir
 
 mkdir $PREFIX
 cd $PREFIX
