@@ -22,4 +22,5 @@ echo "{ \"dependencies\": { \"typescript\": \"$VERSION\" } }" > package.json
 # install
 
 npm install
+rm package.json
 PATH=$PREFIX/node_modules/typescript/bin:$PATH
