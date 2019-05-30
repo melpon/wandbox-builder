@@ -9,6 +9,8 @@ fi
 
 VERSION=$1
 PREFIX=/opt/wandbox/typescript-$VERSION
+# node.js install path
+NODE_PATH=/opt/wandbox/typescript-env
 NODE_VERSION=10.16.0
 
 # create dir
@@ -16,22 +18,23 @@ NODE_VERSION=10.16.0
 mkdir $PREFIX
 cd $PREFIX
 
-# install nodejs
+# check install node.js
+if [ ! -e $NODE_PATH ]; then
+  wget_strict_sha256 \
+    https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.gz \
+    $BASE_DIR/resources/node-v$NODE_VERSION.tar.gz.sha256
 
-wget_strict_sha256 \
-  https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.gz \
-  $BASE_DIR/resources/node-v$NODE_VERSION.tar.gz.sha256
+  tar xf node-v$NODE_VERSION.tar.gz
+  cd node-v$NODE_VERSION
 
-tar xf node-v$NODE_VERSION.tar.gz
-cd node-v$NODE_VERSION
+  # build node.js
 
-# build nodejs
+  ./configure --prefix=$NODE_PATH --partly-static
+  make -j2
+  make install
+fi
 
-./configure --prefix=$PREFIX --partly-static
-make -j2
-make install
-
-PATH=$PREFIX/bin:$PATH
+PATH=$NODE_PATH/bin:$PATH
 
 npm update -g
 

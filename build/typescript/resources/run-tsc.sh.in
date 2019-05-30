@@ -1,4 +1,4 @@
 #!/bin/bash
 
-PATH=@prefix@/bin/:$PATH
+PATH=/opt/wandbox/typescript-env/bin/:$PATH
 @prefix@/node_modules/typescript/bin/tsc "$@"

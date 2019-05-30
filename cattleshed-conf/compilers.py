@@ -2314,7 +2314,7 @@ class Compilers(object):
                 'display-name': display_name,
                 'display-compile-command': 'tsc prog.ts && node prog.js',
                 'runtime-option-raw': True,
-                'run-command': ['/opt/wandbox/typescript-{cv}/bin/run-tsc.sh', 'prog.ts', '&& /opt/wandbox/typescript-{cv}/bin/node prog.js'],
+                'run-command': ['/opt/wandbox/typescript-{cv}/bin/run-tsc.sh', 'prog.ts', '&& /opt/wandbox/typescript-env/bin/node prog.js'],
                 'jail-name': 'melpon2-default',
                 'templates': ['typescript'],
             }, cv=cv))
