@@ -16,15 +16,11 @@ NODE_VERSION=10.16.0
 mkdir $PREFIX
 cd $PREFIX
 
-# create package.json
-
-echo "{ \"dependencies\": { \"typescript\": \"$VERSION\" } }" > package.json
-
 # install nodejs
 
 wget_strict_sha256 \
   https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.gz \
-  $BASE_DIR/resources/node-v$NODE_VERSION/node-v$NODE_VERSION.tar.gz.sha256
+  $BASE_DIR/resources/node-v$NODE_VERSION.tar.gz.sha256
 
 tar xf node-v$NODE_VERSION.tar.gz
 cd node-v$NODE_VERSION
@@ -36,6 +32,12 @@ make -j2
 make install
 
 PATH=$PREFIX/bin:$PATH npm update -g
+
+cd ../
+
+# create package.json
+
+echo "{ \"dependencies\": { \"typescript\": \"$VERSION\" } }" > package.json
 
 npm install
 rm package.json
