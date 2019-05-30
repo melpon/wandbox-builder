@@ -2299,7 +2299,7 @@ class Compilers(object):
         for cv in typescript_vers:
 
             display_name = 'TypeScript'
-            version_command = ['/bin/bash', '-c', '/opt/wandbox/typescript-{cv}/node_modules/typescript/bin/tsc --version | cut -c 9-']
+            version_command = ['/bin/bash', '-c', '/opt/wandbox/typescript-{cv}/bin/run-tsc.sh --version | cut -c 9-']
 
             compilers.append(format_value({
                 'name': 'TypeScript-{cv}',
@@ -2314,7 +2314,7 @@ class Compilers(object):
                 'display-name': display_name,
                 'display-compile-command': 'tsc prog.ts && node prog.js',
                 'runtime-option-raw': True,
-                'run-command': ['/opt/wandbox/typescript-{cv}/node_modules/typescript/bin/tsc', 'prog.ts'],
+                'run-command': ['/opt/wandbox/typescript-{cv}/bin/run-tsc.sh', 'prog.ts', '&& /opt/wandbox/typescript-{cv}/bin/node prog.js'],
                 'jail-name': 'melpon2-default',
                 'templates': ['typescript'],
             }, cv=cv))

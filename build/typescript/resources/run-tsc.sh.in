@@ -1,0 +1,4 @@
+#!/bin/bash
+
+PATH=@prefix@/bin/:$PATH
+@prefix@/node_modules/typescript/bin/tsc "$@"

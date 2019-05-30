@@ -39,6 +39,8 @@ cd ../
 
 echo "{ \"dependencies\": { \"typescript\": \"$VERSION\" } }" > package.json
 
-npm install
-rm package.json
-PATH=$PREFIX/node_modules/typescript/bin:$PATH
+$PREFIX/bin/npm install
+
+cp $BASE_DIR/resources/run-tsc.sh.in $PREFIX/bin/run-tsc.sh
+sed -i "s#@prefix@#$PREFIX#g" $PREFIX/bin/run-tsc.sh
+chmod +x $PREFIX/bin/run-tsc.sh
