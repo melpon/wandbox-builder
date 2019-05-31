@@ -22,7 +22,7 @@ echo "{ \"dependencies\": { \"typescript\": \"$VERSION\" } }" > package.json
 
 # install
 
-PATH=$NODEJS_PREFIX/bin:$PATH npm updaate
+PATH=$NODEJS_PREFIX/bin:$PATH npm update
 PATH=$NODEJS_PREFIX/bin:$PATH npm -g set prefix $PREFIX
 PATH=$NODEJS_PREFIX/bin:$PATH npm -g install
 
