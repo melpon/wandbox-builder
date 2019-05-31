@@ -23,11 +23,10 @@ echo "{ \"dependencies\": { \"typescript\": \"$VERSION\" } }" > package.json
 # install
 
 PATH=$NODEJS_PREFIX/bin:$PATH npm update
-PATH=$NODEJS_PREFIX/bin:$PATH npm -g set prefix $PREFIX
-PATH=$NODEJS_PREFIX/bin:$PATH npm -g install
+PATH=$NODEJS_PREFIX/bin:$PATH npm install
 
 mkdir $PREFIX/bin
-
+cp -r ~/node_modules $PREFIX/
 cp $BASE_DIR/resources/run-tsc.sh.in $PREFIX/bin/run-tsc.sh
 sed -i "s#@prefix@#$PREFIX#g" $PREFIX/bin/run-tsc.sh
 
