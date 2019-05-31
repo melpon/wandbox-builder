@@ -1,4 +1,3 @@
 #!/bin/bash
 
-PATH=/opt/wandbox/typescript-env/bin/:$PATH
-@prefix@/node_modules/typescript/bin/tsc "$@"
+./run-node.sh @prefix@/node_modules/typescript/bin/tsc "$@"
