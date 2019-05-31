@@ -28,6 +28,7 @@ PATH=$NODEJS_PREFIX/bin:$PATH npm install
 mkdir $PREFIX/bin
 cp -r ~/node_modules $PREFIX/
 cp $BASE_DIR/resources/run-tsc.sh.in $PREFIX/bin/run-tsc.sh
+sed -i "s#@nodejs_prefix@#$NODEJS_PREFIX#g" $PREFIX/bin/run-tsc.sh
 sed -i "s#@prefix@#$PREFIX#g" $PREFIX/bin/run-tsc.sh
 
 chmod +x $PREFIX/bin/run-tsc.sh
