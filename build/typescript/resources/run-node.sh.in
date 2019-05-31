@@ -1,3 +1,3 @@
 #!/bin/bash
 
-PATH=@nodejs_prefix@:$PATH node "$@"
+PATH=@nodejs_prefix@/bin/node "$@"
