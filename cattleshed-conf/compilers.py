@@ -2299,15 +2299,15 @@ class Compilers(object):
         for cv in typescript_vers:
 
             display_name = 'TypeScript'
-            version_command = ['/bin/bash', '-c', '/opt/wandbox/typescript-{cv}/bin/run-tsc.sh --version | cut -c 9-']
+            version_command = ['/bin/echo', '{cv}']
 
             compilers.append(format_value({
-                'name': 'TypeScript-{cv}',
+                'name': 'typescript-{cv}',
                 'displayable': True,
                 'language': 'TypeScript',
                 'output-file': 'prog.ts',
                 'compiler-option-raw': True,
-                'compile-command': ['/opt/wandbox/typescript-{cv}/bin/run-tsc.sh'],
+                'compile-command': ['/opt/wandbox/typescript-{cv}/bin/run-tsc.sh', 'prog.ts'],
                 'version-command': version_command,
                 'switches': [],
                 'initial-checked': [],
