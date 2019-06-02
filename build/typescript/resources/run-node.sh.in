@@ -1,0 +1,3 @@
+#!/bin/bash
+
+@nodejs_prefix@/bin/node "$@"

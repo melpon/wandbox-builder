@@ -2293,6 +2293,33 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_typescript(self):
+        typescript_vers = get_generic_versions('typescript', with_head=True)
+        compilers = []
+        for cv in typescript_vers:
+
+            display_name = 'TypeScript'
+            version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'typescript-{cv}',
+                'displayable': True,
+                'language': 'TypeScript',
+                'output-file': 'prog.ts',
+                'compiler-option-raw': True,
+                'compile-command': ['/opt/wandbox/typescript-{cv}/bin/run-tsc.sh', 'prog.ts'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'tsc prog.ts',
+                'runtime-option-raw': True,
+                'run-command': ['/opt/wandbox/typescript-{cv}/bin/run-node.sh', 'prog.js'],
+                'jail-name': 'melpon2-default',
+                'templates': ['typescript'],
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -2343,7 +2370,8 @@ class Compilers(object):
             self.make_fsharp() +
             self.make_cmake() +
             self.make_dotnetcore() +
-            self.make_r()
+            self.make_r() +
+            self.make_typescript()
         )
 
 
