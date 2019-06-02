@@ -18,7 +18,11 @@ cd ~/swift-source
 git clone --depth 1 --branch swift-${VERSION}-RELEASE https://github.com/apple/swift.git
 
 if compare_version "$VERSION" ">=" "3.0"; then
-  $BASE_DIR/resources/clone-all swift/utils/update-checkout-config.json swift-${VERSION}-RELEASE
+  if [ -f swift/utils/update-checkout-config.json ]; then
+    $BASE_DIR/resources/clone-all swift/utils/update-checkout-config.json swift-${VERSION}-RELEASE
+  else
+    $BASE_DIR/resources/clone-all swift/utils/update_checkout/update-checkout-config.json swift-${VERSION}-RELEASE
+  fi
 else
   $BASE_DIR/resources/clone-all-2.x swift-${VERSION}-RELEASE
 fi
