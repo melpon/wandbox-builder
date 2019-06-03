@@ -2294,7 +2294,7 @@ class Compilers(object):
         return compilers
 
     def make_typescript(self):
-        typescript_vers = get_generic_versions('typescript', with_head=True)
+        typescript_vers = get_generic_versions('typescript', with_head=False)
         compilers = []
         for cv in typescript_vers:
 
