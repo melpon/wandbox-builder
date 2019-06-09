@@ -18,17 +18,15 @@ def main(config_filename, tag):
         if name == 'ninja':
             continue
         url = dic["https-clone-pattern"] % repo["remote"]["id"]
-        run(['git', 'clone', '--depth', '1', '--branch', tag, url, name])
+        try:
+            run(['git', 'clone', '--depth', '1', '--branch', tag, url, name])
+        except:
+            # fallback to master branch scheme
+            # the target repository may not be maintained by Apple,
+            # so I expect to get reproducible results...
+            run(['git', 'clone', '--depth', '1', '--branch',
+                 dic["branch-schemes"]["master"]["repos"][name], url, name])
 
-# 2.2
-REPOSITORIES = {
-  'llvm': 'apple/swift-llvm',
-  'clang': 'apple/swift-clang',
-  'swift': 'apple/swift-swift',
-  'lldb': 'apple/swift-lldb',
-  'cmark': 'apple/swift-cmark',
-  'swift-integration-tests': 'apple/swift-integration-tests',
-}
 
 if __name__ == '__main__':
     main(sys.argv[1], sys.argv[2])
