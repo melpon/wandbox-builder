@@ -14,10 +14,6 @@ curl -s https://api.github.com/repos/nim-lang/nightlies/releases | \
   wget -qi - -O nim.tar.xz
 tar xf nim.tar.xz
 cd nim*
-# bootstraps Nim compiler and compiles tools
-sh build.sh
-bin/nim c koch
-./koch tools
 
 # install
 sh install.sh ~/tmp
