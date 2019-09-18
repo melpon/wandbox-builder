@@ -14,7 +14,7 @@ cd php-src
 # build
 
 ./buildconf
-./configure --prefix=$PREFIX --disable-libxml --disable-dom --disable-simplexml --disable-xml --disable-xmlreader --disable-xmlwriter --without-pear --disable-phar
+./configure --prefix=$PREFIX --enable-mbstring --disable-libxml --disable-dom --disable-simplexml --disable-xml --disable-xmlreader --disable-xmlwriter --without-pear --disable-phar --disable-opcache
 
 make -j2
 make install

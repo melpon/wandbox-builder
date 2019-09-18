@@ -19,6 +19,7 @@ RUN apt-get update && \
       libgmp-dev \
       libicu55 \
       libmpc3 \
+      libonig2 \
       libpcre3-dev \
       libstdc++-5-dev \
       locales \
