@@ -2,6 +2,17 @@
 
 . ../init.sh
 
+# ここで使ってるダウンロードする必要あるリソースの sha256 を計算するためのメモ
+#
+# cd .. && \
+# ./sha256-calc.sh clang http://www.llvm.org/releases/9.0.0/llvm-9.0.0.src.tar.xz && \
+# ./sha256-calc.sh clang http://www.llvm.org/releases/9.0.0/cfe-9.0.0.src.tar.xz && \
+# ./sha256-calc.sh clang http://www.llvm.org/releases/9.0.0/clang-tools-extra-9.0.0.src.tar.xz && \
+# ./sha256-calc.sh clang http://www.llvm.org/releases/9.0.0/compiler-rt-9.0.0.src.tar.xz && \
+# ./sha256-calc.sh clang http://www.llvm.org/releases/9.0.0/libcxx-9.0.0.src.tar.xz && \
+# ./sha256-calc.sh clang http://www.llvm.org/releases/9.0.0/llvm-9.0.0.src.tar.xz && \
+# ./sha256-calc.sh clang http://www.llvm.org/releases/9.0.0/libcxxabi-9.0.0.src.tar.xz
+
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
   exit 0
