@@ -9,10 +9,18 @@ PREFIX=/opt/wandbox/kennel
 cd ~/
 git clone --depth 1 https://github.com/melpon/wandbox
 
-# build kennel
-cd wandbox/kennel2
-git submodule update -i
-./autogen.sh
-./configure --prefix=/opt/wandbox/kennel --with-cppcms=/usr/local/cppcms --with-cppdb=/usr/local/cppdb
-make
-make install
+# prepare
+
+pushd wandbox
+  git submodule update -i
+  ./install_tools.sh
+popd
+
+# build
+
+pushd wandbox/kennel2
+  ./cmake.sh -DCMAKE_INSTALL_PREFIX=$PREFIX
+
+  make -C _build -j2
+  make -C _build install
+popd

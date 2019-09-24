@@ -4,16 +4,14 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 
 RUN apt-get update && \
     apt-get install -y \
-      autoconf \
-      automake \
+      cmake \
       g++ \
       gcc \
       git \
-      libboost-all-dev \
       libcap-dev \
-      libcap2-bin \
-      m4 \
-      make && \
+      libcurl4-openssl-dev \
+      make \
+      python \
+      zlib1g-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-

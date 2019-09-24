@@ -7,13 +7,19 @@ PREFIX=/opt/wandbox/cattleshed
 # get sources
 
 cd ~/
-git clone --depth 1 https://github.com/melpon/wandbox
+git clone --branch master --depth 1 https://github.com/melpon/wandbox
+
+# prepare
+
+pushd wandbox
+  ./install_tools.sh
+popd
 
 # build
 
-cd wandbox/cattleshed
-autoreconf -i
-./configure --disable-install-setcap --prefix=$PREFIX
+pushd wandbox/cattleshed
+  ./cmake.sh -DCMAKE_INSTALL_PREFIX=$PREFIX
 
-make -j2
-make install
+  make -C _build -j2
+  make -C _build install
+popd
