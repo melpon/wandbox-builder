@@ -18,6 +18,8 @@ case "$VERSION" in
   "5.6.0" ) LONG_VERSION="pypy2-v5.6.0" ;;
   "5.8.0-2" ) LONG_VERSION="pypy2-v5.8.0" ;;
   "5.8.0-3" ) LONG_VERSION="pypy3-v5.8.0" ;;
+  "7.2.0-2" ) LONG_VERSION="pypy2.7-v7.2.0" ;;
+  "7.2.0-3" ) LONG_VERSION="pypy3.6-v7.2.0" ;;
   * ) exit 1
 esac
 
