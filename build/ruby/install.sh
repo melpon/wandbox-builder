@@ -10,12 +10,13 @@ fi
 
 VERSION=$1
 PREFIX=/opt/wandbox/ruby-$VERSION
+SHORT_VERSION=$(echo "$VERSION" | sed -e 's/^\([0-9]\.[0-9]\).*$/\1/')
 
 # get sources
 
 cd ~/
 wget_strict_sha256 \
-  https://cache.ruby-lang.org/pub/ruby/ruby-$VERSION.tar.gz \
+  https://cache.ruby-lang.org/pub/ruby/$SHORT_VERSION/ruby-$VERSION.tar.gz \
   $BASE_DIR/resources/ruby-$VERSION.tar.gz.sha256
 tar xf ruby-$VERSION.tar.gz
 cd ruby-$VERSION
