@@ -21,5 +21,6 @@ cd cpython
 ./configure --enable-optimizations --prefix=$PREFIX
 make -j2
 make install
+$PREFIX/bin/pip3 install numpy==1.17.3
 
 rm -r ~/cpython
