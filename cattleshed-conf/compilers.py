@@ -637,7 +637,7 @@ class Compilers(object):
                     '-I/opt/wandbox/boost-sml/include',
                     '-I/opt/wandbox/boost-di/include',
                     '-I/opt/wandbox/range-v3/include',
-                    '-I/opt/wandbox/nlohmann-json/src',
+                    '-I/opt/wandbox/nlohmann-json/include',
                     '-I/opt/wandbox/cmcstl2/include',
                     '-I/opt/wandbox/te/include',
                     'prog.cc'
@@ -865,7 +865,7 @@ class Compilers(object):
                 '-I/opt/wandbox/boost-sml/include',
                 '-I/opt/wandbox/boost-di/include',
                 '-I/opt/wandbox/range-v3/include',
-                '-I/opt/wandbox/nlohmann-json/src',
+                '-I/opt/wandbox/nlohmann-json/include',
                 '-I/opt/wandbox/cmcstl2/include',
                 '-I/opt/wandbox/te/include']
 
@@ -981,7 +981,7 @@ class Compilers(object):
                 '-I/opt/wandbox/boost-sml/include',
                 '-I/opt/wandbox/boost-di/include',
                 '-I/opt/wandbox/range-v3/include',
-                '-I/opt/wandbox/nlohmann-json/src',
+                '-I/opt/wandbox/nlohmann-json/include',
                 '-I/opt/wandbox/cmcstl2/include',
                 '-I/opt/wandbox/te/include']
 
