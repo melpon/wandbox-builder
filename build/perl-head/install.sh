@@ -7,7 +7,7 @@ PREFIX=/opt/wandbox/perl-head
 # get sources
 
 cd ~/
-git clone --depth 1 --branch blead git://perl5.git.perl.org/perl.git
+git clone --depth 1 --branch blead https://github.com/Perl/perl5.git perl
 cd perl
 
 # build
