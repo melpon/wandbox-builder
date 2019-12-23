@@ -4,7 +4,7 @@
 
 if [ $# -lt 4 ]; then
   echo "$0 <boost-directory> <version> <compiler> <compiler_version>"
-  exit 0
+  exit 1
 fi
 
 cd $1

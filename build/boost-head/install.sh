@@ -55,8 +55,15 @@ cd boost_$VERSION_TARNAME
 # apply patches
 
 DIR=`pwd`
-pushd $BASE_DIR
-./apply-patch.sh $DIR $VERSION
+pushd $BASE_DIR/../boost
+if [ "$COMPILER" == "gcc-head" ]; then
+  ./apply-patch.sh $DIR $VERSION gcc head
+elif [ "$COMPILER" == "clang-head" ]; then
+  ./apply-patch.sh $DIR $VERSION clang head
+else
+  echo "unknown compiler: $COMPILER"
+  exit 1
+fi
 popd
 
 # build

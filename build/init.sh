@@ -3,6 +3,19 @@
 set -ex
 
 function _vercmp() {
+    # head は何よりも新しいバージョンとする
+    if [ $1 == head -a $2 == head ]; then
+        return 0
+    fi
+    if [ $1 == head ]; then
+        # $1 > $2
+        return 1
+    fi
+    if [ $2 == head ]; then
+        # $1 < $2
+        return 2
+    fi
+
     if [[ $1 == $2 ]]; then
         return 0
     fi
