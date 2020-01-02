@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
-      - run: pwd && ./ga-install.sh
+      - run: sudo ./ga-install.sh
         working-directory: build/gcc-head
       - run: tar czf gcc-head.tar.gz gcc-head/
         working-directory: /opt/wandbox
