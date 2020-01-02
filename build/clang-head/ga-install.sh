@@ -24,9 +24,10 @@ CMAKE_PREFIX="/usr/local/wandbox/camke-${CMAKE_VERSION}"
 wget https://github.com/Kitware/CMake/archive/v${CMAKE_VERSION}.tar.gz
 echo "${CMAKE_SHA256} *v${CMAKE_VERSION}.tar.gz" | sha256sum -c
 tar xf v${CMAKE_VERSION}.tar.gz
-cd CMake-${CMAKE_VERSION}
-./configure --prefix=$CMAKE_PREFIX
-make -j`nproc`
-make install
+pushd CMake-${CMAKE_VERSION}
+  ./configure --prefix=$CMAKE_PREFIX
+  make -j`nproc`
+  make install
+popd
 
 ./install.sh
