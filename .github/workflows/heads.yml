@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: ./ga-install.sh
-        working-directory: build/gcc-head
+        working-directory: ./build/gcc-head
       - run: tar czf gcc-head.tar.gz gcc-head/
         working-directory: /opt/wandbox
       - name: Release gcc-head
