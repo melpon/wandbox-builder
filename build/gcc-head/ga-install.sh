@@ -6,6 +6,7 @@ apt-get update
 apt-get install -y \
   bison \
   build-essential \
+  coreutils \
   curl \
   flex \
   git \
@@ -15,7 +16,6 @@ apt-get install -y \
   libmpfr-dev \
   libtool \
   m4 \
-  realpath \
   unzip \
   wget
 
