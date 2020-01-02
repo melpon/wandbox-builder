@@ -1,0 +1,26 @@
+name: heads
+on:
+  schedule:
+    # 毎日 09:00 JST
+    - cron: "0 0 * * *"
+
+jobs:
+  gcc-head:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - run: ./ga-install.sh
+        working-directory: build/gcc-head
+      - run: tar czf gcc-head.tar.gz gcc-head/
+        working-directory: /opt/wandbox
+      - name: Release gcc-head
+        uses: WebFreak001/deploy-nightly@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
+        with:
+          upload_url: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/22561082/assets{?name,label}"
+          release_id: 22561082
+          asset_path: /opt/wandbox/gcc-head.tar.gz
+          asset_name: gcc-head.tar.gz
+          asset_content_type: application/gzip
+          max_releases: 7
