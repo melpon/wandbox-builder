@@ -42,6 +42,6 @@ export CXX="clang++"
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
   ../source
-make -j2
+make -j`nproc`
 make install
 cd ..

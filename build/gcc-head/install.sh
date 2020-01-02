@@ -26,6 +26,6 @@ cd build
   --enable-lto \
   LDFLAGS="-Wl,-rpath,$PREFIX/lib,-rpath,$PREFIX/lib64,-rpath,$PREFIX/lib32"
 
-make -j2
+make -j`nproc`
 rm -rf $PREFIX
 make install

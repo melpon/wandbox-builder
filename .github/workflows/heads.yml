@@ -7,22 +7,37 @@ on:
   push:
 
 jobs:
-  gcc-head:
+  heads:
     runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        name:
+          - gcc-head
+          - clang-head
     steps:
       - uses: actions/checkout@v1
       - run: sudo ./ga-install.sh
-        working-directory: build/gcc-head
-      - run: tar czf gcc-head.tar.gz gcc-head/
+        working-directory: build/${{ matrix.name }}
+      - run: tar czf ${{ matrix.name }}.tar.gz ${{ matrix.name }}/
         working-directory: /opt/wandbox
-      - name: Release gcc-head
+      - name: Release ${{ matrix.name }} latest
         uses: WebFreak001/deploy-nightly@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
         with:
           upload_url: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/22561082/assets{?name,label}"
           release_id: 22561082
-          asset_path: /opt/wandbox/gcc-head.tar.gz
-          asset_name: gcc-head.tar.gz
+          asset_path: /opt/wandbox/${{ matrix.name }}.tar.gz
+          asset_name: ${{ matrix.name }}.tar.gz
+          asset_content_type: application/gzip
+      - name: Release ${{ matrix.name }} nightly
+        uses: WebFreak001/deploy-nightly@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
+        with:
+          upload_url: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/22561082/assets{?name,label}"
+          release_id: 22561082
+          asset_path: /opt/wandbox/${{ matrix.name }}.tar.gz
+          asset_name: ${{ matrix.name }}-$$.tar.gz
           asset_content_type: application/gzip
           max_releases: 7
