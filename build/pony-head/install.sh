@@ -14,4 +14,5 @@ git submodule update --recursive --init
 
 # build
 make -j2
+rm -rf $PREFIX
 make prefix=$PREFIX install

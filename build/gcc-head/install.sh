@@ -27,4 +27,5 @@ cd build
   LDFLAGS="-Wl,-rpath,$PREFIX/lib,-rpath,$PREFIX/lib64,-rpath,$PREFIX/lib32"
 
 make -j2
+rm -rf $PREFIX
 make install

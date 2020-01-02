@@ -21,6 +21,8 @@ cd swift
 # for 3.x
 # utils/build-script --assertions --no-swift-stdlib-assertions --llbuild --swiftpm --xctest --build-subdir=buildbot_linux --lldb --release --test --validation-test --long-test --foundation --libdispatch --lit-args=-v -- --swift-enable-ast-verifier=0 --install-swift --install-lldb --install-llbuild --install-swiftpm --install-xctest --install-prefix=/usr '--swift-install-components=autolink-driver;compiler;clang-builtin-headers;stdlib;swift-remote-mirror;sdk-overlay;license' --build-swift-static-stdlib --build-swift-static-sdk-overlay --build-swift-stdlib-unittest-extra --test-installable-package --install-destdir=/opt/wandbox/swift-3.0.2 --installable-package=/root/test.tar.gz --install-foundation --install-libdispatch --reconfigure
 
+rm -rf $PREFIX
+
 utils/build-script \
   --assertions \
   --no-swift-stdlib-assertions \
