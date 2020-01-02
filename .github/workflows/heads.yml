@@ -3,6 +3,8 @@ on:
   schedule:
     # 毎日 09:00 JST
     - cron: "0 0 * * *"
+  # テストのために今すぐ動かす
+  push:
 
 jobs:
   gcc-head:
