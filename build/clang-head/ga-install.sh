@@ -5,8 +5,9 @@ set -ex
 apt-get update
 apt-get install -y \
   build-essential \
-  coreutils \
   clang \
+  coreutils \
+  git \
   libc6-dev-i386 \
   libgmp-dev \
   libmpc-dev \
