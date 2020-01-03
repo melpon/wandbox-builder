@@ -8,12 +8,12 @@ on:
 
 jobs:
   heads:
-    runs-on: ubuntu-18.04
     strategy:
       matrix:
         name:
           - gcc-head
           - clang-head
+    runs-on: ubuntu-16.04
     steps:
       - uses: actions/checkout@v1
       - run: sudo ./ga-install.sh
