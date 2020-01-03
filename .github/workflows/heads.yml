@@ -21,7 +21,7 @@ jobs:
       - run: tar czf ${{ matrix.name }}.tar.gz ${{ matrix.name }}/
         working-directory: /opt/wandbox
       - name: Release ${{ matrix.name }} latest
-        uses: WebFreak001/deploy-nightly@v1.0.1
+        uses: WebFreak001/deploy-nightly@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
         with:
@@ -31,7 +31,7 @@ jobs:
           asset_name: ${{ matrix.name }}.tar.gz
           asset_content_type: application/gzip
       - name: Release ${{ matrix.name }} nightly
-        uses: WebFreak001/deploy-nightly@v1.0.1
+        uses: WebFreak001/deploy-nightly@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
         with:
