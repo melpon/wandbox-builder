@@ -56,9 +56,31 @@ function run() {
   fi
 }
 
+# GitHub Actions でのビルドしたやつはダウンロードして配置するだけ
 for compiler in \
     gcc-head \
     clang-head \
+    swift-head \
+; do
+  rm -rf $BASE_DIR/tmp
+  mkdir -p $BASE_DIR/tmp
+  pushd $BASE_DIR/tmp
+    curl -LO https://github.com/melpon/wandbox-builder/releases/download/heads/$compiler.tar.gz
+  popd
+  docker run --net=host --rm -i -v $BASE_DIR/tmp:/data -v $BASE_DIR/../wandbox:/opt/wandbox ubuntu:18.04 /bin/bash -c "
+    set -ex
+
+    cd /root
+    tar xf /data/$compiler.tar.gz
+    if [ -e $compiler ]; then
+      rm -rf /opt/wandbox/$compiler
+      mv $compiler /opt/wandbox/$compiler
+    fi
+  "
+  rm -rf $BASE_DIR/tmp
+done
+
+for compiler in \
     mono-head \
     boost-head \
     rill-head \
@@ -75,7 +97,6 @@ for compiler in \
     scala-head \
     nodejs-head \
     coffeescript-head \
-    swift-head \
     perl-head \
     php-head \
     sqlite-head \
