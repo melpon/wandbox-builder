@@ -54,7 +54,3 @@ utils/build-script \
   --install-prefix=/usr \
   --install-destdir=$PREFIX \
   --reconfigure
-
-# test
-
-rm -r ~/*
