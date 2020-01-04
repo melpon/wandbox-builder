@@ -14,6 +14,7 @@ jobs:
           - gcc-head
           - clang-head
           - swift-head
+          - nodejs-head
     runs-on: ubuntu-16.04
     steps:
       - uses: actions/checkout@v1

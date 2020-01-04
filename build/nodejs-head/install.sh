@@ -14,7 +14,7 @@ cd node
 # build
 
 ./configure --prefix=$PREFIX --partly-static
-make -j2
+make -j`nproc`
 make install
 
 # update

@@ -61,6 +61,7 @@ for compiler in \
     gcc-head \
     clang-head \
     swift-head \
+    nodejs-head \
 ; do
   rm -rf $BASE_DIR/tmp
   mkdir -p $BASE_DIR/tmp
@@ -95,7 +96,6 @@ for compiler in \
     ruby-head \
     mruby-head \
     scala-head \
-    nodejs-head \
     coffeescript-head \
     perl-head \
     php-head \
