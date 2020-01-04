@@ -3,11 +3,33 @@
 set -ex
 
 apt-get update
-apt-get build-dep -y \
-  openjdk-8
 apt-get install -y \
+  build-essential \
+  bzip2 \
+  ca-certificates \
+  ca-certificates-java \
+  ccache \
+  curl \
+  g++ \
+  gcc \
+  git \
+  libasound2-dev \
+  libcups2-dev \
+  libfreetype6-dev \
+  libx11-dev \
+  libxext-dev \
+  libxrender-dev \
+  libxt-dev \
+  libxtst-dev \
+  make \
   mercurial \
-  openjdk-8-jdk
+  openjdk-8-jdk \
+  pkg-config \
+  ruby \
+  ruby-dev \
+  tar \
+  unzip \
+  zip
 
 # OpenJDK 10 からビルド
 pushd ../openjdk
