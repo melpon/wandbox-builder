@@ -31,11 +31,7 @@ apt-get install -y \
   unzip \
   zip
 
-echo $JAVA_HOME
-
-update-alternatives --config java -l
-update-alternatives --config java
-update-alternatives --config java -s java-1.8.0-openjdk-amd64
+update-java-alternatives -s java-1.8.0-openjdk-amd64
 
 # OpenJDK 10 からビルド
 pushd ../openjdk
