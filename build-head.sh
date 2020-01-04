@@ -62,6 +62,7 @@ for compiler in \
     clang-head \
     swift-head \
     nodejs-head \
+    gdc-head \
 ; do
   rm -rf $BASE_DIR/tmp
   mkdir -p $BASE_DIR/tmp
@@ -88,7 +89,6 @@ for compiler in \
     erlang-head \
     elixir-head \
     ghc-head \
-    gdc-head \
     ldc-head \
     dmd-head \
     openjdk-head \
