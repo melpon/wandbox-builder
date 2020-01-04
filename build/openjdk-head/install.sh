@@ -13,7 +13,7 @@ cd openjdk
 
 # build
 
-bash configure --prefix=$PREFIX --with-memory-size=2048 --with-num-cores=3 --with-boot-jdk=$BOOTSTRAP_JDK
+bash configure --prefix=$PREFIX --with-memory-size=2048 --with-num-cores=`nproc` --with-boot-jdk=$BOOTSTRAP_JDK
 make images
 make install
 

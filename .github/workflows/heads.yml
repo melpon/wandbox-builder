@@ -16,6 +16,7 @@ jobs:
           - swift-head
           - nodejs-head
           - gdc-head
+          - openjdk-head
     runs-on: ubuntu-16.04
     steps:
       - uses: actions/checkout@v1

@@ -63,11 +63,12 @@ for compiler in \
     swift-head \
     nodejs-head \
     gdc-head \
+    openjdk-head \
 ; do
   rm -rf $BASE_DIR/tmp
   mkdir -p $BASE_DIR/tmp
   pushd $BASE_DIR/tmp
-    curl -LO https://github.com/melpon/wandbox-builder/releases/download/heads/$compiler.tar.gz
+    curl -LO https://github.com/melpon/wandbox-builder/releases/download/heads/$compiler.tar.gz || continue
   popd
   docker run --net=host --rm -i -v $BASE_DIR/tmp:/data -v $BASE_DIR/../wandbox:/opt/wandbox ubuntu:18.04 /bin/bash -c "
     set -ex
@@ -91,7 +92,6 @@ for compiler in \
     ghc-head \
     ldc-head \
     dmd-head \
-    openjdk-head \
     cpython-head \
     ruby-head \
     mruby-head \
