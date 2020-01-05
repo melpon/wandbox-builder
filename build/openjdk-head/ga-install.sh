@@ -18,6 +18,7 @@ apt-get install -y \
   libfreetype6-dev \
   libx11-dev \
   libxext-dev \
+  libxrandr-dev \
   libxrender-dev \
   libxt-dev \
   libxtst-dev \
@@ -31,11 +32,6 @@ apt-get install -y \
   unzip \
   zip
 
-ls -lha /usr/lib/jvm
-env
-/usr/lib/jvm/java-8-openjdk-amd64/bin/java -version || true
-update-java-alternatives -s java-1.8.0-openjdk-amd64
-env
 unset JAVA_TOOL_OPTIONS
 
 # OpenJDK 10 からビルド
