@@ -78,12 +78,12 @@ if [ "$VERSION" = "jdk7u121-b00" ]; then
 else
   if [ $JDK_MAJOR -eq 11 ]; then
     # JDK11 needs JDK10 or JDK11 for bootstrapping
-    bash configure --prefix=$PREFIX --with-memory-size=2048 --with-num-cores=3 --with-boot-jdk=$BOOTSTRAP_JDK $VERSION_FLAGS
+    bash configure --prefix=$PREFIX --with-memory-size=2048 --with-num-cores=`nproc` --with-boot-jdk=$BOOTSTRAP_JDK $VERSION_FLAGS
     make images
     rm -r $PREFIX || true
     make install
   else
-    bash configure --prefix=$PREFIX --with-memory-size=2048 --with-num-cores=3 --with-boot-jdk=/usr/lib/jvm/java-8-openjdk-amd64 $VERSION_FLAGS
+    bash configure --prefix=$PREFIX --with-memory-size=2048 --with-num-cores=`nproc` --with-boot-jdk=/usr/lib/jvm/java-8-openjdk-amd64 $VERSION_FLAGS
     make all
     rm -r $PREFIX || true
     make install
