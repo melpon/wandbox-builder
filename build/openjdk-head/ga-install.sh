@@ -23,12 +23,16 @@ apt-get install -y \
   libxtst-dev \
   make \
   mercurial \
+  openjdk-8-jdk \
   pkg-config \
   ruby \
   ruby-dev \
   tar \
   unzip \
   zip
+
+ls -lha /usr/lib/jvm
+env
 
 # OpenJDK 10 からビルド
 pushd ../openjdk

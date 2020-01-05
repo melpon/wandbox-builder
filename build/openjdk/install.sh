@@ -83,7 +83,7 @@ else
     rm -r $PREFIX || true
     make install
   else
-    bash configure --prefix=$PREFIX --with-memory-size=2048 --with-num-cores=3 $VERSION_FLAGS
+    bash configure --prefix=$PREFIX --with-memory-size=2048 --with-num-cores=3 --with-boost-jdk=/usr/lib/jvm/java-8-openjdk-amd64 $VERSION_FLAGS
     make all
     rm -r $PREFIX || true
     make install
