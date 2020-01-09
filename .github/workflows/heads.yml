@@ -7,8 +7,8 @@ on:
 jobs:
   heads:
     strategy:
+      fail-fast: false
       matrix:
-        fail-fast: false
         name:
           - gcc-head
           - clang-head
