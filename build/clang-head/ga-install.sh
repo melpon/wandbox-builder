@@ -6,6 +6,7 @@ apt-get update
 apt-get install -y \
   build-essential \
   clang \
+  clang-6.0 \
   coreutils \
   git \
   libc6-dev-i386 \
@@ -17,18 +18,15 @@ apt-get install -y \
   python \
   wget
 
-CMAKE_VERSION="3.7.1"
-CMAKE_SHA256="43cc57605a4f0a3789c463052f66dec3bcce987d204c1aa9b1a9ca5175fad256"
+CMAKE_VERSION="3.16.3"
+CMAKE_SHA256="3e15dadfec8d54eda39c2f266fc1e571c1b88bf32f9d221c8a039b07234206fa"
 
 CMAKE_PREFIX="/usr/local/wandbox/camke-${CMAKE_VERSION}"
 
-wget https://github.com/Kitware/CMake/archive/v${CMAKE_VERSION}.tar.gz
-echo "${CMAKE_SHA256} *v${CMAKE_VERSION}.tar.gz" | sha256sum -c
-tar xf v${CMAKE_VERSION}.tar.gz
-pushd CMake-${CMAKE_VERSION}
-  ./configure --prefix=$CMAKE_PREFIX
-  make -j`nproc`
-  make install
-popd
+wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
+echo "${CMAKE_SHA256} *cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz" | sha256sum -c
+tar xf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
+mkdir -p /usr/local/wandbox/
+mv cmake-${CMAKE_VERSION}-Linux-x86_64 $CMAKE_PREFIX
 
 ./install.sh

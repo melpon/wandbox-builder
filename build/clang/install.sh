@@ -179,7 +179,7 @@ else
     export CXX="clang++"
   fi
 fi
-/usr/local/wandbox/camke-3.7.1/bin/cmake -G "Unix Makefiles" \
+/usr/local/wandbox/camke-3.16.3/bin/cmake -G "Unix Makefiles" \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
   ../source
@@ -195,7 +195,7 @@ elif compare_version "$VERSION" "<=" "3.5.0"; then
   cd build_libcxx
   export CC="$PWD/../build/bin/clang"
   export CXX="$PWD/../build/bin/clang++"
-  /usr/local/wandbox/camke-3.7.1/bin/cmake -G "Unix Makefiles" \
+  /usr/local/wandbox/camke-3.16.3/bin/cmake -G "Unix Makefiles" \
     -DLIBCXX_CXX_ABI=libsupc++ "-DCMAKE_SHARED_LINKER_FLAGS="-L/usr/lib/gcc/x86_64-linux-gnu/4.8 -Wl,--start-group,-dn,--whole-archive,-lsupc++,--no-whole-archive,--end-group,-dy"" \
     -DLIBCXX_LIBSUPCXX_INCLUDE_PATHS="/usr/include/c++/4.8;/usr/include/x86_64-linux-gnu/c++/4.8" \
     -DCMAKE_BUILD_TYPE=Release \

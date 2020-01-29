@@ -9,12 +9,7 @@ cd ~/tmp/clang-head/
 
 # get sources
 
-git clone --depth 1 https://github.com/llvm-mirror/llvm.git source
-git clone --depth 1 https://github.com/llvm-mirror/clang.git source/tools/clang
-git clone --depth 1 https://github.com/llvm-mirror/compiler-rt.git source/projects/compiler-rt
-git clone --depth 1 https://github.com/llvm-mirror/clang-tools-extra.git source/tools/clang/tools/extra
-git clone --depth 1 https://github.com/llvm-mirror/libcxx.git source/projects/libcxx
-git clone --depth 1 https://github.com/llvm-mirror/libcxxabi.git source/projects/libcxxabi
+git clone --depth 1 https://github.com/llvm/llvm-project.git
 
 # build
 
@@ -36,12 +31,13 @@ mkdir build
 # esac
 cd build
 
-export CC="clang"
-export CXX="clang++"
-/usr/local/wandbox/camke-3.7.1/bin/cmake -G "Unix Makefiles" \
+export CC="clang-6.0"
+export CXX="clang++-6.0"
+/usr/local/wandbox/camke-3.16.3/bin/cmake -G "Unix Makefiles" \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
-  ../source
+  -DLLVM_ENABLE_PROJECTS="clang;compiler-rt;clang-tools-extra;libcxx;libcxxabi" \
+  ../llvm-project/llvm
 make -j`nproc`
 make install
 cd ..
