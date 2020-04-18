@@ -27,10 +27,10 @@ function has_all() {
 }
 
 if has_all "$@"; then
-  rsync -a --delete -v $BASE_DIR/wandbox $REMOTE_HOST:/opt/
+  rsync -a -v $BASE_DIR/wandbox $REMOTE_HOST:/opt/
 else
   cd $BASE_DIR/wandbox
-  rsync -a --delete -v `echo $@` $REMOTE_HOST:/opt/wandbox
+  rsync -a -v `echo $@` $REMOTE_HOST:/opt/wandbox
 fi
 
 ssh $REMOTE_HOST setcap cap_sys_admin,cap_sys_chroot,cap_mknod,cap_net_admin=p /opt/wandbox/cattleshed/bin/cattlegrid
