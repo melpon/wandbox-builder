@@ -14,13 +14,13 @@ PREFIX=/opt/wandbox/go-$VERSION
 
 cd ~/
 wget_strict_sha256 \
-  https://github.com/golang/go/archive/go$VERSION.tar.gz \
-  $BASE_DIR/resources/go$VERSION.tar.gz.sha256
+  https://dl.google.com/go/go$VERSION.src.tar.gz \
+  $BASE_DIR/resources/go$VERSION.src.tar.gz.sha256
 
-tar xf go$VERSION.tar.gz
+tar xf go$VERSION.src.tar.gz
 
 rm -rf $PREFIX || true
-mv go-go$VERSION $PREFIX
+mv go $PREFIX
 
 # build
 
