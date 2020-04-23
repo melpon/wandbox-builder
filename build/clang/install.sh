@@ -4,14 +4,14 @@
 
 # ここで使ってるダウンロードする必要あるリソースの sha256 を計算するためのメモ
 #
-# cd .. && \
-# ./sha256-calc.sh clang http://www.llvm.org/releases/9.0.0/llvm-9.0.0.src.tar.xz && \
-# ./sha256-calc.sh clang http://www.llvm.org/releases/9.0.0/cfe-9.0.0.src.tar.xz && \
-# ./sha256-calc.sh clang http://www.llvm.org/releases/9.0.0/clang-tools-extra-9.0.0.src.tar.xz && \
-# ./sha256-calc.sh clang http://www.llvm.org/releases/9.0.0/compiler-rt-9.0.0.src.tar.xz && \
-# ./sha256-calc.sh clang http://www.llvm.org/releases/9.0.0/libcxx-9.0.0.src.tar.xz && \
-# ./sha256-calc.sh clang http://www.llvm.org/releases/9.0.0/llvm-9.0.0.src.tar.xz && \
-# ./sha256-calc.sh clang http://www.llvm.org/releases/9.0.0/libcxxabi-9.0.0.src.tar.xz
+#cd .. && \
+#./sha256-calc.sh clang https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/llvm-10.0.0.src.tar.xz && \
+#./sha256-calc.sh clang https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/clang-10.0.0.src.tar.xz && \
+#./sha256-calc.sh clang https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/clang-tools-extra-10.0.0.src.tar.xz && \
+#./sha256-calc.sh clang https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/compiler-rt-10.0.0.src.tar.xz && \
+#./sha256-calc.sh clang https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/libcxx-10.0.0.src.tar.xz && \
+#./sha256-calc.sh clang https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/llvm-10.0.0.src.tar.xz && \
+#./sha256-calc.sh clang https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/libcxxabi-10.0.0.src.tar.xz
 
 if [ $# -lt 1 ]; then
   echo "$0 <version>"
@@ -30,16 +30,24 @@ fi
 mkdir -p ~/tmp/clang-$VERSION/
 cd ~/tmp/clang-$VERSION/
 
+if compare_version "$VERSION" ">=" "9.0.1"; then
+  BASEURL="https://github.com/llvm/llvm-project/releases/download/llvmorg-$VERSION"
+  CLANGNAME="clang"
+else
+  BASEURL="http://www.llvm.org/releases/$VERSION"
+  CLANGNAME="cfe"
+fi
+
 # llvm
 if compare_version "$VERSION" "==" "3.0"; then
   wget_strict_sha256 \
-    http://www.llvm.org/releases/$VERSION/llvm-$VERSION.tar.$EXT \
+    $BASEURL/llvm-$VERSION.tar.$EXT \
     $BASE_DIR/resources/llvm-$VERSION.tar.$EXT.sha256
   tar xf llvm-$VERSION.tar.$EXT
   mv llvm-$VERSION.src source
 else
   wget_strict_sha256 \
-    http://www.llvm.org/releases/$VERSION/llvm-$VERSION.src.tar.$EXT \
+    $BASEURL/llvm-$VERSION.src.tar.$EXT \
     $BASE_DIR/resources/llvm-$VERSION.src.tar.$EXT.sha256
   tar xf llvm-$VERSION.src.tar.$EXT
   if compare_version "$VERSION" "==" "3.4"; then
@@ -52,34 +60,34 @@ fi
 # clang
 if compare_version "$VERSION" "==" "3.0"; then
   wget_strict_sha256 \
-    http://www.llvm.org/releases/$VERSION/clang-$VERSION.tar.$EXT \
+    $BASEURL/clang-$VERSION.tar.$EXT \
     $BASE_DIR/resources/clang-$VERSION.tar.$EXT.sha256
   tar xf clang-$VERSION.tar.$EXT
   mv clang-$VERSION.src source/tools/clang
 elif compare_version "$VERSION" "<=" "3.2"; then
   wget_strict_sha256 \
-    http://www.llvm.org/releases/$VERSION/clang-$VERSION.src.tar.$EXT \
+    $BASEURL/clang-$VERSION.src.tar.$EXT \
     $BASE_DIR/resources/clang-$VERSION.src.tar.$EXT.sha256
   tar xf clang-$VERSION.src.tar.$EXT
   mv clang-$VERSION.src source/tools/clang
 elif compare_version "$VERSION" "==" "3.4"; then
   wget_strict_sha256 \
-    http://www.llvm.org/releases/$VERSION/clang-$VERSION.src.tar.$EXT \
+    $BASEURL/clang-$VERSION.src.tar.$EXT \
     $BASE_DIR/resources/clang-$VERSION.src.tar.$EXT.sha256
   tar xf clang-$VERSION.src.tar.$EXT
   mv clang-$VERSION source/tools/clang
 else
   wget_strict_sha256 \
-    http://www.llvm.org/releases/$VERSION/cfe-$VERSION.src.tar.$EXT \
-    $BASE_DIR/resources/cfe-$VERSION.src.tar.$EXT.sha256
-  tar xf cfe-$VERSION.src.tar.$EXT
-  mv cfe-$VERSION.src source/tools/clang
+    $BASEURL/${CLANGNAME}-$VERSION.src.tar.$EXT \
+    $BASE_DIR/resources/${CLANGNAME}-$VERSION.src.tar.$EXT.sha256
+  tar xf ${CLANGNAME}-$VERSION.src.tar.$EXT
+  mv ${CLANGNAME}-$VERSION.src source/tools/clang
 fi
 
 # compiler-rt
 if compare_version "$VERSION" ">=" "3.1"; then
   wget_strict_sha256 \
-    http://www.llvm.org/releases/$VERSION/compiler-rt-$VERSION.src.tar.$EXT \
+    $BASEURL/compiler-rt-$VERSION.src.tar.$EXT \
     $BASE_DIR/resources/compiler-rt-$VERSION.src.tar.$EXT.sha256
   tar xf compiler-rt-$VERSION.src.tar.$EXT
   if compare_version "$VERSION" "==" "3.4"; then
@@ -92,7 +100,7 @@ fi
 # clang-tools-extra
 if compare_version "$VERSION" ">=" "3.3"; then
   wget_strict_sha256 \
-    http://www.llvm.org/releases/$VERSION/clang-tools-extra-$VERSION.src.tar.$EXT \
+    $BASEURL/clang-tools-extra-$VERSION.src.tar.$EXT \
     $BASE_DIR/resources/clang-tools-extra-$VERSION.src.tar.$EXT.sha256
   tar xf clang-tools-extra-$VERSION.src.tar.$EXT
   if compare_version "$VERSION" "==" "3.4"; then
@@ -107,7 +115,7 @@ if compare_version "$VERSION" "<=" "3.2"; then
   :
 elif compare_version "$VERSION" "<=" "3.5.0"; then
   wget_strict_sha256 \
-    http://www.llvm.org/releases/$VERSION/libcxx-$VERSION.src.tar.$EXT \
+    $BASEURL/libcxx-$VERSION.src.tar.$EXT \
     $BASE_DIR/resources/libcxx-$VERSION.src.tar.$EXT.sha256
   tar xf libcxx-$VERSION.src.tar.$EXT
   if compare_version "$VERSION" "==" "3.4"; then
@@ -117,13 +125,13 @@ elif compare_version "$VERSION" "<=" "3.5.0"; then
   fi
 else
   wget_strict_sha256 \
-    http://www.llvm.org/releases/$VERSION/libcxx-$VERSION.src.tar.$EXT \
+    $BASEURL/libcxx-$VERSION.src.tar.$EXT \
     $BASE_DIR/resources/libcxx-$VERSION.src.tar.$EXT.sha256
   tar xf libcxx-$VERSION.src.tar.$EXT
   mv libcxx-$VERSION.src source/projects/libcxx
 
   wget_strict_sha256 \
-    http://www.llvm.org/releases/$VERSION/libcxxabi-$VERSION.src.tar.$EXT \
+    $BASEURL/libcxxabi-$VERSION.src.tar.$EXT \
     $BASE_DIR/resources/libcxxabi-$VERSION.src.tar.$EXT.sha256
   tar xf libcxxabi-$VERSION.src.tar.$EXT
   mv libcxxabi-$VERSION.src source/projects/libcxxabi
@@ -175,8 +183,13 @@ else
     export CC="gcc"
     export CXX="g++"
   else
-    export CC="clang"
-    export CXX="clang++"
+    if compare_version "$VERSION" "<" "10.0.0"; then
+      export CC="clang"
+      export CXX="clang++"
+    else
+      export CC="/opt/wandbox/clang-9.0.0/bin/clang"
+      export CXX="/opt/wandbox/clang-9.0.0/bin/clang++"
+    fi
   fi
 fi
 /usr/local/wandbox/camke-3.16.3/bin/cmake -G "Unix Makefiles" \

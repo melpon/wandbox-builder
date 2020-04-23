@@ -14,4 +14,4 @@ set -ex
 REMOTE_HOST=$1
 
 scp wandbox/cattleshed-conf/compilers.default $REMOTE_HOST:/opt/wandbox/cattleshed-conf/
-ssh $REMOTE_HOST service cattleshed restart
+ssh $REMOTE_HOST service cattleshed-production restart
