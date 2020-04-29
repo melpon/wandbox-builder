@@ -33,4 +33,4 @@ else
   rsync -a -v `echo $@` $REMOTE_HOST:/opt/wandbox
 fi
 
-ssh $REMOTE_HOST setcap cap_sys_admin,cap_sys_chroot,cap_mknod,cap_net_admin=p /opt/wandbox/cattleshed-production/bin/cattlegrid
+ssh $REMOTE_HOST setcap cap_sys_admin,cap_setuid,cap_setgid,cap_chown,cap_sys_chroot,cap_mknod,cap_net_admin=p /opt/wandbox/cattleshed-production/bin/cattlegrid
