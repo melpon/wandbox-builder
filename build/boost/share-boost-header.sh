@@ -38,7 +38,7 @@ if [ ! -d "$HEADER_PREFIX" ]; then
   # apply patch
   DIR=`pwd`
   pushd $BASE_DIR
-  ./apply-patch.sh $DIR $VERSION
+  ./apply-patch.sh $DIR $VERSION $COMPILER $COMPILER_VERSION
   popd
 
   # install

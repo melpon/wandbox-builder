@@ -36,8 +36,12 @@ if [ ! -d "$HEADER_PREFIX" ]; then
 
   # apply patch
   DIR=`pwd`
-  pushd $BASE_DIR
-  ./apply-patch.sh $DIR $VERSION
+  pushd $BASE_DIR/../boost
+  if [ $COMPILER == "gcc-head" ]; then
+    ./apply-patch.sh $DIR $VERSION gcc head
+  elif [ $COMPILER == "clang-head" ]; then
+    ./apply-patch.sh $DIR $VERSION clang head
+  fi
   popd
 
   # install
