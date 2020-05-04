@@ -1967,7 +1967,7 @@ class Compilers(object):
                 'compile-command': ['/bin/bash', '-c', 'GO111MODULE=off /opt/wandbox/go-{cv}/bin/go build -o prog'],
                 'run-command': ['./prog'],
                 'runtime-option-raw': False,
-                'jail-name': 'melpon2-default',
+                'jail-name': 'melpon2-go',
                 'templates': ['go'],
             }, cv=cv))
         return compilers
