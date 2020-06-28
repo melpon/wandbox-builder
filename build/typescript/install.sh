@@ -9,7 +9,7 @@ fi
 
 VERSION=$1
 PREFIX=/opt/wandbox/typescript-$VERSION
-NODEJS_PREFIX=/opt/wandbox/nodejs-6.9.5
+NODEJS_PREFIX=/opt/wandbox/nodejs-12.16.2
 
 # create dir
 
