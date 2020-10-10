@@ -1,0 +1,24 @@
+name: gcc
+on:
+  push:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - 9.3.0
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - id: install
+        run: ./ga-build/gcc/install.sh ${{ matrix.version }}
+      - uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/32402124/assets{?name,label}"
+          asset_path: ${{ steps.install.outputs.package_path }}
+          asset_name: ${{ steps.install.outputs.package_filename }}
+          asset_content_type: application/gzip
