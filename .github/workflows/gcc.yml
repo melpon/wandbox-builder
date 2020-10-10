@@ -12,6 +12,11 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - run: |
+          apt install -y \
+            libgmp-dev \
+            libmpc-dev \
+            libmpfr-dev
       - id: install
         run: ./ga-build/gcc/install.sh ${{ matrix.version }}
       - uses: actions/upload-release-asset@v1

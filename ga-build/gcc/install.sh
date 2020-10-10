@@ -10,7 +10,6 @@ if [ $# -lt 1 ]; then
   exit 0
 fi
 
-
 VERSION=$1
 RELEASE_TAG=gcc
 PACKAGE_FILENAME=gcc-$VERSION.tar.gz
@@ -20,6 +19,8 @@ PREFIX=/opt/wandbox/gcc-$VERSION
 check_install $RELEASE_TAG $PACKAGE_FILENAME
 
 # -------------
+
+set -ex
 
 if compare_version "$VERSION" ">=" "4.7.3"; then
   FLAGS="--enable-lto"
