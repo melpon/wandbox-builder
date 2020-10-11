@@ -5,6 +5,7 @@ on:
 env:
   ASSETS_URL: "https://api.github.com/repos/melpon/wandbox-builder/releases/32402124/assets"
   UPLOAD_URL: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/32402124/assets{?name,label}"
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   gcc:
@@ -16,16 +17,13 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - run: |
-          sudo apt-get install -y \
-            libgmp-dev \
-            libmpc-dev \
-            libmpfr-dev
+      - id: setup
+        run: ./ga-build/gcc/run.sh setup ${{ matrix.version }}
       - id: install
-        run: ./ga-build/gcc/install.sh ${{ matrix.version }}
+        if: steps.setup.outputs.need_install == "true"
+        run: ./ga-build/gcc/run.sh install ${{ matrix.version }}
       - uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: steps.setup.outputs.need_install == "true"
         with:
           upload_url: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/32402124/assets{?name,label}"
           asset_path: ${{ steps.install.outputs.package_path }}

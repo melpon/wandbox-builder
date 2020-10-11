@@ -48,10 +48,15 @@ function _compare_version() {
 }
 
 function compare_version() {
-  { set +x; } 2>/dev/null
+  {
+    RESTORE=`(set +o | grep xtrace) 2>/dev/null`;
+    set +x
+  } 2>/dev/null
+
   _compare_version "$@"
   result=$?
-  set -x
+
+  $RESTORE
   { return $result; } 2>/dev/null
 }
 
@@ -85,7 +90,7 @@ function check_install() {
 
   n=1
   while :; do
-    RESULT=`curl -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/melpon/wandbox-builder/releases/32402124/assets?page=$n`
+    RESULT=`curl -H "Authorization: token $GITHUB_TOKEN" -H 'Accept: application/vnd.github.v3+json' $ASSETS_URL?page=$n`
     if $? -ne 0; then
       # 何かエラーが起きたのでエラーを返す
       return 1
@@ -94,11 +99,13 @@ function check_install() {
     # 空リストか調べる
     if ! (echo "$RESULT" | jq -e '.[]'); then
       # 探しているファイルが見つからなかったので、継続してインストールを続ける
+      echo "::set-output name=need_install::true"
       return 0
     fi
 
     if (echo "$RESULT" | jq -e ".[] | select(.name==\"$1\")"); then
       # 無事探しているファイルが見つかったら成功としてシェルを終了する
+      echo "::set-output name=need_install::false"
       exit 0
     fi
 

@@ -1,26 +1,45 @@
 #!/bin/bash
 
+# ---- コピペゾーン ----
+
+set -e
+
 BASE_DIR=$(cd $(dirname $0); pwd)
 cd $BASE_DIR
 
 . ../init.sh
 
 if [ $# -lt 1 ]; then
-  echo "$0 <version>"
+  echo "$0 <subcommand> <version>"
   exit 0
 fi
 
-VERSION=$1
+SUBCOMMAND=$1
+VERSION=$2
 RELEASE_TAG=gcc
 PACKAGE_FILENAME=gcc-$VERSION.tar.gz
 PACKAGE_PATH=/opt/wandbox/gcc-$VERSION.tar.gz
 PREFIX=/opt/wandbox/gcc-$VERSION
 
+case "$SUBCOMMAND" in
+  "setup" ) : ;;
+  "install" ) : ;;
+  * ) exit 1
+esac
+
 check_install $PACKAGE_FILENAME
+
+set -x
 
 # -------------
 
-set -ex
+if [ "$SUBCOMMAND" == "setup" ]; then
+  sudo apt-get install -y \
+    libgmp-dev \
+    libmpc-dev \
+    libmpfr-dev
+  exit 0
+fi
 
 if compare_version "$VERSION" ">=" "4.7.3"; then
   FLAGS="--enable-lto"
