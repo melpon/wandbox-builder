@@ -105,7 +105,6 @@ function check_install() {
 
     if (echo "$RESULT" | jq -e ".[] | select(.name==\"$1\")"); then
       # 無事探しているファイルが見つかったら成功としてシェルを終了する
-      echo "::set-output name=need_install::false"
       exit 0
     fi
 

@@ -20,10 +20,10 @@ jobs:
       - id: setup
         run: ./ga-build/gcc/run.sh setup ${{ matrix.version }}
       - id: install
-        if: steps.setup.outputs.need_install == "true"
+        if: steps.setup.outputs.need_install
         run: ./ga-build/gcc/run.sh install ${{ matrix.version }}
       - uses: actions/upload-release-asset@v1
-        if: steps.setup.outputs.need_install == "true"
+        if: steps.setup.outputs.need_install
         with:
           upload_url: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/32402124/assets{?name,label}"
           asset_path: ${{ steps.install.outputs.package_path }}
