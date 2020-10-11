@@ -77,7 +77,33 @@ function wget_strict_sha256() {
 }
 
 function check_install() {
-  return 0
+  # チェック用 URL が設定されてない（GitHub Actions 経由ではない）場合はチェックせず常にビルドする
+  if [ -z "$ASSETS_URL" ]; then
+    echo "[Skip] check_install $1"
+    return 0
+  fi
+
+  n=1
+  while :; do
+    RESULT=`curl -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/melpon/wandbox-builder/releases/32402124/assets?page=$n`
+    if $? -ne 0; then
+      # 何かエラーが起きたのでエラーを返す
+      return 1
+    fi
+
+    # 空リストか調べる
+    if ! (echo "$RESULT" | jq -e '.[]'); then
+      # 探しているファイルが見つからなかったので、継続してインストールを続ける
+      return 0
+    fi
+
+    if (echo "$RESULT" | jq -e ".[] | select(.name==\"$1\")"); then
+      # 無事探しているファイルが見つかったら成功としてシェルを終了する
+      exit 0
+    fi
+
+    n=`expr $n + 1`
+  done
 }
 
 function archive_install() {

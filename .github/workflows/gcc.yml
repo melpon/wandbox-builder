@@ -2,8 +2,12 @@ name: gcc
 on:
   push:
 
+env:
+  ASSETS_URL: "https://api.github.com/repos/melpon/wandbox-builder/releases/32402124/assets"
+  UPLOAD_URL: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/32402124/assets{?name,label}"
+
 jobs:
-  build:
+  gcc:
     strategy:
       fail-fast: false
       matrix:

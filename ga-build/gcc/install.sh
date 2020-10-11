@@ -16,7 +16,7 @@ PACKAGE_FILENAME=gcc-$VERSION.tar.gz
 PACKAGE_PATH=/opt/wandbox/gcc-$VERSION.tar.gz
 PREFIX=/opt/wandbox/gcc-$VERSION
 
-check_install $RELEASE_TAG $PACKAGE_FILENAME
+check_install $PACKAGE_FILENAME
 
 # -------------
 
