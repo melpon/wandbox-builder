@@ -67,7 +67,7 @@ function wget_strict_sha256() {
 
   if [ ! -e $sha256 ]; then
     set +x
-    app=`basename $CURRENT_DIR`
+    app=`basename $BASE_DIR`
     echo "a sha256 file '$sha256' not found."
     echo "run below command to create the sha256 file:"
     echo "  cd .. && ./sha256-calc.sh $app $url"
