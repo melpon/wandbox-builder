@@ -90,8 +90,8 @@ function check_install() {
 
   n=1
   while :; do
-    RESULT=`curl -H "Authorization: token $GITHUB_TOKEN" -H 'Accept: application/vnd.github.v3+json' $ASSETS_URL?page=$n`
-    if $? -ne 0; then
+    RESULT=`curl -f -H "Authorization: token $GITHUB_TOKEN" -H 'Accept: application/vnd.github.v3+json' $ASSETS_URL?page=$n`
+    if [ $? -ne 0 ]; then
       # 何かエラーが起きたのでエラーを返す
       return 1
     fi
@@ -99,12 +99,12 @@ function check_install() {
     # 空リストか調べる
     if ! (echo "$RESULT" | jq -e '.[]'); then
       # 探しているファイルが見つからなかったので、継続してインストールを続ける
-      echo "::set-output name=need_install::true"
       return 0
     fi
 
-    if (echo "$RESULT" | jq -e ".[] | select(.name==\"$1\")"); then
+    if (echo "$RESULT" | jq -e ".[] | select(.name==\"$1\")" >/dev/null); then
       # 無事探しているファイルが見つかったら成功としてシェルを終了する
+      echo "::set-output name=need_install::true"
       exit 0
     fi
 
