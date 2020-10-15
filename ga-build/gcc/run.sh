@@ -119,6 +119,11 @@ pushd ~/tmp/gcc-$VERSION/
     #      typedef char IMPL_PASTE(assertion_failed_##_, line)[2*(int)(pred)-1]
     # https://github.com/spack/spack/pull/15403
     if compare_version "$VERSION" ">=" "8.1.0"; then
+      if compare_version "$VERSION" "<=" "8.3.0"; then
+        patch -p1 -i $BASE_DIR/resources/glibc-2.31-libsanitizer-gcc-8.patch
+      fi
+    fi
+    if compare_version "$VERSION" ">=" "9.1.0"; then
       if compare_version "$VERSION" "<=" "9.2.0"; then
         patch -p1 -i $BASE_DIR/resources/glibc-2.31-libsanitizer-gcc-8.patch
       fi
