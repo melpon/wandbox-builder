@@ -4,37 +4,45 @@
 
 PREFIX=/opt/wandbox/rill-head
 
-set -ex
-
-eval `opam config env`
-
-rm -r $PREFIX
-mkdir -p $PREFIX/bin
-
-# llvm (only install)
-PATH=/opt/llvm/bin:$PATH
-cp /opt/llvm/bin/llc $PREFIX/bin/.
-cp /opt/llvm/bin/llvm-config $PREFIX/bin/.
+set -eux -o pipefail
 
 # rill-head
 
 cd ~/
-mkdir rill-head
-cd rill-head
+
+if [ -e workspace ]; then
+    rm -rf workspace
+fi
+mkdir workspace
 
 # get sources
 
-git clone --depth 1 https://github.com/yutopp/rill.git
+cd ~/workspace
 
-# build
+git clone -b next --depth 1 https://github.com/yutopp/rill.git
 
-cd rill
-LIBRARY_PATH=/opt/llvm/bin
-RILL_LLC_PATH=$PREFIX/bin/llc LIBRARY_PATH=$LIBRARY_PATH:$PREFIX/lib \
-             omake RELEASE=true PREFIX=$PREFIX
-RILL_LLC_PATH=$PREFIX/bin/llc LIBRARY_PATH=$LIBRARY_PATH:$PREFIX/lib \
-             omake test
-omake install
+# build and test rillc
 
-cd ~/
-rm -r rill-head
+cd ~/workspace/rill/rillc
+
+opam repo add rillc-deps-opam-repo https://github.com/yutopp/rillc-deps-opam-repo.git
+opam update
+opam install . --deps-only --no-depexts --with-test -y --locked -j "$(nproc)"
+make build
+make test
+
+# build all rill components
+
+cd ~/workspace/rill
+
+if [ -e build ]; then
+    rm -rf build
+fi
+mkdir build
+
+cd ~/workspace/rill/build
+
+cmake .. -DCMAKE_INSTALL_PREFIX="$PREFIX"
+make
+ctest -V
+make install
