@@ -19,7 +19,7 @@ mkdir workspace
 
 cd ~/workspace
 
-git clone -b next --depth 1 https://github.com/yutopp/rill.git
+git clone --depth 1 https://github.com/yutopp/rill.git
 
 # build and test rillc
 
