@@ -102,7 +102,6 @@ RUN apt-get update && \
 
 # Copy LLVM
 COPY --from=llvm /usr/local/llvm/lib/* /usr/local/lib/
-COPY --from=llvm /usr/local/llvm/include/* /usr/local/include/
 COPY --from=llvm /usr/local/llvm/bin/llvm-config /usr/local/bin/.
 
 # Copy opam
