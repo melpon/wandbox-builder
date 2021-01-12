@@ -42,7 +42,7 @@ mkdir build
 
 cd ~/workspace/rill/build
 
-cmake .. -DCMAKE_INSTALL_PREFIX="$PREFIX"
+cmake .. -DCMAKE_INSTALL_PREFIX="$PREFIX" -DRILL_TARGET_TRIPLES="x86_64-unknown-linux-gnu"
 make
-ctest -V
+make CTEST_OUTPUT_ON_FAILURE=1 test
 make install
