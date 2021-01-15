@@ -6,7 +6,7 @@ apt-get update
 apt-get install -y \
   build-essential \
   clang \
-  clang-6.0 \
+  clang-8 \
   coreutils \
   git \
   libc6-dev-i386 \
@@ -15,7 +15,7 @@ apt-get install -y \
   libmpfr-dev \
   libstdc++-5-dev \
   libtool \
-  python \
+  python3 \
   wget
 
 CMAKE_VERSION="3.16.3"
