@@ -241,6 +241,14 @@ class Switches(object):
                 'flags': '-std=gnu++2a',
                 'display-name': 'C++2a(GNU)',
             }),
+            ('c++2b', {
+                'flags': ['-std=c++2b'],
+                'display-name': 'C++2b',
+            }),
+            ('gnu++2b', {
+                'flags': '-std=gnu++2b',
+                'display-name': 'C++2b(GNU)',
+            }),
         ]
         return self.resolve_conflicts(pairs, 'std-cxx')
 
@@ -841,6 +849,8 @@ class Compilers(object):
                     switches += ['c++1z', 'gnu++1z']
             if cmpver(cv, '>=', '5.0.0'):
                 switches += ['c++2a', 'gnu++2a']
+            if cmpver(cv, '>=', '12.0.0'):
+                switches += ['c++2b', 'gnu++2b']
             initial_checked += [switches[-1]]
 
             # pedantic
