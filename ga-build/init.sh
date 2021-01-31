@@ -99,12 +99,12 @@ function check_install() {
     # 空リストか調べる
     if ! (echo "$RESULT" | jq -e '.[]'); then
       # 探しているファイルが見つからなかったので、継続してインストールを続ける
+      echo "::set-output name=need_install::true"
       return 0
     fi
 
     if (echo "$RESULT" | jq -e ".[] | select(.name==\"$1\")" >/dev/null); then
       # 無事探しているファイルが見つかったら成功としてシェルを終了する
-      echo "::set-output name=need_install::true"
       exit 0
     fi
 
