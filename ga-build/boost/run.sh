@@ -10,6 +10,7 @@ if [ "$SUBCOMMAND" == "setup" ]; then
 fi
 
 # download compiler
+mkdir -p /opt/wandbox
 pushd /opt/wandbox
   curl -LO https://github.com/melpon/wandbox-builder/releases/download/assets-ubuntu-20.04/$COMPILER-$COMPILER_VERSION.tar.gz
   tar xf $COMPILER-$COMPILER_VERSION.tar.gz
