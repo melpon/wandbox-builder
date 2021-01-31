@@ -113,7 +113,10 @@ function check_install() {
 }
 
 function archive_install() {
-  tar czf "$2" "$1"
+  pushd "`dirname $1`"
+    tar czf "$2" "`basename $1`"
+  popd
   echo "::set-output name=package_filename::$3"
   echo "::set-output name=package_path::$2"
+  echo "::set-output name=prefix::$1"
 }

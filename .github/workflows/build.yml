@@ -14,14 +14,8 @@ jobs:
       matrix:
         version:
           - 10.2.0
-          - 10.1.0
           - 9.3.0
-          - 9.2.0
-          - 9.1.0
           - 8.4.0
-          - 8.3.0
-          - 8.2.0
-          - 8.1.0
           - 7.5.0
           - 6.5.0
           - 5.5.0
@@ -37,7 +31,35 @@ jobs:
       - uses: actions/upload-release-asset@v1
         if: steps.setup.outputs.need_install
         with:
-          upload_url: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/32402124/assets{?name,label}"
+          upload_url: ${{ env.UPLOAD_URL }}
+          asset_path: ${{ steps.install.outputs.package_path }}
+          asset_name: ${{ steps.install.outputs.package_filename }}
+          asset_content_type: application/gzip
+  boost:
+    needs: [gcc]
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - 1.75.0 gcc 10.2.0
+          - 1.75.0 gcc 9.3.0
+          - 1.75.0 gcc 8.4.0
+          - 1.75.0 gcc 7.5.0
+          - 1.75.0 gcc 6.5.0
+          - 1.75.0 gcc 5.5.0
+          - 1.75.0 gcc 4.9.4
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - id: setup
+        run: ./ga-build/boost/run.sh setup ${{ matrix.version }}
+      - id: install
+        if: steps.setup.outputs.need_install
+        run: ./ga-build/boost/run.sh install ${{ matrix.version }}
+      - uses: actions/upload-release-asset@v1
+        if: steps.setup.outputs.need_install
+        with:
+          upload_url: ${{ env.UPLOAD_URL }}
           asset_path: ${{ steps.install.outputs.package_path }}
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip

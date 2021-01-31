@@ -1,42 +1,9 @@
 #!/bin/bash
 
-# ---- コピペゾーン ----
-
-set -e
-
 BASE_DIR=$(cd $(dirname $0); pwd)
 cd $BASE_DIR
 
-. ../init.sh
-
-if [ $# -lt 1 ]; then
-  echo "$0 <subcommand> <version>"
-  exit 0
-fi
-
-SUBCOMMAND=$1
-if [ $SUBCOMMAND == "install" ]; then
-  if [ $# -lt 2 ]; then
-    echo "$0 <subcommand> <version>"
-    exit 1
-  fi
-  VERSION=$2
-  PACKAGE_FILENAME=gcc-$VERSION.tar.gz
-  PACKAGE_PATH=/opt/wandbox/gcc-$VERSION.tar.gz
-  PREFIX=/opt/wandbox/gcc-$VERSION
-fi
-
-case "$SUBCOMMAND" in
-  "setup" ) : ;;
-  "install" ) : ;;
-  * ) exit 1
-esac
-
-check_install $PACKAGE_FILENAME
-
-set -x
-
-# -------------
+. ../init-common.sh
 
 if [ "$SUBCOMMAND" == "setup" ]; then
   sudo apt-get install -y \
