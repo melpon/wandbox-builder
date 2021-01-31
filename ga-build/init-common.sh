@@ -6,22 +6,16 @@ TARGET=$(basename `pwd`)
 
 . ../init.sh
 
-if [ $# -lt 1 ]; then
-  echo "$0 <subcommand> [args...]"
-  exit 0
+if [ $# -lt 2 ]; then
+  echo "$0 <subcommand> <version>"
+  exit 1
 fi
 
 SUBCOMMAND=$1
-if [ $SUBCOMMAND == "install" ]; then
-  if [ $# -lt 2 ]; then
-    echo "$0 <subcommand> <version>"
-    exit 1
-  fi
-  VERSION=$2
-  PACKAGE_FILENAME=$TARGET-$VERSION.tar.gz
-  PACKAGE_PATH=/opt/wandbox/$TARGET-$VERSION.tar.gz
-  PREFIX=/opt/wandbox/$TARGET-$VERSION
-fi
+VERSION=$2
+PACKAGE_FILENAME=$TARGET-$VERSION.tar.gz
+PACKAGE_PATH=/opt/wandbox/$TARGET-$VERSION.tar.gz
+PREFIX=/opt/wandbox/$TARGET-$VERSION
 
 case "$SUBCOMMAND" in
   "setup" ) : ;;

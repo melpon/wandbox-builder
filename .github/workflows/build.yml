@@ -26,10 +26,10 @@ jobs:
       - id: setup
         run: ./ga-build/gcc/run.sh setup ${{ matrix.version }}
       - id: install
-        if: steps.setup.outputs.need_install
+        if: steps.setup.outputs.need_install == 'true'
         run: ./ga-build/gcc/run.sh install ${{ matrix.version }}
       - uses: actions/upload-release-asset@v1
-        if: steps.setup.outputs.need_install
+        if: steps.setup.outputs.need_install == 'true'
         with:
           upload_url: ${{ env.UPLOAD_URL }}
           asset_path: ${{ steps.install.outputs.package_path }}
@@ -54,10 +54,10 @@ jobs:
       - id: setup
         run: ./ga-build/boost/run.sh setup ${{ matrix.version }}
       - id: install
-        if: steps.setup.outputs.need_install
+        if: steps.setup.outputs.need_install == 'true'
         run: ./ga-build/boost/run.sh install ${{ matrix.version }}
       - uses: actions/upload-release-asset@v1
-        if: steps.setup.outputs.need_install
+        if: steps.setup.outputs.need_install == 'true'
         with:
           upload_url: ${{ env.UPLOAD_URL }}
           asset_path: ${{ steps.install.outputs.package_path }}

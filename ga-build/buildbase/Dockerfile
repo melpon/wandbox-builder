@@ -6,6 +6,7 @@ RUN apt-get update && \
       clang \
       curl \
       git \
+      jq \
       libtool \
       python3 \
       sudo \
