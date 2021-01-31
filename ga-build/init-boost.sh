@@ -35,5 +35,3 @@ esac
 check_install $PACKAGE_FILENAME
 
 set -x
-
-cd /work
