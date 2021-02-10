@@ -621,6 +621,8 @@ class Compilers(object):
                 switches += ['c++17', 'gnu++17']
             if cmpver(cv, '>=', '8.1.0'):
                 switches += ['c++2a', 'gnu++2a']
+            if cmpver(cv, '>=', '11.0.0'):
+                switches += ['c++2b', 'gnu++2b']
             initial_checked += [switches[-1]]
 
             # pedantic
