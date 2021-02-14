@@ -9,12 +9,14 @@ RUN apt-get update && \
       bzip2 \
       g++ \
       git \
-      haskell-platform \
+      libffi-dev \
       libgmp-dev \
       libtool \
       make \
       ncurses-dev \
       python3-minimal \
-      wget && \
+      wget \
+      xz-utils \
+      zlib1g-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
