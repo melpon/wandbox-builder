@@ -49,7 +49,7 @@ RUN cmake -G 'Ninja' \
           -DLLVM_INCLUDE_DOCS=OFF \
           ..
 
-RUN ninja install
+RUN ninja -j1 install
 
 ######################################################################
 #
