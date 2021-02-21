@@ -8,13 +8,11 @@ RUN apt-get update && \
       automake \
       build-essential \
       cmake \
-      g++-4.8 \
-      gcc-4.8 \
       gettext \
       git \
       libtool \
       mono-devel \
-      python-minimal \
+      python3 \
       wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
