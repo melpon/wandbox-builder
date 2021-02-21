@@ -13,14 +13,14 @@ git clone --depth 1 https://github.com/melpon/wandbox
 
 pushd wandbox
   git submodule update -i
-  ./install_tools.sh
+  ./install_deps.sh
 popd
 
 # build
 
 pushd wandbox/kennel2
-  ./cmake.sh -DCMAKE_INSTALL_PREFIX=$PREFIX
+  ./cmake.sh --prefix $PREFIX
 
-  make -C _build -j2
-  make -C _build install
+  make -C _build/release -j2
+  make -C _build/release install
 popd
