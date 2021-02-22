@@ -3,8 +3,8 @@
 . ../init.sh
 
 PREFIX=/opt/wandbox/groovy-head
-JAVA_PREFIX=/opt/wandbox/openjdk-jdk-9+155/jvm/openjdk-9
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+JAVA_PREFIX=/opt/wandbox/openjdk-jdk-10+13/jvm/openjdk-10
+export JAVA_HOME=/usr/lib/jvm/java-10-openjdk-amd64
 
 # get sources
 
@@ -14,9 +14,9 @@ cd groovy
 
 # build
 
-./gradlew clean dist
+./gradlew clean dist -x :groovy-binary:javadocAll
 
-unzip target/distributions/apache-groovy-binary-*.zip
+unzip subprojects/groovy-binary/build/distributions/apache-groovy-binary-*.zip
 rm -r $PREFIX || true
 cp -r groovy-* $PREFIX
 
