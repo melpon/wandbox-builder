@@ -1,5 +1,5 @@
 { "application" :
-    { "database": "sqlite3:db=/opt/wandbox/kennel/var/lib/kennel/kennel_production.sqlite;@pool_size=10"
+    { "database": "sqlite3:db=/var/test.sqlite;@pool_size=10"
     , "static_dir": "/opt/wandbox/kennel/etc/static"
     , "scheme": "http"
     , "domain": "127.0.0.1:3500"
@@ -7,9 +7,13 @@
     , "dispatch_root": ""
     , "cattleshed":
         [{ "host" : "127.0.0.1"
-         , "port" : 2012
+         , "port" : 50051
          }
          ]
+    , "iplimit":
+      { "duration": 300
+      , "size": 1048576
+      }
     }
 , "service" :
     { "api" : "http"
@@ -21,5 +25,14 @@
     }
 , "cache" :
     { "backend": "process_shared"
+    }
+, "session" :
+    { "location": "client"
+    , "expire": "renew"
+    , "timeout": 2592000
+    , "client":
+        { "encryptor": "aes"
+        , "key_file": "/var/work/.session.key"
+        }
     }
 }
