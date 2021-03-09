@@ -2332,6 +2332,40 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_julia(self):
+        julia_vers = get_generic_versions('julia', with_head=True)
+        compilers = []
+        for cv in julia_vers:
+
+            if cv == 'head':
+                display_name = 'Julia HEAD'
+            else:
+                display_name = 'Julia'
+
+            if cv == 'head':
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/julia-head/bin/julia --version | head -1 | cut -d' ' -f3"]
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'julia-{cv}',
+                'displayable': True,
+                'language': 'Julia',
+                'output-file': 'prog.jl',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'jula prog.jl',
+                'runtime-option-raw': True,
+                'run-command': ['/opt/wandbox/julia-{cv}/bin/julia', 'prog.jl'],
+                'jail-name': 'melpon2-default',
+                'templates': ['julia'],
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -2383,7 +2417,8 @@ class Compilers(object):
             self.make_cmake() +
             self.make_dotnetcore() +
             self.make_r() +
-            self.make_typescript()
+            self.make_typescript() +
+            self.make_julia()
         )
 
 
