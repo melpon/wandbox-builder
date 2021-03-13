@@ -27,7 +27,19 @@ export PATH=$PREFIX/bin:$PATH
 export OPAMROOT=$PREFIX/.opam
 opam init < /dev/null
 # opam install -y core
-opam install -y ocamlfind
+
+# ocamlfind
+
+function install_ocaml_find_by_source {
+    git clone --depth 1 https://github.com/ocaml/ocamlfind.git ~/ocamlfind
+    pushd ~/ocamlfind
+    ./configure -bindir $PREFIX/bin
+    make all
+    make install
+    popd
+}
+
+opam install -y ocamlfind || install_ocaml_find_by_source
 
 # run ocaml
 
