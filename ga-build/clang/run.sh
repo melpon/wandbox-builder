@@ -198,15 +198,16 @@ pushd ~/tmp/clang-$VERSION/
       fi
     fi
     # 8.x だけ
+    # include/llvm/Demangle/MicrosoftDemangleNodes.h で <cstdint> の include を忘れてコンパイルエラーになってる
     if compare_version "$VERSION" ">=" "8.0.0"; then
       if compare_version "$VERSION" "<" "9.0.0"; then
-        ARGS="$ARGS -DCMAKE_POLICY_DEFAULT_CMP0114=OLD"
+        ARGS="$ARGS -DCMAKE_POLICY_DEFAULT_CMP0114=OLD -DCMAKE_CXX_FLAGS=\"-include cstdint\""
       fi
     fi
     cmake -G "Unix Makefiles" \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX=$PREFIX \
-      $ARGS \
+      "$ARGS" \
       ../source
     make -j`nproc`
     make install
