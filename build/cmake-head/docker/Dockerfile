@@ -7,6 +7,7 @@ RUN apt-get update && \
       curl \
       g++ \
       git \
+      libssl-dev \ 
       make && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
