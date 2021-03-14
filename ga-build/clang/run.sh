@@ -159,6 +159,12 @@ pushd ~/tmp/clang-$VERSION/
     sed -i s#getDriver\(\).SysRoot\ +\ \"/usr/include/c++/v1\"#\"$PREFIX/include/c++/v1\"# source/tools/clang/lib/Driver/ToolChains.cpp
   fi
 
+  if compare_version "$VERSION" "<=" "9.0.1"; then
+    pushd source/projects/compiler-rt
+      patch -p1 < $BASE_DIR/resources/new-glibc.patch
+    popd
+  fi
+
   # build
 
   mkdir build
