@@ -184,6 +184,7 @@ pushd ~/tmp/clang-$VERSION/
   #   *)                    arch="Unknown" ;;
   # esac
   pushd build
+    ARGS=""
     if compare_version "$VERSION" "<=" "3.4.2"; then
       export CC="gcc"
       export CXX="g++"
@@ -196,9 +197,16 @@ pushd ~/tmp/clang-$VERSION/
         export CXX="clang++"
       fi
     fi
+    # 8.x だけ
+    if compare_version "$VERSION" ">=" "8.0.0"; then
+      if compare_version "$VERSION" "<" "9.0.0"; then
+        ARGS="$ARGS -DCMAKE_POLICY_DEFAULT_CMP0114=OLD"
+      fi
+    fi
     cmake -G "Unix Makefiles" \
       -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX=$PREFIX \
+      $ARGS \
       ../source
     make -j`nproc`
     make install
