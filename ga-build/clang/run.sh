@@ -164,6 +164,13 @@ pushd ~/tmp/clang-$VERSION/
       patch -p1 < $BASE_DIR/resources/new-glibc.patch
     popd
   fi
+  if compare_version "$VERSION" ">=" "8.0.0"; then
+    if compare_version "$VERSION" "<" "9.0.0"; then
+      pushd source
+        patch -p2 < $BASE_DIR/resources/missing-include-clang-8.x.patch
+      popd
+    fi
+  fi
 
   # build
 
@@ -184,7 +191,6 @@ pushd ~/tmp/clang-$VERSION/
   #   *)                    arch="Unknown" ;;
   # esac
   pushd build
-    ARGS=""
     if compare_version "$VERSION" "<=" "3.4.2"; then
       export CC="gcc"
       export CXX="g++"
@@ -195,13 +201,6 @@ pushd ~/tmp/clang-$VERSION/
       else
         export CC="clang"
         export CXX="clang++"
-      fi
-    fi
-    # 8.x だけ
-    # include/llvm/Demangle/MicrosoftDemangleNodes.h で <cstdint> の include を忘れてコンパイルエラーになってる
-    if compare_version "$VERSION" ">=" "8.0.0"; then
-      if compare_version "$VERSION" "<" "9.0.0"; then
-        ARGS="$ARGS -DCMAKE_POLICY_DEFAULT_CMP0114=OLD -DCMAKE_CXX_FLAGS=\"-include cstdint\""
       fi
     fi
     cmake -G "Unix Makefiles" \
