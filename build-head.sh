@@ -115,6 +115,7 @@ for compiler in \
     cmake-head \
     dotnetcore-head \
     r-head \
+    julia-head \
 ; do
   # remove groovy-head for out of memory
   # groovy-head

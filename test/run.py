@@ -291,6 +291,7 @@ def register():
     test_generic(name='typescript', test_file='test.ts', expected='hello\n', with_head=False)
     test_cmake_head()
     test_generic(name='r', test_file='test.R', expected='hello', with_head=True)
+    test_generic(name='julia', test_file='test.jl', expected='hello\n', with_head=True)
     test_bash()
 
 

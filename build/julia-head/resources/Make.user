@@ -1,0 +1,3 @@
+USECLANG=1
+# https://github.com/JuliaLang/julia/issues/12881
+JCFLAGS += -D'_Static_assert(...)='
