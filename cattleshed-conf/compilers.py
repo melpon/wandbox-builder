@@ -241,6 +241,14 @@ class Switches(object):
                 'flags': '-std=gnu++2a',
                 'display-name': 'C++2a(GNU)',
             }),
+            ('c++2b', {
+                'flags': ['-std=c++2b'],
+                'display-name': 'C++2b',
+            }),
+            ('gnu++2b', {
+                'flags': '-std=gnu++2b',
+                'display-name': 'C++2b(GNU)',
+            }),
         ]
         return self.resolve_conflicts(pairs, 'std-cxx')
 
@@ -613,6 +621,8 @@ class Compilers(object):
                 switches += ['c++17', 'gnu++17']
             if cmpver(cv, '>=', '8.1.0'):
                 switches += ['c++2a', 'gnu++2a']
+            if cmpver(cv, '>=', '11.0.0'):
+                switches += ['c++2b', 'gnu++2b']
             initial_checked += [switches[-1]]
 
             # pedantic
@@ -841,6 +851,8 @@ class Compilers(object):
                     switches += ['c++1z', 'gnu++1z']
             if cmpver(cv, '>=', '5.0.0'):
                 switches += ['c++2a', 'gnu++2a']
+            if cmpver(cv, '>=', '12.0.0'):
+                switches += ['c++2b', 'gnu++2b']
             initial_checked += [switches[-1]]
 
             # pedantic
@@ -1058,12 +1070,12 @@ class Compilers(object):
                 'language': 'Rill',
                 'output-file': 'prog.rill',
                 'compiler-option-raw': True,
-                'compile-command': ['/opt/wandbox/rill-{cv}/bin/rillc', '-o', 'prog.exe', 'prog.rill'],
+                'compile-command': ['/opt/wandbox/rill-{cv}/bin/rillc', 'compile', '-o', 'prog.exe', 'prog.rill'],
                 'version-command': ['/bin/sh', '-c', "/opt/wandbox/rill-{cv}/bin/rillc --version | head -1 | cut -d' ' -f2-"],
                 'switches': [],
                 'initial-checked': [],
                 'display-name': display_name,
-                'display-compile-command': 'rillc -o prog.exe prog.rill',
+                'display-compile-command': 'rillc compile -o prog.exe prog.rill',
                 'run-command': './prog.exe',
                 'jail-name': 'melpon2-default',
                 'templates': ['rill'],
@@ -2320,6 +2332,40 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_julia(self):
+        julia_vers = get_generic_versions('julia', with_head=True)
+        compilers = []
+        for cv in julia_vers:
+
+            if cv == 'head':
+                display_name = 'Julia HEAD'
+            else:
+                display_name = 'Julia'
+
+            if cv == 'head':
+                version_command = ['/bin/bash', '-c', "/opt/wandbox/julia-head/bin/julia --version | head -1 | cut -d' ' -f3"]
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'julia-{cv}',
+                'displayable': True,
+                'language': 'Julia',
+                'output-file': 'prog.jl',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'jula prog.jl',
+                'runtime-option-raw': True,
+                'run-command': ['/opt/wandbox/julia-{cv}/bin/julia', 'prog.jl'],
+                'jail-name': 'melpon2-default',
+                'templates': ['julia'],
+            }, cv=cv))
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -2371,7 +2417,8 @@ class Compilers(object):
             self.make_cmake() +
             self.make_dotnetcore() +
             self.make_r() +
-            self.make_typescript()
+            self.make_typescript() +
+            self.make_julia()
         )
 
 

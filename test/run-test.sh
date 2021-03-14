@@ -28,6 +28,7 @@ docker run \
     set -e
 
     mkdir /usr/share/perl || true
+    touch /var/test.sqlite
     /opt/wandbox/cattleshed/bin/cattleshed \
       -c /opt/wandbox/cattleshed/etc/cattleshed.conf \
       -c /opt/wandbox/cattleshed-conf/compilers.default &

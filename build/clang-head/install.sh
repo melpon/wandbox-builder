@@ -31,8 +31,8 @@ mkdir build
 # esac
 cd build
 
-export CC="clang-6.0"
-export CXX="clang++-6.0"
+export CC="clang-8"
+export CXX="clang++-8"
 /usr/local/wandbox/camke-3.16.3/bin/cmake -G "Unix Makefiles" \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \

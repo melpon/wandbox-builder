@@ -1,5 +1,5 @@
-import std.stdio;
+import std::stdio::*;
 
-def main() {
-    "hello world".println();
+def main(): unit {
+    println("hello");
 }
