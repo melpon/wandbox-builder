@@ -1,0 +1,165 @@
+diff -c -r a/lib/Driver/ToolChain.cpp b/lib/Driver/ToolChain.cpp
+*** a/lib/Driver/ToolChain.cpp	2014-06-26 23:23:45.000000000 +0900
+--- b/lib/Driver/ToolChain.cpp	2016-12-28 02:47:34.000000000 +0900
+***************
+*** 381,386 ****
+--- 381,389 ----
+  
+    switch (Type) {
+    case ToolChain::CST_Libcxx:
++     CmdArgs.push_back("-L@@prefix@@/lib");
++     CmdArgs.push_back("-rpath");
++     CmdArgs.push_back("@@prefix@@/lib");
+      CmdArgs.push_back("-lc++");
+      break;
+  
+diff -c -r a/lib/Driver/ToolChains.cpp b/lib/Driver/ToolChains.cpp
+*** a/lib/Driver/ToolChains.cpp	2014-08-28 05:07:31.000000000 +0900
+--- b/lib/Driver/ToolChains.cpp	2016-12-28 02:50:27.000000000 +0900
+***************
+*** 2485,2506 ****
+    switch (GetCXXStdlibType(DriverArgs)) {
+    case ToolChain::CST_Libcxx:
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "/usr/include/c++/v1");
+      break;
+    case ToolChain::CST_Libstdcxx:
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "/usr/include/c++/stdc++");
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "/usr/include/c++/stdc++/backward");
+  
+      StringRef Triple = getTriple().str();
+      if (Triple.startswith("amd64"))
+        addSystemInclude(DriverArgs, CC1Args,
+!                        getDriver().SysRoot + "/usr/include/c++/stdc++/x86_64" +
+                         Triple.substr(5));
+      else
+        addSystemInclude(DriverArgs, CC1Args,
+!                        getDriver().SysRoot + "/usr/include/c++/stdc++/" +
+                         Triple);
+      break;
+    }
+--- 2485,2506 ----
+    switch (GetCXXStdlibType(DriverArgs)) {
+    case ToolChain::CST_Libcxx:
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "@prefix@@/include/c++/v1");
+      break;
+    case ToolChain::CST_Libstdcxx:
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "@prefix@@/include/c++/stdc++");
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "@prefix@@/include/c++/stdc++/backward");
+  
+      StringRef Triple = getTriple().str();
+      if (Triple.startswith("amd64"))
+        addSystemInclude(DriverArgs, CC1Args,
+!                        getDriver().SysRoot + "@prefix@@/include/c++/stdc++/x86_64" +
+                         Triple.substr(5));
+      else
+        addSystemInclude(DriverArgs, CC1Args,
+!                        getDriver().SysRoot + "@prefix@@/include/c++/stdc++/" +
+                         Triple);
+      break;
+    }
+***************
+*** 2561,2573 ****
+    switch (GetCXXStdlibType(DriverArgs)) {
+    case ToolChain::CST_Libcxx:
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "/usr/include/c++/v1");
+      break;
+    case ToolChain::CST_Libstdcxx:
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "/usr/include/c++/4.2");
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "/usr/include/c++/4.2/backward");
+      break;
+    }
+  }
+--- 2561,2573 ----
+    switch (GetCXXStdlibType(DriverArgs)) {
+    case ToolChain::CST_Libcxx:
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "@prefix@@/include/c++/v1");
+      break;
+    case ToolChain::CST_Libstdcxx:
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "@prefix@@/include/c++/4.2");
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "@prefix@@/include/c++/4.2/backward");
+      break;
+    }
+  }
+***************
+*** 2699,2711 ****
+    switch (GetCXXStdlibType(DriverArgs)) {
+    case ToolChain::CST_Libcxx:
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "/usr/include/c++/");
+      break;
+    case ToolChain::CST_Libstdcxx:
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "/usr/include/g++");
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "/usr/include/g++/backward");
+      break;
+    }
+  }
+--- 2699,2711 ----
+    switch (GetCXXStdlibType(DriverArgs)) {
+    case ToolChain::CST_Libcxx:
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "@prefix@@/include/c++/");
+      break;
+    case ToolChain::CST_Libstdcxx:
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "@prefix@@/include/g++");
+      addSystemInclude(DriverArgs, CC1Args,
+!                      getDriver().SysRoot + "@prefix@@/include/g++/backward");
+      break;
+    }
+  }
+***************
+*** 3438,3444 ****
+  
+        // We also check the system as for a long time this is the only place Clang looked.
+        // FIXME: We should really remove this. It doesn't make any sense.
+!       getDriver().SysRoot + "/usr/include/c++/v1"
+      };
+      for (const auto &IncludePath : LibCXXIncludePathCandidates) {
+        if (!llvm::sys::fs::exists(IncludePath))
+--- 3438,3444 ----
+  
+        // We also check the system as for a long time this is the only place Clang looked.
+        // FIXME: We should really remove this. It doesn't make any sense.
+!       getDriver().SysRoot + "@@prefix@@/include/c++/v1"
+      };
+      for (const auto &IncludePath : LibCXXIncludePathCandidates) {
+        if (!llvm::sys::fs::exists(IncludePath))
+diff -c -r a/lib/Frontend/InitHeaderSearch.cpp b/lib/Frontend/InitHeaderSearch.cpp
+*** a/lib/Frontend/InitHeaderSearch.cpp	2014-06-11 06:07:12.000000000 +0900
+--- b/lib/Frontend/InitHeaderSearch.cpp	2016-12-28 02:46:48.000000000 +0900
+***************
+*** 500,508 ****
+        // On Solaris, include the support directory for things like xlocale and
+        // fudged system headers.
+        if (triple.getOS() == llvm::Triple::Solaris) 
+!         AddPath("/usr/include/c++/v1/support/solaris", CXXSystem, false);
+        
+!       AddPath("/usr/include/c++/v1", CXXSystem, false);
+      } else {
+        AddDefaultCPlusPlusIncludePaths(triple, HSOpts);
+      }
+--- 500,508 ----
+        // On Solaris, include the support directory for things like xlocale and
+        // fudged system headers.
+        if (triple.getOS() == llvm::Triple::Solaris) 
+!         AddPath("@@prefix@@/include/c++/v1/support/solaris", CXXSystem, false);
+        
+!       AddPath("@@prefix@@/include/c++/v1", CXXSystem, false);
+      } else {
+        AddDefaultCPlusPlusIncludePaths(triple, HSOpts);
+      }
+Only in b/tools: extra

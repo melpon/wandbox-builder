@@ -24,10 +24,35 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: setup
-        run: ./ga-build/gcc/run.sh setup ${{ matrix.version }}
+        run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
         if: steps.setup.outputs.need_install == 'true'
-        run: ./ga-build/gcc/run.sh install ${{ matrix.version }}
+        run: ./ga-build/${{ github.job }}/run.sh install ${{ matrix.version }}
+      - uses: actions/upload-release-asset@v1
+        if: steps.setup.outputs.need_install == 'true'
+        with:
+          upload_url: ${{ env.UPLOAD_URL }}
+          asset_path: ${{ steps.install.outputs.package_path }}
+          asset_name: ${{ steps.install.outputs.package_filename }}
+          asset_content_type: application/gzip
+  clang:
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - 11.1.0
+          - 10.0.1
+          - 9.0.1
+          - 8.0.1
+          - 7.1.0
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - id: setup
+        run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
+      - id: install
+        if: steps.setup.outputs.need_install == 'true'
+        run: ./ga-build/${{ github.job }}/run.sh install ${{ matrix.version }}
       - uses: actions/upload-release-asset@v1
         if: steps.setup.outputs.need_install == 'true'
         with:
@@ -36,7 +61,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   boost:
-    needs: [gcc]
+    needs: [gcc, clang]
     strategy:
       fail-fast: false
       matrix:
@@ -48,14 +73,19 @@ jobs:
           - 1.75.0 gcc 6.5.0
           - 1.75.0 gcc 5.5.0
           - 1.75.0 gcc 4.9.4
+          - 1.75.0 clang 11.1.0
+          - 1.75.0 clang 10.0.1
+          - 1.75.0 clang 9.0.1
+          - 1.75.0 clang 8.0.1
+          - 1.75.0 clang 7.1.0
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - id: setup
-        run: ./ga-build/boost/run.sh setup ${{ matrix.version }}
+        run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
         if: steps.setup.outputs.need_install == 'true'
-        run: ./ga-build/boost/run.sh install ${{ matrix.version }}
+        run: ./ga-build/${{ github.job }}/run.sh install ${{ matrix.version }}
       - uses: actions/upload-release-asset@v1
         if: steps.setup.outputs.need_install == 'true'
         with:
