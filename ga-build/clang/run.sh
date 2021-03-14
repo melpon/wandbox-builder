@@ -35,7 +35,7 @@ pushd ~/tmp/clang-$VERSION/
     CLANGNAME="clang"
   elif compare_version "$VERSION" "==" "8.0.1"; then
     BASEURL="https://github.com/llvm/llvm-project/releases/download/llvmorg-$VERSION"
-    CLANGNAME="clang"
+    CLANGNAME="cfe"
   else
     BASEURL="http://www.llvm.org/releases/$VERSION"
     CLANGNAME="cfe"
