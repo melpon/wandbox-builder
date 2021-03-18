@@ -115,7 +115,8 @@ def run(compiler, code, expected, stderr=False):
         'code': code,
         'options': ','.join(opts),
     }
-    r = requests.post('http://test-server:3500/api/compile.json', headers={'content-type': 'application/json'}, data=json.dumps(request))
+    ip = '127.0.0.1'
+    r = requests.post('http://test-server:3500/api/compile.json', headers={'content-type': 'application/json', 'X-Real-IP': ip}, data=json.dumps(request))
     # print(r.json())
     assert 200 == r.status_code
     if r.json()['status'] != '0':
@@ -290,6 +291,7 @@ def register():
     test_generic(name='typescript', test_file='test.ts', expected='hello\n', with_head=False)
     test_cmake_head()
     test_generic(name='r', test_file='test.R', expected='hello', with_head=True)
+    test_generic(name='julia', test_file='test.jl', expected='hello\n', with_head=True)
     test_bash()
 
 
