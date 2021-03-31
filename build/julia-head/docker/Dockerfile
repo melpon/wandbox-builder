@@ -8,7 +8,6 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y \
       build-essential \
-      clang-8 \
       cmake \
       curl \
       gcc-8 \
@@ -24,8 +23,6 @@ RUN apt-get update && \
       perl \
       python3 \
       wget && \
-    update-alternatives --install /usr/bin/clang clang /usr/bin/clang-8 100 \
-      --slave /usr/bin/clang++ clang++ /usr/bin/clang++-8 && \
     update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 100 \
       --slave /usr/bin/g++ g++ /usr/bin/g++-8 && \
     apt-get clean && \
