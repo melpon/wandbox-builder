@@ -25,4 +25,8 @@ esac
 
 check_install $PACKAGE_FILENAME
 
+rm -rf ~/tmp/$TARGET-$VERSION/
+mkdir -p ~/tmp/$TARGET-$VERSION/
+cd ~/tmp/$TARGET-$VERSION/
+
 set -x

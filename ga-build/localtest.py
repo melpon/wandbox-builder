@@ -5,6 +5,10 @@ import os
 
 
 def main():
+    if len(sys.argv) <= 1:
+        print(f"{sys.argv[0]} <compiler> <version> [<args>...]")
+        sys.exit(0)
+
     compiler = sys.argv[1]
     version = ' '.join(sys.argv[2:])
     version_name = '-'.join(sys.argv[2:])
