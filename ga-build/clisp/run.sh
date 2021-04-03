@@ -6,7 +6,7 @@ cd $BASE_DIR
 . ../init-common.sh
 
 if [ "$SUBCOMMAND" == "setup" ]; then
-  apt-get install -y \
+  sudo apt-get install -y \
     libsigsegv-dev
   exit 0
 fi

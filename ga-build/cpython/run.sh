@@ -6,7 +6,7 @@ cd $BASE_DIR
 . ../init-common.sh
 
 if [ "$SUBCOMMAND" == "setup" ]; then
-  apt-get install -y \
+  sudo apt-get install -y \
     libc6-dev \
     libffi-dev \
     libgdbm-dev \
