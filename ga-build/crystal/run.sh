@@ -23,7 +23,7 @@ if [ "$SUBCOMMAND" == "setup" ]; then
     lld-8 \
     libpcre3-dev
   sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 09617FD37CC06B54
-  sudo -c 'echo "deb https://dist.crystal-lang.org/apt crystal main" > /etc/apt/sources.list.d/crystal.list'
+  sudo bash -c 'echo "deb https://dist.crystal-lang.org/apt crystal main" > /etc/apt/sources.list.d/crystal.list'
   sudo apt-get update
   sudo apt-get install -y \
     crystal
