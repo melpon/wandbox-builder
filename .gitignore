@@ -8,3 +8,4 @@
 /build/fpc-head/resources/test.o
 /wandbox/
 *.swp
+/ga-build/*.log

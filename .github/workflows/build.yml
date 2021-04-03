@@ -139,3 +139,25 @@ jobs:
           asset_path: ${{ steps.install.outputs.package_path }}
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
+  crystal:
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - 1.0.0
+          - 0.36.1
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - id: setup
+        run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
+      - id: install
+        if: steps.setup.outputs.need_install == 'true'
+        run: ./ga-build/${{ github.job }}/run.sh install ${{ matrix.version }}
+      - uses: actions/upload-release-asset@v1
+        if: steps.setup.outputs.need_install == 'true'
+        with:
+          upload_url: ${{ env.UPLOAD_URL }}
+          asset_path: ${{ steps.install.outputs.package_path }}
+          asset_name: ${{ steps.install.outputs.package_filename }}
+          asset_content_type: application/gzip
