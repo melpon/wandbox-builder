@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+cd prog
+@prefix@/dotnet run
