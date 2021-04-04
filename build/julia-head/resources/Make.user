@@ -1,1 +1,1 @@
-# ARCH=x86_64
+JULIA_CPU_TARGET=generic
