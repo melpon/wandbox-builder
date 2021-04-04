@@ -33,8 +33,6 @@ cd otp_src_$VERSION
             --without-javac \
             --disable-native-libs \
             --disable-vm-probes \
-            --disable-megaco-flex-scanner-lineno \
-            --disable-megaco-reentrant-flex-scanner \
             --disable-sctp \
             $FLAGS
 

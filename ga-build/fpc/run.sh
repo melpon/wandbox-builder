@@ -23,6 +23,9 @@ tar xf $BINNAME.tar
 pushd $BINNAME
   ./install.sh < /dev/null
 popd
+# GitHub Actions だと /usr じゃなくて /home/runner/fpc-$VERSION にインストールされるので
+# ここにパスを通す
+export PATH="$HOME/fpc-$VERSION/bin:$PATH"
 
 # get sources
 
