@@ -5,8 +5,7 @@
 # haskell stack install
 wget -qO- https://get.haskellstack.org/ | sh
 stack setup
-# configure: error: Alex version 3.2.5 or earlier is required to compile GHC. See GHC issue 19099 for more information.
-stack install alex-3.2.5
+stack install alex
 stack install happy
 export PATH=/root/.local/bin:$PATH
 COMPILER_BIN=`stack path --compiler-bin`
@@ -24,7 +23,8 @@ cd ghc
 cp mk/build.mk.sample mk/build.mk
 sed -i 's/#BuildFlavour = devel2/BuildFlavour = devel2/' mk/build.mk
 ./boot
-./configure --prefix=$PREFIX GHC="${COMPILER_BIN}/ghc"
+# https://gitlab.haskell.org/ghc/ghc/-/issues/14193
+./configure --prefix=$PREFIX GHC="${COMPILER_BIN}/ghc" --disable-large-memory-space
 make # -j2 <- insufficient memory
 rm -r $PREFIX/* || true
 make install
