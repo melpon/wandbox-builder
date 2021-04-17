@@ -19,7 +19,7 @@ fi
 
 # get sources
 
-wget_strict_sha256 \
+curl_strict_sha256 \
   https://github.com/ldc-developers/ldc/releases/download/v$VERSION/ldc-${VERSION}-src.tar.gz \
   $BASE_DIR/resources/ldc-${VERSION}-src.tar.gz.sha256
 

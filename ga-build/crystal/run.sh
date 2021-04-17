@@ -32,7 +32,7 @@ if [ "$SUBCOMMAND" == "setup" ]; then
 fi
 
 # get source
-wget_strict_sha256 \
+curl_strict_sha256 \
   "https://github.com/crystal-lang/crystal/archive/${VERSION}.tar.gz" \
   "$BASE_DIR/resources/${VERSION}.tar.gz.sha256"
 tar xf "${VERSION}.tar.gz"

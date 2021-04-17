@@ -11,7 +11,7 @@ fi
 
 # get sources
 
-wget_strict_sha256 \
+curl_strict_sha256 \
   http://downloads.dlang.org/releases/2.x/$VERSION/dmd.$VERSION.linux.tar.xz \
   $BASE_DIR/resources/dmd.$VERSION.linux.tar.xz.sha256
 tar xf dmd.$VERSION.linux.tar.xz

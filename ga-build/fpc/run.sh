@@ -15,7 +15,7 @@ else
   BINNAME=fpc-$VERSION.x86_64-linux
 fi
 
-wget_strict_sha256 \
+curl_strict_sha256 \
   https://downloads.sourceforge.net/project/freepascal/Linux/$VERSION/$BINNAME.tar \
   $BASE_DIR/resources/$BINNAME.tar.sha256
 
@@ -29,7 +29,7 @@ export PATH="$HOME/fpc-$VERSION/bin:$PATH"
 
 # get sources
 
-wget_strict_sha256 \
+curl_strict_sha256 \
   https://downloads.sourceforge.net/project/freepascal/Source/$VERSION/fpc-$VERSION.source.tar.gz \
   $BASE_DIR/resources/fpc-$VERSION.source.tar.gz.sha256
 

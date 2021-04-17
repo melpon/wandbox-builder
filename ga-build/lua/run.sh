@@ -14,7 +14,7 @@ fi
 
 # get sources
 
-wget_strict_sha256 \
+curl_strict_sha256 \
   http://www.lua.org/ftp/lua-$VERSION.tar.gz \
   $BASE_DIR/resources/lua-$VERSION.tar.gz.sha256
 

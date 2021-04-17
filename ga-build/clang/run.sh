@@ -43,13 +43,13 @@ pushd ~/tmp/clang-$VERSION/
 
   # llvm
   if compare_version "$VERSION" "==" "3.0"; then
-    wget_strict_sha256 \
+    curl_strict_sha256 \
       $BASEURL/llvm-$VERSION.tar.$EXT \
       $BASE_DIR/resources/llvm-$VERSION.tar.$EXT.sha256
     tar xf llvm-$VERSION.tar.$EXT
     mv llvm-$VERSION.src source
   else
-    wget_strict_sha256 \
+    curl_strict_sha256 \
       $BASEURL/llvm-$VERSION.src.tar.$EXT \
       $BASE_DIR/resources/llvm-$VERSION.src.tar.$EXT.sha256
     tar xf llvm-$VERSION.src.tar.$EXT
@@ -62,25 +62,25 @@ pushd ~/tmp/clang-$VERSION/
 
   # clang
   if compare_version "$VERSION" "==" "3.0"; then
-    wget_strict_sha256 \
+    curl_strict_sha256 \
       $BASEURL/clang-$VERSION.tar.$EXT \
       $BASE_DIR/resources/clang-$VERSION.tar.$EXT.sha256
     tar xf clang-$VERSION.tar.$EXT
     mv clang-$VERSION.src source/tools/clang
   elif compare_version "$VERSION" "<=" "3.2"; then
-    wget_strict_sha256 \
+    curl_strict_sha256 \
       $BASEURL/clang-$VERSION.src.tar.$EXT \
       $BASE_DIR/resources/clang-$VERSION.src.tar.$EXT.sha256
     tar xf clang-$VERSION.src.tar.$EXT
     mv clang-$VERSION.src source/tools/clang
   elif compare_version "$VERSION" "==" "3.4"; then
-    wget_strict_sha256 \
+    curl_strict_sha256 \
       $BASEURL/clang-$VERSION.src.tar.$EXT \
       $BASE_DIR/resources/clang-$VERSION.src.tar.$EXT.sha256
     tar xf clang-$VERSION.src.tar.$EXT
     mv clang-$VERSION source/tools/clang
   else
-    wget_strict_sha256 \
+    curl_strict_sha256 \
       $BASEURL/${CLANGNAME}-$VERSION.src.tar.$EXT \
       $BASE_DIR/resources/${CLANGNAME}-$VERSION.src.tar.$EXT.sha256
     tar xf ${CLANGNAME}-$VERSION.src.tar.$EXT
@@ -89,7 +89,7 @@ pushd ~/tmp/clang-$VERSION/
 
   # compiler-rt
   if compare_version "$VERSION" ">=" "3.1"; then
-    wget_strict_sha256 \
+    curl_strict_sha256 \
       $BASEURL/compiler-rt-$VERSION.src.tar.$EXT \
       $BASE_DIR/resources/compiler-rt-$VERSION.src.tar.$EXT.sha256
     tar xf compiler-rt-$VERSION.src.tar.$EXT
@@ -102,7 +102,7 @@ pushd ~/tmp/clang-$VERSION/
 
   # clang-tools-extra
   if compare_version "$VERSION" ">=" "3.3"; then
-    wget_strict_sha256 \
+    curl_strict_sha256 \
       $BASEURL/clang-tools-extra-$VERSION.src.tar.$EXT \
       $BASE_DIR/resources/clang-tools-extra-$VERSION.src.tar.$EXT.sha256
     tar xf clang-tools-extra-$VERSION.src.tar.$EXT
@@ -117,7 +117,7 @@ pushd ~/tmp/clang-$VERSION/
   if compare_version "$VERSION" "<=" "3.2"; then
     :
   elif compare_version "$VERSION" "<=" "3.5.0"; then
-    wget_strict_sha256 \
+    curl_strict_sha256 \
       $BASEURL/libcxx-$VERSION.src.tar.$EXT \
       $BASE_DIR/resources/libcxx-$VERSION.src.tar.$EXT.sha256
     tar xf libcxx-$VERSION.src.tar.$EXT
@@ -127,13 +127,13 @@ pushd ~/tmp/clang-$VERSION/
       mv libcxx-$VERSION.src libcxx
     fi
   else
-    wget_strict_sha256 \
+    curl_strict_sha256 \
       $BASEURL/libcxx-$VERSION.src.tar.$EXT \
       $BASE_DIR/resources/libcxx-$VERSION.src.tar.$EXT.sha256
     tar xf libcxx-$VERSION.src.tar.$EXT
     mv libcxx-$VERSION.src source/projects/libcxx
 
-    wget_strict_sha256 \
+    curl_strict_sha256 \
       $BASEURL/libcxxabi-$VERSION.src.tar.$EXT \
       $BASE_DIR/resources/libcxxabi-$VERSION.src.tar.$EXT.sha256
     tar xf libcxxabi-$VERSION.src.tar.$EXT

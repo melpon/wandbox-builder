@@ -70,7 +70,7 @@ else
   URL=http://downloads.sourceforge.net/project/boost/boost/$VERSION/boost_$VERSION_TARNAME.tar.gz
 fi
 
-wget_strict_sha256 \
+curl_strict_sha256 \
   $URL \
   $BASE_DIR/resources/boost_$VERSION_TARNAME.tar.gz.sha256
 tar xf boost_$VERSION_TARNAME.tar.gz

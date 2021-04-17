@@ -21,7 +21,7 @@ export GOROOT_BOOTSTRAP=`pwd`/go1.4
 
 # get sources
 
-wget_strict_sha256 \
+curl_strict_sha256 \
   https://dl.google.com/go/go$VERSION.src.tar.gz \
   $BASE_DIR/resources/go$VERSION.src.tar.gz.sha256
 

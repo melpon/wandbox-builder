@@ -12,7 +12,7 @@ if [ "$SUBCOMMAND" == "setup" ]; then
   exit 0
 fi
 
-wget_strict_sha256 \
+curl_strict_sha256 \
   https://github.com/erlang/otp/releases/download/OTP-$VERSION/otp_src_$VERSION.tar.gz \
   $BASE_DIR/resources/otp_src_$VERSION.tar.gz.sha256
 

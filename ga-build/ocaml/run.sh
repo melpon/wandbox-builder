@@ -15,7 +15,7 @@ fi
 
 VERSION_SHORT=${VERSION:0:4}
 
-wget_strict_sha256 \
+curl_strict_sha256 \
   http://caml.inria.fr/pub/distrib/ocaml-$VERSION_SHORT/ocaml-$VERSION.tar.gz \
   $BASE_DIR/resources/ocaml-$VERSION.tar.gz.sha256
 
@@ -28,7 +28,7 @@ pushd ocaml-$VERSION
   make install
 
   # install opam
-  wget https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh
+  curl -fLO https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh
   sh opam_installer.sh $PREFIX/bin
 
   export PATH=$PREFIX/bin:$PATH

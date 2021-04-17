@@ -60,24 +60,29 @@ function compare_version() {
   { return $result; } 2>/dev/null
 }
 
-function wget_strict_sha256() {
+function curl_strict_sha256() {
   url=$1
   sha256=$2
-  shift 2
+  filename=$3
 
   if [ ! -e $sha256 ]; then
     set +x
     app=`basename $BASE_DIR`
     echo "a sha256 file '$sha256' not found."
     echo "run below command to create the sha256 file:"
-    echo "  cd .. && ./sha256-calc.sh $app $url"
-    exit 1
+    echo "  cd .. && ./sha256-calc.sh $app $url $filename"
+    return 1
   fi
-  wget $url "$@"
-  if sha256sum -c $sha256; then
-    :
+  if [ -z "$filename" ]; then
+    curl -fLO $url
   else
-    exit 1
+    curl -fL $url -o $filename
+  fi
+
+  if sha256sum -c $sha256; then
+    return 0
+  else
+    return 1
   fi
 }
 

@@ -13,7 +13,7 @@ fi
 
 # get sources
 
-wget_strict_sha256 \
+curl_strict_sha256 \
   http://ftp.gnu.org/pub/gnu/clisp/release/$VERSION/clisp-$VERSION.tar.gz \
   $BASE_DIR/resources/clisp-$VERSION.tar.gz.sha256
 

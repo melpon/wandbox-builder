@@ -18,7 +18,7 @@ case $VERSION in
   * ) exit 1 ;;
 esac
 
-wget_strict_sha256 $URL $BASE_DIR/resources/dotnet-sdk-${VERSION}-linux-x64.tar.gz.sha256
+curl_strict_sha256 $URL $BASE_DIR/resources/dotnet-sdk-${VERSION}-linux-x64.tar.gz.sha256
 mkdir dotnetcore
 tar xf dotnet-sdk-${VERSION}-linux-x64.tar.gz -C dotnetcore
 rm dotnet-sdk-${VERSION}-linux-x64.tar.gz

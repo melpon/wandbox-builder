@@ -15,7 +15,7 @@ fi
 
 # get sources
 
-wget_strict_sha256 \
+curl_strict_sha256 \
   https://nodejs.org/dist/v$VERSION/node-v$VERSION.tar.gz \
   $BASE_DIR/resources/node-v$VERSION.tar.gz.sha256
 

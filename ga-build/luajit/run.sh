@@ -10,7 +10,7 @@ if [ "$SUBCOMMAND" == "setup" ]; then
 fi
 
 
-wget_strict_sha256 \
+curl_strict_sha256 \
   http://luajit.org/download/LuaJIT-$VERSION.tar.gz \
   $BASE_DIR/resources/LuaJIT-$VERSION.tar.gz.sha256
 

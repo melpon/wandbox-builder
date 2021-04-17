@@ -14,10 +14,10 @@ if [ "$SUBCOMMAND" == "setup" ]; then
 fi
 
 # ==== get sources ====
-wget_strict_sha256 \
+curl_strict_sha256 \
   https://github.com/nim-lang/Nim/archive/v$VERSION.tar.gz \
   $BASE_DIR/resources/Nim-$VERSION.tar.gz.sha256 \
-  -O Nim-$VERSION.tar.gz
+  Nim-$VERSION.tar.gz
 
 mkdir -p Nim-$VERSION
 pushd Nim-$VERSION

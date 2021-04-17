@@ -17,7 +17,7 @@ if compare_version "$VERSION" "<" "6.0.0"; then
   EXT=bz2
 fi
 
-wget_strict_sha256 \
+curl_strict_sha256 \
   https://download.mono-project.com/sources/mono/mono-$VERSION.tar.$EXT \
   $BASE_DIR/resources/mono-$VERSION.tar.$EXT.sha256
 

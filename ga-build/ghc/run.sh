@@ -22,7 +22,7 @@ esac
 # get sources
 
 FILENAME=${URL##*/}
-wget_strict_sha256 \
+curl_strict_sha256 \
   $URL \
   $BASE_DIR/resources/$FILENAME.sha256
 tar xf $FILENAME
