@@ -35,7 +35,7 @@ tar xf "${VERSION}.tar.gz"
 
 # build
 cd "crystal-${VERSION}/"
-make -j2 verbose=1
+make -j2 crystal verbose=1
 
 # install
 mkdir -p "$PREFIX"

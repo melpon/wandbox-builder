@@ -2361,7 +2361,7 @@ class Compilers(object):
                 'display-compile-command': 'jula prog.jl',
                 'runtime-option-raw': True,
                 'run-command': ['/opt/wandbox/julia-{cv}/bin/julia', 'prog.jl'],
-                'jail-name': 'melpon2-default',
+                'jail-name': 'melpon2-julia',
                 'templates': ['julia'],
             }, cv=cv))
         return compilers
