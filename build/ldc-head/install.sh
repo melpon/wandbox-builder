@@ -20,13 +20,13 @@ cd build
 cmake -DCMAKE_INSTALL_PREFIX=$PREFIX -DBUILD_SHARED=OFF ..
 
 # apply patches
-for make in \
-    CMakeFiles/ldmd2.dir/build.make \
-    CMakeFiles/ldc2.dir/build.make; do
-  sed -i 's/-lphobos2-ldc/-Wl,-Bstatic -lphobos2-ldc -Wl,-Bdynamic/g' $make
-  sed -i 's/-ldruntime-ldc/-Wl,-Bstatic -ldruntime-ldc -Wl,-Bdynamic/g' $make
-  sed -i 's/libconfig.so/libconfig.a/g' $make
-done
+# for make in \
+#     CMakeFiles/ldmd2.dir/build.make \
+#     CMakeFiles/ldc2.dir/build.make; do
+#   sed -i 's/-lphobos2-ldc/-Wl,-Bstatic -lphobos2-ldc -Wl,-Bdynamic/g' $make
+#   sed -i 's/-ldruntime-ldc/-Wl,-Bstatic -ldruntime-ldc -Wl,-Bdynamic/g' $make
+#   sed -i 's/libconfig.so/libconfig.a/g' $make
+# done
 
 make -j2
 make install
