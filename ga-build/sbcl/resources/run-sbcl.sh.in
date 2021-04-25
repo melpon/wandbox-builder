@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export SBCL_HOME=@prefix@/lib/sbcl
+@prefix@/bin/sbcl "$@"
