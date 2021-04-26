@@ -3,12 +3,12 @@
 BASE_DIR=$(cd $(dirname $0); pwd)
 cd $BASE_DIR
 
-. ../init-boost.sh
+. ../init-triple.sh
 
 if [ "$SUBCOMMAND" == "setup" ]; then
   # download compiler
-  mkdir -p /opt/wandbox
-  pushd /opt/wandbox
+  mkdir -p `dirname $COMPILER_PREFIX`
+  pushd `dirname $COMPILER_PREFIX`
     curl -LO https://github.com/melpon/wandbox-builder/releases/download/assets-ubuntu-20.04/$COMPILER-$COMPILER_VERSION.tar.gz
     tar xf $COMPILER-$COMPILER_VERSION.tar.gz
   popd
@@ -16,7 +16,6 @@ if [ "$SUBCOMMAND" == "setup" ]; then
 fi
 
 VERSION_TARNAME=$(echo $VERSION | sed 's/\./_/g')
-COMPILER_PREFIX=/opt/wandbox/$COMPILER-$COMPILER_VERSION
 
 # set flags
 

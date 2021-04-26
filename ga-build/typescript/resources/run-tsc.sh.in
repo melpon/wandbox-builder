@@ -1,0 +1,3 @@
+#!/bin/bash
+
+@nodejs_prefix@/bin/node @prefix@/node_modules/typescript/bin/tsc $@
