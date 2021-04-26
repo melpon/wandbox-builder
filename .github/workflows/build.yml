@@ -205,6 +205,31 @@ jobs:
           asset_path: ${{ steps.install.outputs.package_path }}
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
+  elixir:
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          # 対応する Erlang のバージョンは
+          # https://hexdocs.pm/elixir/compatibility-and-deprecations.html#compatibility-between-elixir-and-erlang-otp
+          # から探す。
+          - 1.11.4 erlang 23.3.1
+          - 1.10.4 erlang 23.3.1
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - id: setup
+        run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
+      - id: install
+        if: steps.setup.outputs.need_install == 'true'
+        run: ./ga-build/${{ github.job }}/run.sh install ${{ matrix.version }}
+      - uses: actions/upload-release-asset@v1
+        if: steps.setup.outputs.need_install == 'true'
+        with:
+          upload_url: ${{ env.UPLOAD_URL }}
+          asset_path: ${{ steps.install.outputs.package_path }}
+          asset_name: ${{ steps.install.outputs.package_filename }}
+          asset_content_type: application/gzip
   erlang:
     strategy:
       fail-fast: false
