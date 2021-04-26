@@ -24,7 +24,8 @@ RUN apt-get update && \
       libstdc++-5-dev \
       locales \
       python-dev \
-      python3-dev && \
+      python3-dev \
+      ruby-dev && \
     # for kennel deps
     apt-get install -y \
       libcurl4-openssl-dev && \
