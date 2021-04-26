@@ -6,15 +6,14 @@ cd $BASE_DIR
 . ../init-boost.sh
 
 if [ "$SUBCOMMAND" == "setup" ]; then
+  # download compiler
+  mkdir -p /opt/wandbox
+  pushd /opt/wandbox
+    curl -LO https://github.com/melpon/wandbox-builder/releases/download/assets-ubuntu-20.04/$COMPILER-$COMPILER_VERSION.tar.gz
+    tar xf $COMPILER-$COMPILER_VERSION.tar.gz
+  popd
   exit 0
 fi
-
-# download compiler
-mkdir -p /opt/wandbox
-pushd /opt/wandbox
-  curl -LO https://github.com/melpon/wandbox-builder/releases/download/assets-ubuntu-20.04/$COMPILER-$COMPILER_VERSION.tar.gz
-  tar xf $COMPILER-$COMPILER_VERSION.tar.gz
-popd
 
 VERSION_TARNAME=$(echo $VERSION | sed 's/\./_/g')
 COMPILER_PREFIX=/opt/wandbox/$COMPILER-$COMPILER_VERSION
