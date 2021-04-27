@@ -749,6 +749,28 @@ jobs:
           asset_path: ${{ steps.install.outputs.package_path }}
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
+  scala:
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - 2.13.5 openjdk jdk-15.0.3+2
+          - 2.12.13 openjdk jdk-15.0.3+2
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - id: setup
+        run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
+      - id: install
+        if: steps.setup.outputs.need_install == 'true'
+        run: ./ga-build/${{ github.job }}/run.sh install ${{ matrix.version }}
+      - uses: actions/upload-release-asset@v1
+        if: steps.setup.outputs.need_install == 'true'
+        with:
+          upload_url: ${{ env.UPLOAD_URL }}
+          asset_path: ${{ steps.install.outputs.package_path }}
+          asset_name: ${{ steps.install.outputs.package_filename }}
+          asset_content_type: application/gzip
   sbcl:
     strategy:
       fail-fast: false

@@ -6,7 +6,7 @@ cd $BASE_DIR
 . ../init-triple.sh
 
 if [ "$SUBCOMMAND" == "setup" ]; then
-  # download erlang
+  # download openjdk
   mkdir -p `dirname $COMPILER_PREFIX`
   pushd `dirname $COMPILER_PREFIX`
     curl -LO https://github.com/melpon/wandbox-builder/releases/download/assets-ubuntu-20.04/$COMPILER-$COMPILER_VERSION.tar.gz

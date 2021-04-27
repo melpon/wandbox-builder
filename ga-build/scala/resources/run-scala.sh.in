@@ -1,0 +1,13 @@
+#!/bin/bash
+
+for cls in `ls *.class`; do
+  @JAVA_HOME@/bin/javap $cls | grep 'public static void main(java.lang.String\[\])' > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    export JAVA_HOME=@JAVA_HOME@
+    @prefix@/bin/scala $@ ${cls%.*}
+    exit $?
+  fi
+done
+echo "The program compiled successfully, but main class was not found." >&2
+echo "Main class should contain method: public static void main (String[] args)." >&2
+exit 1
