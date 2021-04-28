@@ -581,6 +581,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - run: env
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -910,7 +911,6 @@ jobs:
         version:
           - 8.2.2811
           - 8.1.2424
-          - 8.0.1850
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
