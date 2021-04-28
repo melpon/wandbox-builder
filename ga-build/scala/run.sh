@@ -25,12 +25,17 @@ fi
 export JAVA_HOME=$COMPILER_PREFIX/jvm/`cd $COMPILER_PREFIX/jvm/ && ls -1 | head -n1`
 PATH="$JAVA_HOME/bin:$PATH"
 
+# これがあると -Werror が設定されて警告がエラーになってしまう
+# https://github.com/scala/scala/blob/089bad782805b5d1af6e2f4eca5f7c0ca91c18d6/build.sbt#L49-L55
+# https://github.com/sbt/sbt/pull/3672
+unset CI
+unset BUILD_NUMBER
+
 # get sources
 git clone --depth 1 --branch v$VERSION https://github.com/scala/scala.git
 pushd scala
   # build
-  env
-  ~/sbt/bin/sbt -d compile
+  ~/sbt/bin/sbt compile
   ~/sbt/bin/sbt dist/mkPack
   cp -r build/pack $PREFIX
 popd
