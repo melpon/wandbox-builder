@@ -29,7 +29,8 @@ PATH="$JAVA_HOME/bin:$PATH"
 git clone --depth 1 --branch v$VERSION https://github.com/scala/scala.git
 pushd scala
   # build
-  ~/sbt/bin/sbt compile
+  env
+  ~/sbt/bin/sbt -d compile
   ~/sbt/bin/sbt dist/mkPack
   cp -r build/pack $PREFIX
 popd
