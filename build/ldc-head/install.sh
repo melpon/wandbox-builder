@@ -17,7 +17,10 @@ git submodule update --recursive --init
 mkdir build
 cd build
 
-cmake -DCMAKE_INSTALL_PREFIX=$PREFIX -DBUILD_SHARED=OFF ..
+# for llvm static link workaround
+rm -f /usr/lib/llvm-6.0/lib/*.so* 
+
+cmake -DCMAKE_INSTALL_PREFIX=$PREFIX -DBUILD_SHARED=OFF -DLLVM_IS_SHARED=OFF ..
 
 # apply patches
 # for make in \
