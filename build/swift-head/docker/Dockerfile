@@ -5,7 +5,6 @@ MAINTAINER melpon <shigemasa7watanabe+docker@gmail.com>
 RUN apt-get update && \
     apt-get install -y software-properties-common apt-transport-https ca-certificates && \
     add-apt-repository -y "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-11 main" && \
-    add-apt-repository -y "deb http://ppa.launchpad.net/ondrej/php/ubuntu xenial main" && \
     apt-get update && \
     apt-get install -y --allow-unauthenticated \
       autoconf \

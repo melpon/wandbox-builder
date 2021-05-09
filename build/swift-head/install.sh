@@ -23,6 +23,8 @@ cd swift
 
 rm -rf $PREFIX
 
+SWIFT_SOURCE_ROOT=~/swift-source
+
 utils/build-script \
   --assertions \
   --no-swift-stdlib-assertions \
@@ -33,6 +35,7 @@ utils/build-script \
   --swiftpm \
   --xctest \
   --libdispatch \
+  --libicu \
   --foundation \
   --lit-args=-v \
   -- \
@@ -41,6 +44,7 @@ utils/build-script \
   --install-lldb \
   --build-ninja \
   --install-llbuild \
+  --install-libicu \
   --install-swiftpm \
   --install-xctest \
   --install-libdispatch \
