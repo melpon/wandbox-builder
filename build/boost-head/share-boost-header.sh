@@ -22,11 +22,7 @@ if [ ! -d "$HEADER_PREFIX" ]; then
   mkdir boost-$VERSION-$COMPILER
   cd boost-$VERSION-$COMPILER
 
-  if compare_version $VERSION ">=" "1.65.0"; then
-    URL=https://dl.bintray.com/boostorg/release/$VERSION/source/boost_$VERSION_TARNAME.tar.gz
-  else
-    URL=http://downloads.sourceforge.net/project/boost/boost/$VERSION/boost_$VERSION_TARNAME.tar.gz
-  fi
+  URL=https://boostorg.jfrog.io/artifactory/main/release/$VERSION/source/boost_$VERSION_TARNAME.tar.gz
 
   wget_strict_sha256 \
     $URL \
