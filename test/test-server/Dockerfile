@@ -18,10 +18,12 @@ RUN apt-get update && \
       libgfortran3 \
       libgmp-dev \
       libicu55 \
+      libllvm6.0 \
       libmpc3 \
       libonig2 \
       libpcre3-dev \
       libstdc++-5-dev \
+      llvm-8 \
       locales \
       python-dev \
       python3-dev && \
