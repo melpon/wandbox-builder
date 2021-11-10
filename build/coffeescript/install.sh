@@ -9,7 +9,19 @@ fi
 
 VERSION=$1
 PREFIX=/opt/wandbox/coffeescript-$VERSION
-NODEJS_PREFIX=/opt/wandbox/nodejs-6.9.5
+if compare_version "$VERSION" ">=" "2.6.0"; then
+  NODEJS_PREFIX=/opt/wandbox/nodejs-12.16.2
+else
+  if compare_version "$VERSION" ">=" "2.3.0"; then
+    NODEJS_PREFIX=/opt/wandbox/nodejs-10.20.1
+  else
+    if compare_version "$VERSION" ">=" "2.0.0"; then
+      NODEJS_PREFIX=/opt/wandbox/nodejs-8.9.0
+    else
+      NODEJS_PREFIX=/opt/wandbox/nodejs-6.9.5
+    fi
+  fi
+fi
 
 # get sources
 
