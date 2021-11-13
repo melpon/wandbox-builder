@@ -1747,6 +1747,72 @@ class Compilers(object):
             }, cv=cv))
         return compilers
 
+    def make_luau(self):
+        luau_vers = get_generic_versions('luau', with_head=True)
+        compilers = []
+        for cv in luau_vers:
+            if cv == 'head':
+                display_name = 'Luau HEAD'
+            else:
+                display_name = 'Luau'
+
+            if cv == 'head':
+                version_command = ['/bin/cat', '/opt/wandbox/luau-{cv}/bin/VERSION']
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'luau-{cv}',
+                'displayable': True,
+                'language': 'Lua',
+                'output-file': 'prog.lua',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'luau prog.lua',
+                'run-command': ['/opt/wandbox/luau-{cv}/bin/luau', 'prog.lua'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+                'templates': ['luau'],
+            }, cv=cv))
+        return compilers
+
+    def make_luau_analyze(self):
+        luau_vers = get_generic_versions('luau', with_head=True)
+        compilers = []
+        for cv in luau_vers:
+            if cv == 'head':
+                display_name = 'Luau analyze HEAD'
+            else:
+                display_name = 'Luau analyze'
+
+            if cv == 'head':
+                version_command = ['/bin/cat', '/opt/wandbox/luau-{cv}/bin/VERSION']
+            else:
+                version_command = ['/bin/echo', '{cv}']
+
+            compilers.append(format_value({
+                'name': 'luau-analyze-{cv}',
+                'displayable': True,
+                'language': 'Lua',
+                'output-file': 'prog.lua',
+                'compiler-option-raw': False,
+                'compile-command': ['/bin/true'],
+                'version-command': version_command,
+                'switches': [],
+                'initial-checked': [],
+                'display-name': display_name,
+                'display-compile-command': 'luau-analyze prog.lua',
+                'run-command': ['/opt/wandbox/luau-{cv}/bin/run-luau-analyze.sh', 'prog.lua'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+                'templates': ['luau-analyze'],
+            }, cv=cv))
+        return compilers
+
     def make_sqlite(self):
         sqlite_vers = get_generic_versions('sqlite', with_head=True)
         compilers = []
@@ -2398,6 +2464,8 @@ class Compilers(object):
             self.make_php() +
             self.make_lua() +
             self.make_luajit() +
+            self.make_luau() +
+            self.make_luau_analyze() +            
             self.make_sqlite() +
             self.make_fpc() +
             self.make_clisp() +

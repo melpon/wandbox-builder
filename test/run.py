@@ -221,6 +221,13 @@ def test_gdc_head():
     add_test(compiler, lambda: run(compiler, code, 'hello\n'))
 
 
+def test_luau_analyze():
+    code = codecs.open('../build/luau-head/resources/test.lua', 'r', 'utf-8').read()
+    for cv in get_generic_versions("luau", with_head=True):
+        compiler = 'luau-analyze-{cv}'.format(cv=cv)
+        add_test(compiler, lambda compiler=compiler: run(compiler, code, "\n", stderr=False))
+
+
 def test_lazyk():
     compiler = 'lazyk'
     code = codecs.open('../build/lazyk/resources/test.lazy', 'r', 'utf-8').read()
@@ -272,6 +279,8 @@ def register():
     test_generic(name='php', test_file='test.php', expected='hello\n', with_head=True)
     test_generic(name='lua', test_file='test.lua', expected='hello\n', with_head=False)
     test_generic(name='luajit', test_file='test.lua', expected='hello\n', with_head=True)
+    test_generic(name='luau', test_file='test.lua', expected='hello\n', with_head=True)
+    test_luau_analyze()
     test_generic(name='sqlite', test_file='test.sql', expected='hello\n', with_head=True)
     test_generic(name='fpc', test_file='test.pas', expected='hello\n', with_head=True)
     test_generic(name='clisp', test_file='test.lisp', expected='hello\n', with_head=False)
