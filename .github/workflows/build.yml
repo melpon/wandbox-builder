@@ -993,4 +993,4 @@ jobs:
         run: |
           ssh wandbox 'mkdir -p /opt/wandbox-data'
           rsync -a -v . wandbox:/opt/wandbox-data/wandbox-builder
-          ssh wandbox 'python3 /opt/wandbox-data/wandbox-builder/deploy.py ${{ env.ASSETS_URL }} ${{ env.GITHUB_TOKEN }}''
+          ssh wandbox 'python3 /opt/wandbox-data/wandbox-builder/deploy.py ${{ env.ASSETS_URL }} ${{ env.GITHUB_TOKEN }}'
