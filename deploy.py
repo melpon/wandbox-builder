@@ -127,14 +127,14 @@ def extract(file: str, output_dir: str):
 
 
 # デプロイする
-def deploy(compiler: str, version: str, version_dir: str, deploy_dir: str, download_url: str, github_token: Optional[str] = None):
+def deploy(compiler: str, version: str, version_dir: str, deploy_dir: str, download_url: str, archive_name: str, github_token: Optional[str] = None):
     with tempfile.TemporaryDirectory() as tempdir:
         # コンパイラをダウンロード
         header_args = ["-H", "Accept: application/octet-stream"]
         if github_token is not None:
             header_args += ["-H", f"Authorization: token {github_token}"]
 
-        archive_path = download(download_url, tempdir, None, header_args)
+        archive_path = download(download_url, tempdir, archive_name, header_args)
 
         # バージョンファイルを消して解凍
         mkdir_p(version_dir)
@@ -166,7 +166,7 @@ def find_download_url(asset_info, compiler, version):
     name = f"{compiler}-{version.replace(' ', '-')}.tar.gz"
     for obj in asset_info:
         if obj['name'] == name:
-            return obj['url']
+            return name, obj['url']
     raise Exception(f'{name} not in asset info')
 
 
@@ -189,8 +189,8 @@ def main():
     for compiler, version in dels:
         deploy_delete(compiler, version, version_dir)
     for compiler, version in adds:
-        download_url = find_download_url(asset_info, compiler, version)
-        deploy(compiler, version, version_dir, deploy_dir, download_url, args.github_token)
+        name, download_url = find_download_url(asset_info, compiler, version)
+        deploy(compiler, version, version_dir, deploy_dir, download_url, name, args.github_token)
 
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
