@@ -7,7 +7,6 @@ import logging
 import shutil
 import tarfile
 import argparse
-import requests
 import get_asset_info
 from typing import Optional, List, Tuple
 
@@ -133,6 +132,8 @@ def deploy(compiler: str, version: str, version_dir: str, deploy_dir: str, downl
         header_args = ["-H", "Accept: application/octet-stream"]
         if github_token is not None:
             header_args += ["-H", f"Authorization: token {github_token}"]
+        # なんかよく切断されるのでリトライを設定する
+        header_args += ["--retry", "20"]
 
         archive_path = download(download_url, tempdir, archive_name, header_args)
 
