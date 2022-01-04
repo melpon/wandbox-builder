@@ -1198,6 +1198,8 @@ jobs:
           echo "Host wandbox" >> $HOME/.ssh/config
           echo "    HostName $SSH_HOST" >> $HOME/.ssh/config
           echo "    User $SSH_USER" >> $HOME/.ssh/config
+          echo "    ServerAliveInterval 60" >> $HOME/.ssh/config
+          echo "    TCPKeepAlive yes" >> $HOME/.ssh/config
           ssh-keyscan -H $SSH_HOST >> $HOME/.ssh/known_hosts
       # ソースをデプロイ先にコピーして、デプロイスクリプトを実行する
       - name: Deploy
