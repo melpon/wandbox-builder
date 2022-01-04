@@ -72,7 +72,7 @@ def cmd(args, **kwargs):
     return subprocess.run(args, **kwargs)
 
 
-def download(url: str, output_dir: Optional[str] = None, filename: Optional[str] = None) -> str:
+def download(url: str, output_dir: Optional[str] = None, filename: Optional[str] = None, args: List[str] = []) -> str:
     if filename is None:
         output_path = urllib.parse.urlparse(url).path.split('/')[-1]
     else:
@@ -86,9 +86,9 @@ def download(url: str, output_dir: Optional[str] = None, filename: Optional[str]
 
     try:
         if shutil.which('curl') is not None:
-            cmd(["curl", "-fLo", output_path, url])
+            cmd(["curl", "-fLo", output_path, url] + args)
         else:
-            cmd(["wget", "-cO", output_path, url])
+            cmd(["wget", "-cO", output_path, url] + args)
     except Exception:
         # ゴミを残さないようにする
         if os.path.exists(output_path):
@@ -127,10 +127,14 @@ def extract(file: str, output_dir: str):
 
 
 # デプロイする
-def deploy(compiler: str, version: str, version_dir: str, deploy_dir: str, download_url: str):
+def deploy(compiler: str, version: str, version_dir: str, deploy_dir: str, download_url: str, github_token: Optional[str] = None):
     with tempfile.TemporaryDirectory() as tempdir:
         # コンパイラをダウンロード
-        archive_path = download(download_url, tempdir)
+        header_args = ["-H", "Accept: application/octet-stream"]
+        if github_token is not None:
+            header_args += ["-H", f"Authorization: token {github_token}"]
+
+        archive_path = download(download_url, tempdir, header_args)
 
         # バージョンファイルを消して解凍
         mkdir_p(version_dir)
@@ -162,7 +166,7 @@ def find_download_url(asset_info, compiler, version):
     name = f"{compiler}-{version.replace(' ', '-')}.tar.gz"
     for obj in asset_info:
         if obj['name'] == name:
-            return obj['browser_download_url']
+            return obj['url']
     raise Exception(f'{name} not in asset info')
 
 
@@ -186,7 +190,7 @@ def main():
         deploy_delete(compiler, version, version_dir)
     for compiler, version in adds:
         download_url = find_download_url(asset_info, compiler, version)
-        deploy(compiler, version, version_dir, deploy_dir, download_url)
+        deploy(compiler, version, version_dir, deploy_dir, download_url, args.github_token)
 
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
