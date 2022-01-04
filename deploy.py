@@ -134,7 +134,7 @@ def deploy(compiler: str, version: str, version_dir: str, deploy_dir: str, downl
         if github_token is not None:
             header_args += ["-H", f"Authorization: token {github_token}"]
 
-        archive_path = download(download_url, tempdir, header_args)
+        archive_path = download(download_url, tempdir, None, header_args)
 
         # バージョンファイルを消して解凍
         mkdir_p(version_dir)
