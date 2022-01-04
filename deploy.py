@@ -135,8 +135,9 @@ def deploy(compiler: str, version: str, version_dir: str, deploy_dir: str, downl
         # バージョンファイルを消して解凍
         mkdir_p(version_dir)
         version_path = os.path.join(version_dir, f'{compiler} {version}')
-        with open(version_path, 'rb') as f:
-            rm_rf(f.read().decode('utf-8'))
+        if os.path.exists(version_path):
+            with open(version_path, 'rb') as f:
+                rm_rf(f.read().decode('utf-8'))
         rm_rf(version_path)
 
         mkdir_p(deploy_dir)
@@ -151,8 +152,9 @@ def deploy(compiler: str, version: str, version_dir: str, deploy_dir: str, downl
 def deploy_delete(compiler: str, version: str, version_dir: str):
     # バージョンファイルと展開先ディレクトリを削除
     version_path = os.path.join(version_dir, f'{compiler} {version}')
-    with open(version_path, 'rb') as f:
-        rm_rf(f.read().decode('utf-8'))
+    if os.path.exists(version_path):
+        with open(version_path, 'rb') as f:
+            rm_rf(f.read().decode('utf-8'))
     rm_rf(version_path)
 
 
