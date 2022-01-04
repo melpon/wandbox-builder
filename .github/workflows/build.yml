@@ -8,7 +8,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  asset:
+  _asset:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -24,7 +24,7 @@ jobs:
           name: asset_info.json
           path: asset_info.json
   gcc:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -56,7 +56,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   clang:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -86,7 +86,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   boost:
-    needs: [asset, gcc, clang]
+    needs: [_asset, gcc, clang]
     strategy:
       fail-fast: false
       matrix:
@@ -123,7 +123,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   clisp:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -149,7 +149,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   cpython:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -179,7 +179,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   crystal:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -206,7 +206,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   dmd:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -232,7 +232,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   dotnetcore:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -260,7 +260,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   elixir:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -290,7 +290,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   erlang:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -318,7 +318,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   fpc:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -346,7 +346,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   ghc:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -374,7 +374,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   go:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -402,7 +402,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   groovy:
-    needs: [asset, openjdk]
+    needs: [_asset, openjdk]
     strategy:
       fail-fast: false
       matrix:
@@ -429,7 +429,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   julia:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -456,7 +456,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   lazyk:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -482,7 +482,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   ldc:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -510,7 +510,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   lua:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -538,7 +538,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   luajit:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -566,7 +566,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   mono:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -593,7 +593,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   mruby:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -621,7 +621,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   nim:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -649,7 +649,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   nodejs:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -677,7 +677,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   ocaml:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -705,7 +705,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   openjdk:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -732,7 +732,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   openssl:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -760,7 +760,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   perl:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -788,7 +788,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   php:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -816,7 +816,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   pony:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -843,7 +843,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   pypy:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -870,7 +870,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   r:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -897,7 +897,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   ruby:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -924,7 +924,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   rust:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -951,7 +951,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   scala:
-    needs: [asset, openjdk]
+    needs: [_asset, openjdk]
     strategy:
       fail-fast: false
       matrix:
@@ -978,7 +978,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   sbcl:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -1005,7 +1005,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   spidermonkey:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -1031,7 +1031,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   sqlite:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -1057,7 +1057,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   swift:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -1083,7 +1083,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   typescript:
-    needs: [asset, nodejs]
+    needs: [_asset, nodejs]
     strategy:
       fail-fast: false
       matrix:
@@ -1110,7 +1110,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   vim:
-    needs: [asset]
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
@@ -1136,7 +1136,7 @@ jobs:
           asset_path: ${{ steps.install.outputs.package_path }}
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
-  deploy:
+  _deploy:
     needs:
       - gcc
       - clang

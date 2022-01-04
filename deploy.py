@@ -19,6 +19,8 @@ def get_expected_versions(filename) -> List[Tuple[str, str]]:
         data = yaml.load(f, Loader=yaml.Loader)
     r = []
     for k, v in data['jobs'].items():
+        if k.startswith('_'):
+            continue
         for version in v['strategy']['matrix']['version']:
             r.append((k, version))
     return r
