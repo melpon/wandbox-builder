@@ -982,10 +982,11 @@ jobs:
       - name: Add SSH config
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
         run: |
           echo "Host wandbox" >> $HOME/.ssh/config
           echo "    HostName $SSH_HOST" >> $HOME/.ssh/config
-          echo "    User ubuntu" >> $HOME/.ssh/config
+          echo "    User $SSH_USER" >> $HOME/.ssh/config
           ssh-keyscan -H $SSH_HOST >> $HOME/.ssh/known_hosts
       # ソースをデプロイ先にコピーして、デプロイスクリプトを実行する
       - name: Deploy
