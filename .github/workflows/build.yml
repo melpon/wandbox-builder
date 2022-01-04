@@ -16,8 +16,8 @@ jobs:
         with:
           python-version: '3.x'
       - run: |
-        pip3 install requests
-        python3 get_asset_info.py ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }} > asset_info.json
+          pip3 install requests
+          python3 get_asset_info.py ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }} > asset_info.json
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
