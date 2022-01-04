@@ -925,3 +925,70 @@ jobs:
           asset_path: ${{ steps.install.outputs.package_path }}
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
+  deploy:
+    needs:
+      - gcc
+      - clang
+      - boost
+      - clisp
+      - cpython
+      - crystal
+      - dmd
+      - dotnetcore
+      - elixir
+      - erlang
+      - fpc
+      - ghc
+      - go
+      - groovy
+      - julia
+      - lazyk
+      - ldc
+      - lua
+      - luajit
+      - mono
+      - mruby
+      - nim
+      - nodejs
+      - ocaml
+      - openjdk
+      - openssl
+      - perl
+      - php
+      - pony
+      - pypy
+      - r
+      - ruby
+      - rust
+      - scala
+      - sbcl
+      - spidermonkey
+      - sqlite
+      - swift
+      - typescript
+      - vim
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      # SSH 秘密鍵の登録
+      - name: Register SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p $HOME/.ssh
+          echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_ed25519
+          chmod 600 $HOME/.ssh/id_ed25519
+      # デプロイ先を設定する
+      - name: Add SSH config
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+        run: |
+          echo "Host wandbox" >> $HOME/.ssh/config
+          echo "    HostName $SSH_HOST" >> $HOME/.ssh/config
+          echo "    User ubuntu" >> $HOME/.ssh/config
+          ssh-keyscan -H $SSH_HOST >> $HOME/.ssh/known_hosts
+      # ソースをデプロイ先にコピーして、デプロイスクリプトを実行する
+      - name: Deploy
+        run: |
+          rsync -a -v . wandbox:/opt/wandbox-data/wandbox-builder
+          ssh wandbox python3 /opt/wandbox-data/wandbox-builder/deploy.py ${{ env.ASSETS_URL }} ${{ env.GITHUB_TOKEN }}
