@@ -22,7 +22,7 @@ def get_expected_versions(filename) -> List[Tuple[str, str]]:
         if k.startswith('_'):
             continue
         for version in v['strategy']['matrix']['version']:
-            r.append((k, version))
+            r.append((k, str(version)))
     return r
 
 
