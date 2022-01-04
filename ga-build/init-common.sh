@@ -23,7 +23,7 @@ case "$SUBCOMMAND" in
   * ) exit 1
 esac
 
-check_install $PACKAGE_FILENAME
+check_install $PACKAGE_FILENAME ../../asset_info.json
 
 rm -rf ~/tmp/$TARGET-$VERSION/
 mkdir -p ~/tmp/$TARGET-$VERSION/

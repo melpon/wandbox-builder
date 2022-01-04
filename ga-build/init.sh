@@ -87,35 +87,21 @@ function curl_strict_sha256() {
 }
 
 function check_install() {
-  # チェック用 URL が設定されてない（GitHub Actions 経由ではない）場合はチェックせず常にビルドする
-  if [ -z "$ASSETS_URL" ]; then
+  # チェック用ファイルが存在しない場合はチェックせず常にビルドする
+  if [ ! -e "$2" ]; then
     echo "[Skip] check_install $1"
     return 0
   fi
 
-  n=1
-  while :; do
-    RESULT=`curl -f -H "Authorization: token $GITHUB_TOKEN" -H 'Accept: application/vnd.github.v3+json' $ASSETS_URL?page=$n`
-    if [ $? -ne 0 ]; then
-      # 何かエラーが起きたのでエラーを返す
-      return 1
-    fi
+  if (cat "$2" | jq -e ".[] | select(.name==\"$1\")" >/dev/null); then
+    # 無事探しているファイルが見つかったら成功としてシェルを終了する
+    echo "::set-output name=need_install::false"
+    exit 0
+  fi
 
-    # 空リストか調べる
-    if ! (echo "$RESULT" | jq -e '.[]'); then
-      # 探しているファイルが見つからなかったので、継続してインストールを続ける
-      echo "::set-output name=need_install::true"
-      return 0
-    fi
-
-    if (echo "$RESULT" | jq -e ".[] | select(.name==\"$1\")" >/dev/null); then
-      # 無事探しているファイルが見つかったら成功としてシェルを終了する
-      echo "::set-output name=need_install::false"
-      exit 0
-    fi
-
-    n=`expr $n + 1`
-  done
+  # 探しているファイルが見つからなかったので、継続してインストールを続ける
+  echo "::set-output name=need_install::true"
+  return 0
 }
 
 function archive_install() {

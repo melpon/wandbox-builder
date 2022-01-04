@@ -8,7 +8,20 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
+  asset:
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - run: python3 get_asset_info.py ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }} > asset_info.json
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
   gcc:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -23,6 +36,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -36,6 +53,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   clang:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -48,6 +66,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -61,7 +83,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   boost:
-    needs: [gcc, clang]
+    needs: [asset, gcc, clang]
     strategy:
       fail-fast: false
       matrix:
@@ -81,6 +103,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -94,6 +120,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   clisp:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -102,6 +129,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -115,6 +146,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   cpython:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -127,6 +159,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -140,6 +176,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   crystal:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -149,6 +186,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -162,6 +203,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   dmd:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -170,6 +212,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -183,6 +229,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   dotnetcore:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -193,6 +240,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -206,6 +257,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   elixir:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -218,6 +270,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -231,6 +287,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   erlang:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -241,6 +298,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -254,6 +315,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   fpc:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -264,6 +326,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -277,6 +343,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   ghc:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -287,6 +354,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -300,6 +371,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   go:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -310,6 +382,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -323,7 +399,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   groovy:
-    needs: [openjdk]
+    needs: [asset, openjdk]
     strategy:
       fail-fast: false
       matrix:
@@ -333,6 +409,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -346,6 +426,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   julia:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -355,6 +436,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -368,6 +453,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   lazyk:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -376,6 +462,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -389,6 +479,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   ldc:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -399,6 +490,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -412,6 +507,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   lua:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -422,6 +518,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -435,6 +535,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   luajit:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -445,6 +546,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -458,6 +563,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   mono:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -467,6 +573,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -480,6 +590,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   mruby:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -490,6 +601,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -503,6 +618,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   nim:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -513,6 +629,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -526,6 +646,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   nodejs:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -536,6 +657,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -549,6 +674,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   ocaml:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -559,6 +685,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -572,6 +702,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   openjdk:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -581,6 +712,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -594,6 +729,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   openssl:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -604,6 +740,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -617,6 +757,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   perl:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -627,6 +768,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -640,6 +785,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   php:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -650,6 +796,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -663,6 +813,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   pony:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -672,6 +823,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -685,6 +840,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   pypy:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -694,6 +850,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -707,6 +867,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   r:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -716,6 +877,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -729,6 +894,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   ruby:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -738,6 +904,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -751,6 +921,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   rust:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -760,6 +931,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -773,7 +948,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   scala:
-    needs: [openjdk]
+    needs: [asset, openjdk]
     strategy:
       fail-fast: false
       matrix:
@@ -783,6 +958,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -796,6 +975,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   sbcl:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -805,6 +985,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -818,6 +1002,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   spidermonkey:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -826,6 +1011,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -839,6 +1028,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   sqlite:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -847,6 +1037,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -860,6 +1054,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   swift:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -868,6 +1063,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -881,7 +1080,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   typescript:
-    needs: [nodejs]
+    needs: [asset, nodejs]
     strategy:
       fail-fast: false
       matrix:
@@ -891,6 +1090,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -904,6 +1107,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   vim:
+    needs: [asset]
     strategy:
       fail-fast: false
       matrix:
@@ -913,6 +1117,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: asset_info.json
+          path: asset_info.json
       - id: setup
         run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
       - id: install
@@ -993,4 +1201,4 @@ jobs:
         run: |
           ssh wandbox 'mkdir -p /opt/wandbox-data'
           rsync -a -v . wandbox:/opt/wandbox-data/wandbox-builder
-          ssh wandbox 'python3 /opt/wandbox-data/wandbox-builder/deploy.py ${{ env.ASSETS_URL }} ${{ env.GITHUB_TOKEN }}'
+          ssh wandbox 'python3 /opt/wandbox-data/wandbox-builder/deploy.py  ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }}'

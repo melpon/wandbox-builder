@@ -8,6 +8,7 @@ import shutil
 import tarfile
 import argparse
 import requests
+import get_asset_info
 from typing import Optional, List, Tuple
 
 
@@ -153,26 +154,6 @@ def deploy_delete(compiler: str, version: str, version_dir: str):
     rm_rf(version_path)
 
 
-def get_asset_info(url: str, github_token: str):
-    result = []
-    headers = {
-        'Authorization': f'token {github_token}',
-        'Accept': 'application/vnd.github.v3+json',
-    }
-    page = 1
-    while True:
-        r = requests.get(f'{url}?page={page}', headers=headers)
-        r.raise_for_status()
-        js = r.json()
-        if not isinstance(js, list):
-            raise Exception('response is not list')
-        if len(js) == 0:
-            break
-        result.extend(js)
-        page += 1
-    return result
-
-
 def find_download_url(asset_info, compiler, version):
     name = f"{compiler}-{version.replace(' ', '-')}.tar.gz"
     for obj in asset_info:
@@ -184,12 +165,12 @@ def find_download_url(asset_info, compiler, version):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("url")
-    parser.add_argument("github_token")
+    parser.add_argument("--github_token", default=None)
 
     args = parser.parse_args()
 
     # 各コンパイラのダウンロード URL を取得する
-    asset_info = get_asset_info(args.url, args.github_token)
+    asset_info = get_asset_info.get_asset_info(args.url, args.github_token)
 
     version_dir = '/opt/wandbox-data/wandbox-deploy'
     deploy_dir = '/opt/wandbox'
