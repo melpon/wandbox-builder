@@ -83,16 +83,20 @@ def download(url: str, output_dir: Optional[str] = None, filename: Optional[str]
     if os.path.exists(output_path):
         return output_path
 
-    try:
-        if shutil.which('curl') is not None:
-            cmd(["curl", "-fLo", output_path, url] + args)
-        else:
-            cmd(["wget", "-cO", output_path, url] + args)
-    except Exception:
-        # ゴミを残さないようにする
-        if os.path.exists(output_path):
-            os.remove(output_path)
-        raise
+    retry = 5
+    while retry > 0:
+        try:
+            if shutil.which('curl') is not None:
+                cmd(["curl", "-fLo", output_path, url] + args)
+            else:
+                cmd(["wget", "-cO", output_path, url] + args)
+        except Exception:
+            # ゴミを残さないようにする
+            if os.path.exists(output_path):
+                os.remove(output_path)
+            retry -= 1
+            if retry == 0:
+                raise
 
     return output_path
 
@@ -133,7 +137,7 @@ def deploy(compiler: str, version: str, version_dir: str, deploy_dir: str, downl
         if github_token is not None:
             header_args += ["-H", f"Authorization: token {github_token}"]
         # なんかよく切断されるのでリトライを設定する
-        header_args += ["--retry", "20"]
+        header_args += ["--retry", "5"]
 
         archive_path = download(download_url, tempdir, archive_name, header_args)
 
