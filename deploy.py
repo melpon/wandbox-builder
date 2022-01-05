@@ -90,6 +90,7 @@ def download(url: str, output_dir: Optional[str] = None, filename: Optional[str]
                 cmd(["curl", "-fLo", output_path, url] + args)
             else:
                 cmd(["wget", "-cO", output_path, url] + args)
+            break
         except Exception:
             # ゴミを残さないようにする
             if os.path.exists(output_path):
