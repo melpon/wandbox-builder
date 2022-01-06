@@ -1,12 +1,14 @@
 name: heads
 on:
+  push:
   schedule:
     # 毎日 09:00 JST
     - cron: "0 0 * * *"
 
 env:
-  UPLOAD_URL: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/22561082/assets{?name,label}"
-  RELEASE_ID: 22561082
+  ASSETS_URL: "https://api.github.com/repos/melpon/wandbox-builder/releases/56575775/assets"
+  UPLOAD_URL: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/56575775/assets{?name,label}"
+  RELEASE_ID: 56575775
 
 jobs:
   heads:
