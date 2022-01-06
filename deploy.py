@@ -84,7 +84,7 @@ def download(url: str, output_dir: Optional[str] = None, filename: Optional[str]
         return output_path
 
     retry = 5
-    while retry > 0:
+    while True:
         try:
             if shutil.which('curl') is not None:
                 cmd(["curl", "-fLo", output_path, url] + args)
