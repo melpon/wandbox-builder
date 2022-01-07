@@ -9,6 +9,7 @@ env:
   ASSETS_URL: "https://api.github.com/repos/melpon/wandbox-builder/releases/56575775/assets"
   UPLOAD_URL: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/56575775/assets{?name,label}"
   RELEASE_ID: 56575775
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   heads:
@@ -21,20 +22,18 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v1
-      - run: sudo ./install.sh
-        working-directory: ga-build-heads/${{ matrix.name }}
-      - run: tar czf ${{ matrix.name }}.tar.gz ${{ matrix.name }}/
-        working-directory: /opt/wandbox
-      - name: Release ${{ matrix.name }}
-        uses: WebFreak001/deploy-nightly@v1.0.3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ env.UPLOAD_URL }}
-          release_id: ${{ env.RELEASE_ID }}
-          asset_path: /opt/wandbox/${{ matrix.name }}.tar.gz
-          asset_name: ${{ matrix.name }}.tar.gz
-          asset_content_type: application/gzip
+      #- run: sudo ./install.sh
+      #  working-directory: ga-build-heads/${{ matrix.name }}
+      #- run: tar czf ${{ matrix.name }}.tar.gz ${{ matrix.name }}/
+      #  working-directory: /opt/wandbox
+      #- name: Release ${{ matrix.name }}
+      #  uses: WebFreak001/deploy-nightly@v1.0.3
+      #  with:
+      #    upload_url: ${{ env.UPLOAD_URL }}
+      #    release_id: ${{ env.RELEASE_ID }}
+      #    asset_path: /opt/wandbox/${{ matrix.name }}.tar.gz
+      #    asset_name: ${{ matrix.name }}.tar.gz
+      #    asset_content_type: application/gzip
   _deploy:
     needs: [heads]
     runs-on: ubuntu-20.04
