@@ -376,12 +376,6 @@ class Switches(object):
                 'flags': '-O2',
                 'display-name': 'Optimization',
             },
-            'coffee-compile-only': {
-                'flags': ['-p'],
-                'display-name': 'Compile Only',
-                'insert-position': 1,
-                'runtime': True,
-            },
             'delphi-mode': {
                 'flags': ['-Mdelphi'],
                 'display-name': 'Delphi 7 mode',
@@ -447,19 +441,19 @@ class Compilers(object):
                 version_command = ["/bin/sh", "-c", "/opt/wandbox/gcc-head/bin/gcc --version | head -1 | cut -d' ' -f3-"]
             else:
                 display_name = 'gcc'
-                version_command = ['/bin/echo', '{cv}']
+                version_command = ['/bin/echo', f'{cv}']
 
             if cmpver(cv, '<=', '1.42'):
                 compile_command = [
-                    '/opt/wandbox/gcc-{cv}/bin/gcc',
+                    f'/opt/wandbox/gcc-{cv}/bin/gcc',
                     '-oprog.exe',
                     'prog.c'
                 ]
             else:
                 compile_command = [
-                    '/opt/wandbox/gcc-{cv}/bin/gcc',
+                    f'/opt/wandbox/gcc-{cv}/bin/gcc',
                     '-oprog.exe',
-                    '-Wl,-rpath,/opt/wandbox/gcc-{cv}/lib64',
+                    f'-Wl,-rpath,/opt/wandbox/gcc-{cv}/lib64',
                     'prog.c'
                 ]
 
@@ -580,7 +574,7 @@ class Compilers(object):
 
             # libs
             if cmpver(cv, '>=', '4.5.4'):
-                switches += ['sprout', 'msgpack']
+                switches += []
 
             # C++
             switches += ['std-c++-default', 'c++98', 'gnu++98']
@@ -812,7 +806,7 @@ class Compilers(object):
 
             # libs
             if cmpver(cv, '>=', '3.2'):
-                switches += ['sprout', 'msgpack']
+                switches += []
 
             # C++
             switches += ['std-c++-default', 'c++98', 'gnu++98', 'c++11', 'gnu++11']
@@ -926,7 +920,7 @@ class Compilers(object):
                 version_command = ['/bin/echo', f'{cv}']
 
             compilers.append({
-                'name': 'mono-{cv}',
+                'name': f'mono-{cv}',
                 'displayable': True,
                 'language': 'C#',
                 'output-file': 'prog.cs',
@@ -1222,7 +1216,7 @@ class Compilers(object):
             if 'head' in cv:
                 version_command = [f"/opt/wandbox/cpython-{cv}/bin/{python}", "-c", "import sys; print(sys.version.split()[0])"]
             else:
-                version_command = [f'/bin/echo', '{cv}']
+                version_command = ['/bin/echo', f'{cv}']
 
             compilers.append({
                 'name': f'cpython-{cv}',
