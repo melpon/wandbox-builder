@@ -1207,3 +1207,16 @@ jobs:
           ssh wandbox 'mkdir -p /opt/wandbox-data'
           rsync -a -v . wandbox:/opt/wandbox-data/wandbox-builder
           ssh wandbox 'python3 /opt/wandbox-data/wandbox-builder/deploy.py  ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }}'
+      - name: Generate Configuration
+        run: |
+          ssh wandbox 'mkdir -p /opt/wandbox/cattleshed-conf'
+          ssh wandbox 'python3 /opt/wandbox-data/wandbox-builder/cattleshed-conf/compilers.py > /opt/wandbox/cattleshed-conf/compilers.default'
+      - name: Restart Cattleshed
+        run: |
+          #ssh wandbox 'systemctl restart cattleshed-master'
+          ssh wandbox 'systemctl restart cattleshed-develop'
+          sleep 30
+      - name: Restart Kennel
+        run: |
+          #ssh wandbox 'systemctl restart kennel-master'
+          ssh wandbox 'systemctl restart kennel-develop'
