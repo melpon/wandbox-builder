@@ -30,6 +30,6 @@ rm -rf ~/tmp/$TARGET-$VERSION-$COMPILER-$COMPILER_VERSION/
 mkdir -p ~/tmp/$TARGET-$VERSION-$COMPILER-$COMPILER_VERSION/
 cd ~/tmp/$TARGET-$VERSION-$COMPILER-$COMPILER_VERSION/
 
-check_install $PACKAGE_FILENAME ../../asset_info.json
+check_install $PACKAGE_FILENAME ../../asset_info.json/asset_info.json
 
 set -x
