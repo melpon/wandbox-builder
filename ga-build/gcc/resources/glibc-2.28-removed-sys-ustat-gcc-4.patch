@@ -1,0 +1,19 @@
+--- a/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc  2020-10-13 16:35:54.621986000 +0000
++++ b/libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cc  2020-10-13 16:36:14.591060000 +0000
+@@ -81,7 +81,6 @@
+ #include <sys/statvfs.h>
+ #include <sys/timex.h>
+ #include <sys/user.h>
+-#include <sys/ustat.h>
+ #include <linux/cyclades.h>
+ #include <linux/if_eql.h>
+ #include <linux/if_plip.h>
+@@ -163,7 +162,7 @@
+   unsigned struct_old_utsname_sz = sizeof(struct old_utsname);
+   unsigned struct_oldold_utsname_sz = sizeof(struct oldold_utsname);
+   unsigned struct_itimerspec_sz = sizeof(struct itimerspec);
+-  unsigned struct_ustat_sz = sizeof(struct ustat);
++  unsigned struct_ustat_sz = 32;
+ #endif // SANITIZER_LINUX
+ 
+ #if SANITIZER_LINUX && !SANITIZER_ANDROID

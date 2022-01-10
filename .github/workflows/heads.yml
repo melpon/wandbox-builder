@@ -4,6 +4,12 @@ on:
     # 毎日 09:00 JST
     - cron: "0 0 * * *"
 
+env:
+  ASSETS_URL: "https://api.github.com/repos/melpon/wandbox-builder/releases/56575775/assets"
+  UPLOAD_URL: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/56575775/assets{?name,label}"
+  RELEASE_ID: 56575775
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   heads:
     strategy:
@@ -12,35 +18,49 @@ jobs:
         name:
           - gcc-head
           - clang-head
-          - swift-head
-          - nodejs-head
-          - gdc-head
-          - openjdk-head
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v1
-      - run: sudo ./ga-install.sh
-        working-directory: build/${{ matrix.name }}
+      - run: sudo ./install.sh
+        working-directory: ga-build-heads/${{ matrix.name }}
       - run: tar czf ${{ matrix.name }}.tar.gz ${{ matrix.name }}/
         working-directory: /opt/wandbox
-      - name: Release ${{ matrix.name }} latest
+      - name: Release ${{ matrix.name }}
         uses: WebFreak001/deploy-nightly@v1.0.3
-        env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
         with:
-          upload_url: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/22561082/assets{?name,label}"
-          release_id: 22561082
+          upload_url: ${{ env.UPLOAD_URL }}
+          release_id: ${{ env.RELEASE_ID }}
           asset_path: /opt/wandbox/${{ matrix.name }}.tar.gz
           asset_name: ${{ matrix.name }}.tar.gz
           asset_content_type: application/gzip
-      - name: Release ${{ matrix.name }} nightly
-        uses: WebFreak001/deploy-nightly@v1.0.3
+  _deploy:
+    needs: [heads]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      # SSH 秘密鍵の登録
+      - name: Register SSH key
         env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
-        with:
-          upload_url: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/22561082/assets{?name,label}"
-          release_id: 22561082
-          asset_path: /opt/wandbox/${{ matrix.name }}.tar.gz
-          asset_name: ${{ matrix.name }}-$$.tar.gz
-          asset_content_type: application/gzip
-          max_releases: 7
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p $HOME/.ssh
+          echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_ed25519
+          chmod 600 $HOME/.ssh/id_ed25519
+      # デプロイ先を設定する
+      - name: Add SSH config
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          echo "Host wandbox" >> $HOME/.ssh/config
+          echo "    HostName $SSH_HOST" >> $HOME/.ssh/config
+          echo "    User $SSH_USER" >> $HOME/.ssh/config
+          echo "    ServerAliveInterval 60" >> $HOME/.ssh/config
+          echo "    TCPKeepAlive yes" >> $HOME/.ssh/config
+          ssh-keyscan -H $SSH_HOST >> $HOME/.ssh/known_hosts
+      # ソースをデプロイ先にコピーして、デプロイスクリプトを実行する
+      - name: Deploy
+        run: |
+          ssh wandbox 'mkdir -p /opt/wandbox-data'
+          rsync -a -v . wandbox:/opt/wandbox-data/wandbox-builder
+          ssh wandbox 'python3 /opt/wandbox-data/wandbox-builder/deploy_heads.py  ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }}'

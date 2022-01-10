@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+@prefix@/dotnet new console -o prog
+mv Program.cs prog/
+cd prog
+@prefix@/dotnet build "$@"
