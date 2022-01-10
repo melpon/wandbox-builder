@@ -1,8 +1,0 @@
-#!/bin/bash
-
-set -e
-
-export NUGET_PACKAGES=@prefix@/.nuget/packages
-
-cd prog
-@prefix@/dotnet run

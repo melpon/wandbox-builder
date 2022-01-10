@@ -1,4 +1,0 @@
-#!/bin/bash
-
-export JAVA_HOME=@java_prefix@
-@prefix@/bin/groovy "$@"

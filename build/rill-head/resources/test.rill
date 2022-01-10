@@ -1,5 +1,0 @@
-import std::stdio::*;
-
-def main(): unit {
-    println("hello");
-}

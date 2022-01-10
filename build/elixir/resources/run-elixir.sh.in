@@ -1,5 +1,0 @@
-#!/bin/bash
-
-export LC_ALL=en_US.UTF-8
-export PATH=/opt/wandbox/erlang-@erlang_version@/bin:$PATH
-/opt/wandbox/elixir-@version@/bin/elixir "$@"

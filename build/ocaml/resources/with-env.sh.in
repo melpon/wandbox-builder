@@ -1,7 +1,0 @@
-#!/bin/bash
-
-export PATH=@prefix@/bin:$PATH
-export OPAMROOT=@prefix@/.opam
-eval `@prefix@/bin/opam config env`
-
-"$@"

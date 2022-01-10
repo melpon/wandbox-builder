@@ -1,3 +1,0 @@
-#!/bin/bash
-
-PATH=@nodejs_prefix@/bin:$PATH @prefix@/bin/coffee "$@"

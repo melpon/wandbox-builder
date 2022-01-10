@@ -1,4 +1,0 @@
-#!/bin/bash
-
-UNITS=`echo @prefix@/lib/fpc/*/units/x86_64-linux`
-@prefix@/bin/fpc -Fu$UNITS/\* "$@"
