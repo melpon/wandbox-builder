@@ -1796,7 +1796,7 @@ class Compilers(object):
                 'initial-checked': [],
                 'display-name': display_name,
                 'display-compile-command': 'go build -o prog',
-                'compile-command': ['/bin/bash', '-c', f'GO111MODULE=off /opt/wandbox/go-{cv}/bin/go build -o prog'],
+                'compile-command': ['/bin/bash', '-c', f'GO111MODULE=off GOCACHE=/tmp/.cache /opt/wandbox/go-{cv}/bin/go build -o prog'],
                 'run-command': ['./prog'],
                 'runtime-option-raw': False,
                 'jail-name': 'melpon2-default',
