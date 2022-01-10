@@ -29,6 +29,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - 11.1.0
           - 10.2.0
           - 9.3.0
           - 8.4.0
@@ -626,6 +627,8 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - 1.6.0
+          - 1.4.8
           - 1.4.6
           - 1.2.8
           - 1.0.10
@@ -765,6 +768,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - 5.34.0
           - 5.33.8
           - 5.32.1
           - 5.30.3
@@ -902,6 +906,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - 3.1.0
           - 3.0.1
           - 2.7.3
     runs-on: ubuntu-20.04
