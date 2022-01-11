@@ -77,10 +77,13 @@ function curl_strict_sha256() {
     # GitHub Actions 経由でビルド中の場合、
     # git add して push する
     env
-    if [ -n "$GITHUB_ACTIONS" -a "$GITHUB_REF_TYPE" ]; then
+    git status
+    if [ -n "$GITHUB_ACTIONS" ]; then
+      git status
+      git branch -a
       git add $sha256
       git commit -m "[skip ci] Add `basename $sha256`"
-      git push origin "$GITHUB_REF_NAME"
+      git push origin --all
     fi
   fi
 
