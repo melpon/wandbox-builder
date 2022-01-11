@@ -65,18 +65,23 @@ function curl_strict_sha256() {
   sha256=$2
   filename=$3
 
-  if [ ! -e $sha256 ]; then
-    set +x
-    app=`basename $BASE_DIR`
-    echo "a sha256 file '$sha256' not found."
-    echo "run below command to create the sha256 file:"
-    echo "  cd .. && ./sha256-calc.sh $app $url $filename"
-    return 1
-  fi
   if [ -z "$filename" ]; then
     curl -fLO $url
+    filename=`basename ${url%\?*}`
   else
     curl -fL $url -o $filename
+  fi
+
+  if [ ! -e $sha256 ]; then
+    sha256sum -b $filename > $sha256
+    # GitHub Actions 経由でビルド中の場合、
+    # git add して push する
+    env
+    if [ -n "$GITHUB_ACTIONS" -a "$GITHUB_REF_TYPE" ]; then
+      git add $sha256
+      git commit -m "[skip ci] Add `basename $sha256`"
+      git push origin "$GITHUB_REF_NAME"
+    fi
   fi
 
   if sha256sum -c $sha256; then

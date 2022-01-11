@@ -92,6 +92,8 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - 1.78.0 gcc 11.1.0
+          - 1.75.0 gcc 11.1.0
           - 1.75.0 gcc 10.2.0
           - 1.75.0 gcc 9.3.0
           - 1.75.0 gcc 8.4.0
