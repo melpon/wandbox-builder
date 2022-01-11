@@ -76,14 +76,15 @@ function curl_strict_sha256() {
     sha256sum -b $filename > $sha256
     # GitHub Actions 経由でビルド中の場合、
     # git add して push する
-    env
-    git status
-    if [ -n "$GITHUB_ACTIONS" ]; then
-      git status
-      git branch -a
-      git add $sha256
-      git commit -m "[skip ci] Add `basename $sha256`"
-      git push origin --all
+    if [ "$GITHUB_ACTIONS" == "true" ]; then
+      pushd $GITHUB_WORKSPACE
+        git remote set-url origin https://github-actions:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}
+        git config --global user.name "${GITHUB_ACTOR}"
+        git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+        git add $sha256
+        git commit -m "[skip ci] Add `basename $sha256`"
+        git push origin --all
+      popd
     fi
   fi
 
