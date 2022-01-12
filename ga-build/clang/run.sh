@@ -232,6 +232,4 @@ pushd ~/tmp/clang-$VERSION/
   fi
 popd
 
-rm -r ~/tmp/clang-$VERSION/
-
 archive_install $PREFIX $PACKAGE_PATH $PACKAGE_FILENAME
