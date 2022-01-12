@@ -78,12 +78,20 @@ function curl_strict_sha256() {
     # git add して push する
     if [ "$GITHUB_ACTIONS" == "true" ]; then
       pushd $GITHUB_WORKSPACE
-        git remote set-url origin https://github-actions:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}
         git config --global user.name "${GITHUB_ACTOR}"
         git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
         git add $sha256
         git commit -m "[skip ci] Add `basename $sha256`"
-        git push origin --all
+        # 他のジョブとコンフリクトする可能性がるので何度か繰り返す
+        if ! git push origin --all; then
+          sleep 1
+          git pull origin --rebase
+          if ! git push origin --all; then
+            sleep 1
+            git pull origin --rebase
+            git push origin --all
+          fi
+        fi
       popd
     fi
   fi
