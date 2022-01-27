@@ -11,6 +11,7 @@ if [ "$SUBCOMMAND" == "setup" ]; then
     libonig-dev \
     libsqlite3-dev \
     libxml2-dev \
+    libonig-dev \
     pkg-config \
     re2c
   exit 0
