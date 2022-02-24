@@ -1186,7 +1186,7 @@ class Compilers(object):
                 'switches': [],
                 'initial-checked': [],
                 'display-name': display_name,
-                'display-compile-command': 'rust prog.rs',
+                'display-compile-command': 'rustc prog.rs',
                 'run-command': './prog',
                 'jail-name': 'melpon2-default',
                 'templates': ['rust'],
