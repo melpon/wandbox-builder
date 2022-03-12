@@ -28,16 +28,6 @@ def get_boost_head_versions():
     return []
 
 
-# [(<boost-version>, <compiler>, <compiler-version>)]
-def get_boost_versions():
-    return [tuple(ver.split()) for ver in read_versions('boost')]
-
-
-# [(<boost-version>, <compiler>, <compiler-version>)]
-def get_boost_versions_with_head():
-    return get_boost_versions() + [(bv,) + tuple(c.split('-')) for bv, c in get_boost_head_versions()]
-
-
 def read_versions(name):
     return BUILD_YAML_DATA['jobs'][name]['strategy']['matrix']['version']
 
@@ -51,6 +41,11 @@ def get_generic_versions(name, with_head):
 # [(<version>, <compiler>, <compiler-version>)]
 def get_generic_triple_versions(name):
     return [tuple(ver.split()) for ver in read_versions(name)]
+
+
+# [(<boost-version>, <compiler>, <compiler-version>)]
+def get_boost_versions_with_head():
+    return get_generic_triple_versions('boost') + [(bv,) + tuple(c.split('-')) for bv, c in get_boost_head_versions()]
 
 
 def get_gcc_versions(includes_gcc_1, with_head):
@@ -2041,9 +2036,9 @@ class Compilers(object):
         return compilers
 
     def make_typescript(self):
-        typescript_vers = get_generic_versions('typescript', with_head=False)
+        typescript_vers = get_generic_triple_versions('typescript')
         compilers = []
-        for cv in typescript_vers:
+        for cv, dep, dv in typescript_vers:
 
             display_name = 'TypeScript'
             version_command = ['/bin/echo', f'{cv}']
@@ -2054,14 +2049,14 @@ class Compilers(object):
                 'language': 'TypeScript',
                 'output-file': 'prog.ts',
                 'compiler-option-raw': True,
-                'compile-command': [f'/opt/wandbox/typescript-{cv}/bin/run-tsc.sh', 'prog.ts'],
+                'compile-command': [f'/opt/wandbox/typescript-{cv}-{dep}-{dv}/bin/run-tsc.sh', 'prog.ts'],
                 'version-command': version_command,
                 'switches': [],
                 'initial-checked': [],
                 'display-name': display_name,
                 'display-compile-command': 'tsc prog.ts',
                 'runtime-option-raw': True,
-                'run-command': [f'/opt/wandbox/typescript-{cv}/bin/run-node.sh', 'prog.js'],
+                'run-command': [f'/opt/wandbox/typescript-{cv}-{dep}-{dv}/bin/run-node.sh', 'prog.js'],
                 'jail-name': 'melpon2-default',
                 'templates': ['typescript'],
             })
