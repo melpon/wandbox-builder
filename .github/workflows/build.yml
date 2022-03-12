@@ -665,6 +665,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - 16.14.0
           - 14.16.1
           - 12.22.1
           - 10.24.1
