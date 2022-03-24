@@ -22,7 +22,8 @@ for file in os.listdir(YAML_PATH):
     if file == 'build.yml' or 'heads.yml':
         continue
     if file.startswith('build') and file.endswith('.yml'):
-        data = yaml.load(f, Loader=yaml.Loader)
+        with open(os.path.join(YAML_PATH, file)) as f:
+            data = yaml.load(f, Loader=yaml.Loader)
         for k, v in data['jobs']:
             BUILD_YAML_DATA['jobs'][k] = v
 
