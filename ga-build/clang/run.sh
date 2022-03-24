@@ -29,6 +29,7 @@ if compare_version "$VERSION" ">=" "14.0.0"; then
       make install
     popd
   popd
+  archive_install $PREFIX $PACKAGE_PATH $PACKAGE_FILENAME
   exit 0
 fi
 
