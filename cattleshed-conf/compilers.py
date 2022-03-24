@@ -19,12 +19,12 @@ with open(os.path.join(YAML_PATH, 'build.yml')) as f:
     BUILD_YAML_DATA = yaml.load(f, Loader=yaml.Loader)
 # 他の build*.yml のデータもマージする
 for file in os.listdir(YAML_PATH):
-    if file == 'build.yml' or 'heads.yml':
+    if file == 'build.yml' or file == 'heads.yml':
         continue
     if file.startswith('build') and file.endswith('.yml'):
         with open(os.path.join(YAML_PATH, file)) as f:
             data = yaml.load(f, Loader=yaml.Loader)
-        for k, v in data['jobs']:
+        for k, v in data['jobs'].items():
             BUILD_YAML_DATA['jobs'][k] = v
 
 with open(os.path.join(YAML_PATH, 'heads.yml')) as f:
