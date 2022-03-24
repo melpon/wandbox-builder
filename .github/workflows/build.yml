@@ -1120,7 +1120,7 @@ jobs:
           COMMIT=`git log --format=%as.%h -n 1 HEAD`
           ssh wandbox 'mkdir -p /opt/wandbox-data'
           rsync -a -v . wandbox:/opt/wandbox-data/wandbox-builder
-          ssh wandbox 'python3 /opt/wandbox-data/wandbox-builder/deploy.py "$GITHUB_WORKFLOW" "$COMMIT" ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }}'
+          ssh wandbox "python3 /opt/wandbox-data/wandbox-builder/deploy.py $GITHUB_WORKFLOW $COMMIT ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }}"
       - name: Generate Configuration
         if: steps.deploy.outputs.deployed == 'true'
         run: |

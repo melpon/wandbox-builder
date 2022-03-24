@@ -5,20 +5,30 @@ cd $BASE_DIR
 
 . ../init-common.sh
 
-# ここで使ってるダウンロードする必要あるリソースの sha256 を計算するためのメモ
-#
-#cd .. && \
-#./sha256-calc.sh clang https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/llvm-10.0.0.src.tar.xz && \
-#./sha256-calc.sh clang https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/clang-10.0.0.src.tar.xz && \
-#./sha256-calc.sh clang https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/clang-tools-extra-10.0.0.src.tar.xz && \
-#./sha256-calc.sh clang https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/compiler-rt-10.0.0.src.tar.xz && \
-#./sha256-calc.sh clang https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/libcxx-10.0.0.src.tar.xz && \
-#./sha256-calc.sh clang https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/llvm-10.0.0.src.tar.xz && \
-#./sha256-calc.sh clang https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/libcxxabi-10.0.0.src.tar.xz
-
 if [ "$SUBCOMMAND" == "setup" ]; then
   sudo apt-get install -y \
     python3-distutils
+  exit 0
+fi
+
+# clang 14.0.0 以降はリポジトリが統合されてる前提でビルドされるっぽいので、
+# ソースのアーカイブから拾ってビルドするのを諦めて git clone してビルドする
+if compare_version "$VERSION" ">=" "14.0.0"; then
+  git clone --branch llvmorg-${VERSION} --depth 1 https://github.com/llvm/llvm-project.git
+  pushd llvm-project
+    mkdir build
+    pushd build
+      export CC=clang
+      export CXX=clang++
+      cmake \
+        "-DLLVM_ENABLE_PROJECTS=clang;clang-tools-extra;compiler-rt;libcxx;libcxxabi" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=$PREFIX \
+        ../llvm
+      make -j`nproc`
+      make install
+    popd
+  popd
   exit 0
 fi
 
