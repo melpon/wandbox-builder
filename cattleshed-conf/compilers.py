@@ -17,6 +17,15 @@ SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
 YAML_PATH = os.path.join(SCRIPT_PATH, '..', '.github/workflows')
 with open(os.path.join(YAML_PATH, 'build.yml')) as f:
     BUILD_YAML_DATA = yaml.load(f, Loader=yaml.Loader)
+# 他の build*.yml のデータもマージする
+for file in os.listdir(YAML_PATH):
+    if file == 'build.yml' or 'heads.yml':
+        continue
+    if file.startswith('build') and file.endswith('.yml'):
+        data = yaml.load(f, Loader=yaml.Loader)
+        for k, v in data['jobs']:
+            BUILD_YAML_DATA['jobs'][k] = v
+
 with open(os.path.join(YAML_PATH, 'heads.yml')) as f:
     HEADS_YAML_DATA = yaml.load(f, Loader=yaml.Loader)
 
