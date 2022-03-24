@@ -1,3 +1,9 @@
+# wandbox-builder の特殊な仕様:
+# - ファイル名は必ず build*.yml にする
+# - name は必須
+# - ジョブ名は ga-build/ のディレクトリ名と合わせる
+# - ビルドと関係ないジョブを作る場合はジョブ名の先頭に _ を付ける
+
 name: build
 on:
   push:
@@ -23,114 +29,6 @@ jobs:
         with:
           name: asset_info.json
           path: asset_info.json
-  gcc:
-    needs: [_asset]
-    strategy:
-      fail-fast: false
-      matrix:
-        version:
-          - 11.1.0
-          - 10.2.0
-          - 9.3.0
-          - 8.4.0
-          - 7.5.0
-          - 6.5.0
-          - 5.5.0
-          - 4.9.4
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-        with:
-          name: asset_info.json
-          path: asset_info.json
-      - id: setup
-        run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
-      - id: install
-        if: steps.setup.outputs.need_install == 'true'
-        run: ./ga-build/${{ github.job }}/run.sh install ${{ matrix.version }}
-      - uses: actions/upload-release-asset@v1
-        if: steps.setup.outputs.need_install == 'true'
-        with:
-          upload_url: ${{ env.UPLOAD_URL }}
-          asset_path: ${{ steps.install.outputs.package_path }}
-          asset_name: ${{ steps.install.outputs.package_filename }}
-          asset_content_type: application/gzip
-  clang:
-    needs: [_asset]
-    strategy:
-      fail-fast: false
-      matrix:
-        version:
-          - 14.0.0
-          - 13.0.0
-          - 12.0.1
-          - 11.1.0
-          - 10.0.1
-          - 9.0.1
-          - 8.0.1
-          - 7.1.0
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-        with:
-          name: asset_info.json
-          path: asset_info.json
-      - id: setup
-        run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
-      - id: install
-        if: steps.setup.outputs.need_install == 'true'
-        run: ./ga-build/${{ github.job }}/run.sh install ${{ matrix.version }}
-      - uses: actions/upload-release-asset@v1
-        if: steps.setup.outputs.need_install == 'true'
-        with:
-          upload_url: ${{ env.UPLOAD_URL }}
-          asset_path: ${{ steps.install.outputs.package_path }}
-          asset_name: ${{ steps.install.outputs.package_filename }}
-          asset_content_type: application/gzip
-  boost:
-    needs: [_asset, gcc, clang]
-    strategy:
-      fail-fast: false
-      matrix:
-        version:
-          - 1.78.0 gcc 11.1.0
-          - 1.75.0 gcc 11.1.0
-          - 1.75.0 gcc 10.2.0
-          - 1.75.0 gcc 9.3.0
-          - 1.75.0 gcc 8.4.0
-          - 1.75.0 gcc 7.5.0
-          - 1.75.0 gcc 6.5.0
-          - 1.75.0 gcc 5.5.0
-          - 1.75.0 gcc 4.9.4
-          - 1.78.0 clang 14.0.0
-          - 1.78.0 clang 13.0.0
-          - 1.78.0 clang 12.0.1
-          - 1.75.0 clang 11.1.0
-          - 1.75.0 clang 10.0.1
-          - 1.75.0 clang 9.0.1
-          - 1.75.0 clang 8.0.1
-          - 1.75.0 clang 7.1.0
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-        with:
-          name: asset_info.json
-          path: asset_info.json
-      - id: setup
-        run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
-      - id: install
-        if: steps.setup.outputs.need_install == 'true'
-        run: ./ga-build/${{ github.job }}/run.sh install ${{ matrix.version }}
-      - uses: actions/upload-release-asset@v1
-        if: steps.setup.outputs.need_install == 'true'
-        with:
-          upload_url: ${{ env.UPLOAD_URL }}
-          asset_path: ${{ steps.install.outputs.package_path }}
-          asset_name: ${{ steps.install.outputs.package_filename }}
-          asset_content_type: application/gzip
   clisp:
     needs: [_asset]
     strategy:
@@ -1154,9 +1052,6 @@ jobs:
           asset_content_type: application/gzip
   _deploy:
     needs:
-      - gcc
-      - clang
-      - boost
       - clisp
       - cpython
       - crystal
@@ -1218,21 +1113,27 @@ jobs:
           echo "    TCPKeepAlive yes" >> $HOME/.ssh/config
           ssh-keyscan -H $SSH_HOST >> $HOME/.ssh/known_hosts
       # ソースをデプロイ先にコピーして、デプロイスクリプトを実行する
-      - name: Deploy
+      - id: deploy
+        name: Deploy
         run: |
+          set -ex
+          COMMIT=`git log --format=%as.%h -n 1 HEAD`
           ssh wandbox 'mkdir -p /opt/wandbox-data'
           rsync -a -v . wandbox:/opt/wandbox-data/wandbox-builder
-          ssh wandbox 'python3 /opt/wandbox-data/wandbox-builder/deploy.py  ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }}'
+          ssh wandbox 'python3 /opt/wandbox-data/wandbox-builder/deploy.py "$GITHUB_WORKFLOW" "$COMMIT" ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }}'
       - name: Generate Configuration
+        if: steps.deploy.outputs.deployed == 'true'
         run: |
           ssh wandbox 'mkdir -p /opt/wandbox-data/release/cattleshed-conf'
           ssh wandbox 'python3 /opt/wandbox-data/wandbox-builder/cattleshed-conf/compilers.py > /opt/wandbox-data/release/cattleshed-conf/compilers.default'
       - name: Restart Cattleshed
+        if: steps.deploy.outputs.deployed == 'true'
         run: |
           ssh wandbox 'systemctl restart cattleshed-master'
           ssh wandbox 'systemctl restart cattleshed-develop'
           sleep 30
       - name: Restart Kennel
+        if: steps.deploy.outputs.deployed == 'true'
         run: |
           ssh wandbox 'systemctl restart kennel-master'
           ssh wandbox 'systemctl restart kennel-develop'

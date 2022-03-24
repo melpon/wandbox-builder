@@ -7,21 +7,22 @@ import logging
 import shutil
 import tarfile
 import argparse
+import json
 import get_asset_info
 from typing import Optional, List, Tuple
 
 
-
 # デプロイしたいバージョン
-def get_expected_versions(filename) -> List[Tuple[str, str]]:
-    with open(filename) as f:
-        data = yaml.load(f, Loader=yaml.Loader)
+def get_expected_versions(filenames: List[str]) -> List[Tuple[str, str]]:
     r = []
-    for k, v in data['jobs'].items():
-        if k.startswith('_'):
-            continue
-        for version in v['strategy']['matrix']['version']:
-            r.append((k, str(version)))
+    for filename in filenames:
+        with open(filename) as f:
+            data = yaml.load(f, Loader=yaml.Loader)
+        for k, v in data['jobs'].items():
+            if k.startswith('_'):
+                continue
+            for version in v['strategy']['matrix']['version']:
+                r.append((k, str(version)))
     return r
 
 
@@ -176,27 +177,86 @@ def find_download_url(asset_info, compiler, version):
     raise Exception(f'{name} not in asset info')
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("url")
-    parser.add_argument("--github_token", default=None)
+def get_all_workflow_files() -> List[str]:
+    r = []
+    for file in os.listdir('.github/workflows'):
+        if file.startswith('build') and file.endswith('.yml'):
+            r.append(os.path.join('.github/workflows', file))
+    return r
 
-    args = parser.parse_args()
 
+def deploy_all(url: str, github_token: Optional[str]):
     # 各コンパイラのダウンロード URL を取得する
-    asset_info = get_asset_info.get_asset_info(args.url, args.github_token)
+    asset_info = get_asset_info.get_asset_info(url, github_token)
 
     version_dir = '/opt/wandbox-data/wandbox-deploy'
     deploy_dir = '/opt/wandbox'
 
-    expected_versions = get_expected_versions('.github/workflows/build.yml')
+    expected_versions = get_expected_versions(get_all_workflow_files())
     actual_versions = get_actual_versions(version_dir)
     adds, dels = get_difference(actual_versions, expected_versions)
     for compiler, version in dels:
         deploy_delete(compiler, version, version_dir)
     for compiler, version in adds:
         name, download_url = find_download_url(asset_info, compiler, version)
-        deploy(compiler, version, version_dir, deploy_dir, download_url, name, args.github_token)
+        deploy(compiler, version, version_dir, deploy_dir, download_url, name, github_token)
+
+
+def get_all_workflow_names() -> List[str]:
+    r = []
+    for file in get_all_workflow_files():
+        with open(file) as f:
+            data = yaml.load(f, Loader=yaml.Loader)
+        r.append(data['name'])
+    return r
+
+
+def update_workflow(workflow: str, commit: str) -> bool:
+    """
+    特定のコミットに対するワークフロー情報を更新する
+
+    そのコミットに対する全てのワークフローの実行が終わった場合は true を返す
+    """
+    # この関数が複数のプロセスから実行されるとまずいけど、
+    # そんなことはなかなか起きないはずなので気にしないでおく
+
+    # 確認したいワークフロー名の一覧
+    workflow_names = get_all_workflow_names()
+
+    # ワークフロー情報の更新
+    deploying_dir = '/opt/wandbox-data/wandbox-deploying'
+    mkdir_p(deploying_dir)
+    commit_filepath = os.path.join(deploying_dir, f'{commit}.json')
+    if os.path.exists(commit_filepath):
+        commit_info = json.load(open(commit_filepath))
+    else:
+        commit_info = {name: False for name in workflow_names}
+
+    commit_info[workflow] = True
+
+    with open(commit_filepath, 'w') as f:
+        f.write(json.dumps(commit_info))
+
+    # ワークフローの全ての実行が終わってるかを確認する
+    for name in workflow_names:
+        if not commit_info.get(name, False):
+            return False
+    return True
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("workflow")
+    parser.add_argument("commit")
+    parser.add_argument("url")
+    parser.add_argument("--github_token", default=None)
+
+    args = parser.parse_args()
+    if update_workflow(args.workflow, args.commit):
+        deploy_all(args.url, args.github_token)
+        print("::set-output name=deployed::true")
+    else:
+        print("::set-output name=deployed::false")
 
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
