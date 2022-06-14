@@ -847,8 +847,11 @@ class Compilers(object):
                 '-fcolor-diagnostics'
                 ] + ansi_escape_codes + [
                 f'-I/opt/wandbox/clang-{cv}/include/c++/v1',
+                f'-I/opt/wandbox/clang-{cv}/include/x86_64-unknown-linux-gnu/c++/v1/',
                 f'-L/opt/wandbox/clang-{cv}/lib',
+                f'-L/opt/wandbox/clang-{cv}/lib/x86_64-unknown-linux-gnu',
                 f'-Wl,-rpath,/opt/wandbox/clang-{cv}/lib',
+                f'-Wl,-rpath,/opt/wandbox/clang-{cv}/lib/x86_64-unknown-linux-gnu',
                 '-lpthread',
                 #'-I/opt/wandbox/boost-sml/include',
                 #'-I/opt/wandbox/boost-di/include',
