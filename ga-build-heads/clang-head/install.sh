@@ -10,6 +10,7 @@ apt-get install -y \
   clang-12 \
   coreutils \
   git \
+  libgcc-10-dev \
   libgmp-dev \
   libmpc-dev \
   libmpfr-dev \
