@@ -16,4 +16,5 @@ echo "$SHASUM *$TARNAME" | sha256sum -c
 
 tar xf $TARNAME
 
+mkdir -p `dirname $PREFIX`
 cp -r $DIRNAME $PREFIX
