@@ -2164,7 +2164,7 @@ class Compilers(object):
                 'output-file': 'main.zig',
                 'compiler-option-raw': True,
                 'compile-command': [f"/opt/wandbox/zig-{cv}/zig", 'build-exe', 'main.zig'],
-                'version_command': [f"/opt/wandbox/zig-{cv}/zig", "version"],
+                'version-command': [f"/opt/wandbox/zig-{cv}/zig", "version"],
                 'switches': switches,
                 'initial-checked': ['zig-mode-releasesafe'],
                 'display-name': display_name,
