@@ -73,6 +73,7 @@ function curl_strict_sha256() {
   fi
 
   if [ ! -e $sha256 ]; then
+    mkdir -p `dirname $sha256`
     sha256sum -b $filename > $sha256
     # GitHub Actions 経由でビルド中の場合、
     # git add して push する
