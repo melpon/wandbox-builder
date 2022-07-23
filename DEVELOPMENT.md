@@ -11,6 +11,7 @@ libgmp-dev
 nginx
 cmake
 libgfortran5
+libgcc-10-dev
 ```
 
 ## ufw
