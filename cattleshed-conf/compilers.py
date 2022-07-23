@@ -346,6 +346,27 @@ class Switches(object):
         ]
         return self.resolve_conflicts(pairs, 'cpp-pedantic')
 
+    def make_zigmode(self):
+        pairs = [
+            ('zig-mode-debug', {
+                'flags': ['-O', 'Debug'],
+                'display-name': 'Debug',
+            }),
+            ('zig-mode-releasesafe', {
+                'flags': ['-O', 'ReleaseSafe'],
+                'display-name': 'ReleaseSafe',
+            }),
+            ('zig-mode-releasesmall', {
+                'flags': ['-O', 'ReleaseSmall'],
+                'display-name': 'ReleaseSmall',
+            }),
+            ('zig-mode-releasefast', {
+                'flags': ['-O', 'ReleaseFast'],
+                'display-name': 'ReleaseFast',
+            }),
+        ]
+        return self.resolve_conflicts(pairs, 'std-cxx')
+
     def make_default(self):
         return {
             'warning': {
@@ -393,6 +414,14 @@ class Switches(object):
                 'flags': ['-gcflags', '-m'],
                 'display-name': "-gcflags '-m'",
             },
+            'zig-single-threaded': {
+                'flags': ['--single-threaded'],
+                'display-name': "Single Threaded",
+            },
+            'zig-strip': {
+                'flags': ['--strip'],
+                'display-name': "Strip",
+            },
         }
 
     def make(self):
@@ -402,7 +431,8 @@ class Switches(object):
             self.make_boost(),
             self.make_boost_header(),
             self.make_c(),
-            self.make_cxx())
+            self.make_cxx(),
+            self.make_zigmode())
 
 class Compilers(object):
     def make_gcc_c(self):
@@ -2109,6 +2139,43 @@ class Compilers(object):
             })
         return compilers
 
+    def make_zig(self):
+        zig_vers = get_generic_versions('zig', with_head=True)
+        compilers = []
+        for cv in zig_vers:
+            if cv == 'head':
+                display_name = 'zig HEAD'
+            else:
+                display_name = 'zig'
+
+            switches = [
+              'zig-mode-debug',
+              'zig-mode-releasesafe',
+              'zig-mode-releasesmall',
+              'zig-mode-releasefast',
+              'zig-strip',
+              'zig-single-threaded',
+            ]
+
+            compilers.append({
+                'name': f'zig-{cv}',
+                'displayable': True,
+                'language': 'Zig',
+                'output-file': 'main.zig',
+                'compiler-option-raw': True,
+                'compile-command': [f"/opt/wandbox/zig-{cv}/zig", 'build-exe', 'main.zig'],
+                'version_command': [f"/opt/wandbox/zig-{cv}/zig", "version"],
+                'switches': switches,
+                'initial-checked': ['zig-mode-releasesafe'],
+                'display-name': display_name,
+                'display-compile-command': 'zig build-exe main.zig',
+                'run-command': ['./main'],
+                'runtime-option-raw': True,
+                'jail-name': 'melpon2-default',
+                'templates': ['zig'],
+            })
+        return compilers
+
     def make(self):
         return (
             self.make_gcc_c() +
@@ -2155,7 +2222,8 @@ class Compilers(object):
             self.make_dotnetcore() +
             self.make_r() +
             self.make_typescript() +
-            self.make_julia()
+            self.make_julia() +
+            self.make_zig()
         )
 
 
