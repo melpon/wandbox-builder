@@ -3,7 +3,6 @@ on:
   schedule:
     # 毎日 09:00 JST
     - cron: "0 0 * * *"
-  push:
 
 env:
   ASSETS_URL: "https://api.github.com/repos/melpon/wandbox-builder/releases/56575775/assets"
@@ -17,8 +16,8 @@ jobs:
       fail-fast: false
       matrix:
         name:
-          #- gcc-head
-          #- clang-head
+          - gcc-head
+          - clang-head
           - zig-head
     runs-on: ubuntu-20.04
     steps:
