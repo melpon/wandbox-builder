@@ -415,7 +415,7 @@ class Switches(object):
                 'display-name': "-gcflags '-m'",
             },
             'zig-single-threaded': {
-                'flags': ['--single-threaded'],
+                'flags': ['-fsingle-threaded'],
                 'display-name': "Single Threaded",
             },
             'zig-strip': {
