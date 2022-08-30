@@ -12,6 +12,7 @@ nginx
 cmake
 libgfortran5
 libgcc-10-dev
+libtinfo5
 ```
 
 ## ufw
