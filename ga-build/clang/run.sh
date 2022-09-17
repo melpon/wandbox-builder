@@ -21,7 +21,7 @@ if compare_version "$VERSION" ">=" "14.0.0"; then
       export CC=clang
       export CXX=clang++
       cmake \
-        "-DLLVM_ENABLE_PROJECTS=clang;clang-tools-extra;compiler-rt;libcxx;libcxxabi" \
+        "-DLLVM_ENABLE_PROJECTS=clang;clang-tools-extra;libcxx;libcxxabi" \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=$PREFIX \
         ../llvm
