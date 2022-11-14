@@ -1,9 +1,9 @@
 #!/bin/bash
 
 for cls in `ls *.class`; do
-  @JAVA_HOME@/bin/javap $cls | grep 'public static void main(java.lang.String\[\])' > /dev/null 2>&1
+  @java_home@/bin/javap $cls | grep 'public static void main(java.lang.String\[\])' > /dev/null 2>&1
   if [ $? -eq 0 ]; then
-    export JAVA_HOME=@JAVA_HOME@
+    export JAVA_HOME=@java_home@
     @prefix@/bin/scala $@ ${cls%.*}
     exit $?
   fi
