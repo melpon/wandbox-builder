@@ -1,6 +1,8 @@
 #!/bin/bash
 
 set -e
+export DOTNET_NOLOGO=true
+export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 @prefix@/dotnet new console -o prog
 mv Program.cs prog/
 cd prog
