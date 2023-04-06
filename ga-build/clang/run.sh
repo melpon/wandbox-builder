@@ -20,8 +20,16 @@ if compare_version "$VERSION" ">=" "14.0.0"; then
     pushd build
       export CC=clang
       export CXX=clang++
+      LLVM_ENABLE_PROJECTS="clang;clang-tools-extra"
+      LLVM_ENABLE_RUNTIMES=""
+      if compare_version "$VERSION" ">=" "16.0.0"; then
+        LLVM_ENABLE_RUNTIMES='-DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi"'
+      else
+        LLVM_ENABLE_PROJECTS="${LLVM_ENABLE_PROJECTS};libcxx;libcxxabi"
+      fi
       cmake \
-        "-DLLVM_ENABLE_PROJECTS=clang;clang-tools-extra;libcxx;libcxxabi" \
+        "-DLLVM_ENABLE_PROJECTS=${LLVM_ENABLE_PROJECTS}" \
+        ${LLVM_ENABLE_RUNTIMES} \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=$PREFIX \
         ../llvm
