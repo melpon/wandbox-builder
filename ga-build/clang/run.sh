@@ -20,14 +20,14 @@ if compare_version "$VERSION" ">=" "14.0.0"; then
     pushd build
       export CC=clang
       export CXX=clang++
-      LLVM_ENABLE_PROJECTS='-DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;libcxx;libcxxabi"'
+      LLVM_ENABLE_PROJECTS='-DLLVM_ENABLE_PROJECTS=clang;clang-tools-extra;libcxx;libcxxabi'
       LLVM_ENABLE_RUNTIMES=""
       if compare_version "$VERSION" ">=" "16.0.0"; then
         # llvm-project 16.0.0 以降はlibcxx, libcxxabi, libunwind, compiler-rtなどは
         # LLVM_ENABLE_PROJECTSではなくLLVM_ENABLE_RUNTIMESで指定しなければならない
         # cf. https://github.com/llvm/llvm-project/commit/258477ed0ab69d334302225322ac81ac974b59fb
-        LLVM_ENABLE_PROJECTS='-DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra"'
-        LLVM_ENABLE_RUNTIMES='-DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi"'
+        LLVM_ENABLE_PROJECTS='-DLLVM_ENABLE_PROJECTS=clang;clang-tools-extra'
+        LLVM_ENABLE_RUNTIMES='-DLLVM_ENABLE_RUNTIMES=libcxx;libcxxabi'
       fi
       cmake \
         ${LLVM_ENABLE_PROJECTS} \
