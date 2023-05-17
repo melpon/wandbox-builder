@@ -18,8 +18,8 @@ apt-get install -y \
   python3 \
   wget
 
-CMAKE_VERSION="3.16.3"
-CMAKE_SHA256="3e15dadfec8d54eda39c2f266fc1e571c1b88bf32f9d221c8a039b07234206fa"
+CMAKE_VERSION="3.26.3"
+CMAKE_SHA256="28d4d1d0db94b47d8dfd4f7dec969a3c747304f4a28ddd6fd340f553f2384dc2"
 
 CMAKE_PREFIX="/usr/local/wandbox/camke-${CMAKE_VERSION}"
 
