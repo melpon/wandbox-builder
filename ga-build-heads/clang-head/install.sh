@@ -23,11 +23,11 @@ CMAKE_SHA256="28d4d1d0db94b47d8dfd4f7dec969a3c747304f4a28ddd6fd340f553f2384dc2"
 
 CMAKE_PREFIX="/usr/local/wandbox/camke-${CMAKE_VERSION}"
 
-wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
-echo "${CMAKE_SHA256} *cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz" | sha256sum -c
-tar xf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
+wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-x86_64.tar.gz
+echo "${CMAKE_SHA256} *cmake-${CMAKE_VERSION}-linux-x86_64.tar.gz" | sha256sum -c
+tar xf cmake-${CMAKE_VERSION}-linux-x86_64.tar.gz
 mkdir -p /usr/local/wandbox/
-mv cmake-${CMAKE_VERSION}-Linux-x86_64 $CMAKE_PREFIX
+mv cmake-${CMAKE_VERSION}-linux-x86_64 $CMAKE_PREFIX
 
 mkdir -p ~/tmp/clang-head/
 cd ~/tmp/clang-head/
