@@ -58,7 +58,7 @@ cd build
 
 export CC="clang-12"
 export CXX="clang++-12"
-/usr/local/wandbox/camke-3.16.3/bin/cmake -G "Unix Makefiles" \
+/usr/local/wandbox/camke-${CMAKE_VERSION}/bin/cmake -G "Unix Makefiles" \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
   -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" \
