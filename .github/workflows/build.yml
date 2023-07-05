@@ -598,6 +598,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - 5.38.0
           - 5.36.0
           - 5.34.0
           - 5.33.8
