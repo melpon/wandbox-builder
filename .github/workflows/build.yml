@@ -742,9 +742,10 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 3.1.0
-          - 3.0.1
-          - 2.7.3
+          - 3.2.2
+          - 3.1.4
+          - 3.0.6
+          - 2.7.8
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
