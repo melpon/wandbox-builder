@@ -37,8 +37,9 @@ pushd ~/tmp/gcc-$VERSION/
     tar xf gcc-$VERSION.tar.bz2
   else
     # http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-$VERSION/gcc-$VERSION.tar.gz \
+    # https://bigsearcher.com/mirrors/gcc/releases/gcc-$VERSION/gcc-$VERSION.tar.gz \
     curl_strict_sha256 \
-      https://bigsearcher.com/mirrors/gcc/releases/gcc-$VERSION/gcc-$VERSION.tar.gz \
+      https://gcc.gnu.org/pub/gcc/releases/gcc-$VERSION/gcc-$VERSION.tar.gz \
       $BASE_DIR/resources/gcc-$VERSION.tar.gz.sha256
     tar xf gcc-$VERSION.tar.gz
   fi
