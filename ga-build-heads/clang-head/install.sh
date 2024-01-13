@@ -62,7 +62,7 @@ export CXX="clang++-12"
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
   -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" \
-  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
+  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind" \
   ../llvm-project/llvm
 make -j`nproc`
 make install
