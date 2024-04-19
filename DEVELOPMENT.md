@@ -20,4 +20,3 @@ libtinfo5
 ```
 ufw allow 443
 ```
-
