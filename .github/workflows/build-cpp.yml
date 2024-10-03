@@ -66,13 +66,6 @@ jobs:
           - 16.0.4
           - 15.0.7
           - 14.0.6
-          - 13.0.1
-          - 12.0.1
-          - 11.1.0
-          - 10.0.1
-          - 9.0.1
-          - 8.0.1
-          - 7.1.0
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -108,20 +101,11 @@ jobs:
           - 1.75.0 gcc 8.4.0
           - 1.75.0 gcc 7.5.0
           - 1.75.0 gcc 6.5.0
-          - 1.75.0 gcc 5.5.0
-          - 1.75.0 gcc 4.9.4
           - 1.83.0 clang 17.0.1
           - 1.81.0 clang 16.0.4
           - 1.80.0 clang 15.0.7
           - 1.79.0 clang 14.0.6
           - 1.78.0 clang 14.0.6
-          - 1.78.0 clang 13.0.1
-          - 1.78.0 clang 12.0.1
-          - 1.75.0 clang 11.1.0
-          - 1.75.0 clang 10.0.1
-          - 1.75.0 clang 9.0.1
-          - 1.75.0 clang 8.0.1
-          - 1.75.0 clang 7.1.0
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4

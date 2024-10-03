@@ -13,7 +13,7 @@ fi
 
 # get sources
 
-VERSION_SHORT=${VERSION:0:4}
+VERSION_SHORT=`echo $VERSION | cut -d'.' -f1,2`
 
 curl_strict_sha256 \
   http://caml.inria.fr/pub/distrib/ocaml-$VERSION_SHORT/ocaml-$VERSION.tar.gz \

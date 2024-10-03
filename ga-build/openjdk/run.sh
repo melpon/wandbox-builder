@@ -48,7 +48,7 @@ pushd openjdk
     --build=x86_64-linux-gnu \
     --prefix=$PREFIX \
     --with-num-cores=`nproc` \
-    --with-boot-jdk=/usr/lib/jvm/java-14-openjdk-amd64 \
+    --with-boot-jdk=/usr/lib/jvm/java-21-openjdk-amd64 \
     $VERSION_FLAGS
   make JOBS=`nproc` images
   make JOBS=`nproc` install
