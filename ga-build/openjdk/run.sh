@@ -8,7 +8,7 @@ cd $BASE_DIR
 if [ "$SUBCOMMAND" == "setup" ]; then
   sudo apt-get install -y \
     mercurial \
-    openjdk-14-jdk \
+    openjdk-21-jdk \
     unzip \
     zip \
     libx11-dev \

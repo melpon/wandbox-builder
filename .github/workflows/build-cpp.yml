@@ -37,8 +37,6 @@ jobs:
           - 8.4.0
           - 7.5.0
           - 6.5.0
-          - 5.5.0
-          - 4.9.4
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
