@@ -31,6 +31,7 @@ pushd jdk
     --with-boot-jdk=/usr/lib/jvm/java-21-openjdk-amd64 \
     $VERSION_FLAGS
   make JOBS=`nproc` images
+  mkdir -p `dirname $PREFIX`
   cp -r build/linux-x86_64-server-release/images/jdk $PREFIX
 popd
 
