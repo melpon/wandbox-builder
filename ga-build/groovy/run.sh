@@ -25,7 +25,7 @@ git clone --depth 1 --branch GROOVY_$VERSION_BRANCH https://github.com/apache/gr
 pushd groovy
   # build
   ./gradlew clean distBin
-  unzip target/distributions/apache-groovy-binary-$VERSION.zip
+  unzip subprojects/groovy-binary/build/distributions/apache-groovy-binary-$VERSION.zip
   cp -r groovy-$VERSION $PREFIX
 popd
 
