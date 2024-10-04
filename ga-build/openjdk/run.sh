@@ -31,8 +31,15 @@ pushd jdk
     --with-boot-jdk=/usr/lib/jvm/java-21-openjdk-amd64 \
     $VERSION_FLAGS
   make JOBS=`nproc` images
-  mkdir -p `dirname $PREFIX`
-  cp -r build/linux-x86_64-server-release/images/jdk $PREFIX
+  mkdir -p $PREFIX/bin
+  mkdir -p $PREFIX/jvm
+  cp -r build/linux-x86_64-server-release/images/jdk $PREFIX/jvm/openjdk-$VERSION
+  pushd $PREFIX/jvm/openjdk-$VERSION/bin
+    BIN_FILES=`ls -1`
+  popd
+  for file in $BIN_FILES; do
+    ln -s ../jvm/openjdk-$VERSION/bin/$file $PREFIX/bin/$file
+  done
 popd
 
 cp $BASE_DIR/resources/run-java.sh.in $PREFIX/bin/run-java.sh
