@@ -8,8 +8,7 @@ cd $BASE_DIR
 if [ "$SUBCOMMAND" == "setup" ]; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s - -y
   sudo apt-get install -y \
-    pkg-config \
-    python3-distutils
+    pkg-config
   exit 0
 fi
 

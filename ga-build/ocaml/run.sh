@@ -27,12 +27,13 @@ pushd ocaml-$VERSION
   make -j`nproc` world.opt
   make install
 
-  # install opam
-  curl -fLO https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh
-  sh opam_installer.sh $PREFIX/bin
-
   export PATH=$PREFIX/bin:$PATH
   export OPAMROOT=$PREFIX/.opam
+
+  # install opam
+  curl -fLO https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh
+  sh opam_installer.sh $PREFIX/bin $VERSION
+
   opam init < /dev/null
 
   # ocamlfind
