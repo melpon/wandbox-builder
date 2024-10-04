@@ -9,7 +9,7 @@ if [ "$SUBCOMMAND" == "setup" ]; then
   # download compiler
   mkdir -p `dirname $COMPILER_PREFIX`
   pushd `dirname $COMPILER_PREFIX`
-    curl -LO https://github.com/melpon/wandbox-builder/releases/download/assets-ubuntu-20.04/$COMPILER-$COMPILER_VERSION.tar.gz
+    curl -LO https://github.com/melpon/wandbox-builder/releases/download/assets-ubuntu-24.04/$COMPILER-$COMPILER_VERSION.tar.gz
     tar xf $COMPILER-$COMPILER_VERSION.tar.gz
   popd
   exit 0
@@ -81,7 +81,7 @@ popd
 
 PATH=$COMPILER_PREFIX/bin:$PATH ./bootstrap.sh --prefix=$PREFIX
 if [ "$COMPILER" = "clang" ]; then
-  sed "s#using[ 	]*gcc.*;#using clang : : $COMPILER_PREFIX/bin/clang++ : <cxxflags>-I$COMPILER_PREFIX/include/c++/v1 <cxxflags>-I$COMPILER_PREFIX/include/x86_64-unknown-linux-gnu/c++/v1 <cxxflags>-nostdinc++ <linkflags>-L$COMPILER_PREFIX/lib $ADDFLAGS <linkflags>-stdlib=libc++ <linkflags>-Wl,-rpath,$COMPILER_PREFIX/lib ;#" -i project-config.jam
+  sed "s#using[ 	]*gcc.*;#using clang : : $COMPILER_PREFIX/bin/clang++ : <cxxflags>-I$COMPILER_PREFIX/include/c++/v1 <cxxflags>-I$COMPILER_PREFIX/include/x86_64-unknown-linux-gnu/c++/v1 <cxxflags>-nostdinc++ <linkflags>-L$COMPILER_PREFIX/lib <linkflags>-L$COMPILER_PREFIX/lib/x86_64-unknown-linux-gnu $ADDFLAGS <linkflags>-stdlib=libc++ <linkflags>-Wl,-rpath,$COMPILER_PREFIX/lib ;#" -i project-config.jam
   ./b2 toolset=clang stage release link=shared runtime-link=shared $WITHOUTS -j`nproc`
   ./b2 toolset=clang install release link=shared runtime-link=shared $WITHOUTS --prefix=$PREFIX
 else

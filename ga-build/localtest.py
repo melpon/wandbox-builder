@@ -21,7 +21,7 @@ def main():
     set -ex
     set -o pipefail
     cd /work/wandbox-builder
-    export GITHUB_OUTPUT=`pwd`/ga-build/{compiler}-{version}.env
+    export GITHUB_OUTPUT=`pwd`/ga-build/{compiler}-{version_name}.env
     ./ga-build/{compiler}/run.sh setup {version} | tee {logfile}
     ./ga-build/{compiler}/run.sh install {version} | tee -a {logfile}
     cat $GITHUB_OUTPUT
