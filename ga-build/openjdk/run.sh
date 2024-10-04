@@ -27,12 +27,11 @@ pushd jdk
   # build
   bash configure \
     --build=x86_64-linux-gnu \
-    --prefix=$PREFIX \
     --with-num-cores=`nproc` \
     --with-boot-jdk=/usr/lib/jvm/java-21-openjdk-amd64 \
     $VERSION_FLAGS
   make JOBS=`nproc` images
-  make JOBS=`nproc` install
+  cp -r build/linux-x86_64-server-release/images/jdk $PREFIX
 popd
 
 cp $BASE_DIR/resources/run-java.sh.in $PREFIX/bin/run-java.sh
