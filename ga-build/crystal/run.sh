@@ -39,7 +39,7 @@ tar xf "${VERSION}.tar.gz"
 
 # build
 cd "crystal-${VERSION}/"
-make -j`nproc` verbose=1
+make -j`nproc` release=1 interpreter=1 progress=1 verbose=1
 
 # install
 mkdir -p "$PREFIX"

@@ -94,8 +94,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 1.0.0
-          - 0.36.1
+          - 1.13.3
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -147,9 +146,8 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 5.0.201
-          - 3.1.407
-          - 2.1.814
+          - 8.0.402
+          - 6.0.425
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -178,8 +176,8 @@ jobs:
           # 対応する Erlang のバージョンは
           # https://hexdocs.pm/elixir/compatibility-and-deprecations.html#compatibility-between-elixir-and-erlang-otp
           # から探す。
-          - 1.11.4 erlang 23.3.1
-          - 1.10.4 erlang 23.3.1
+          - 1.17.3 erlang 27.1
+          - 1.16.3 erlang 26.2.5.3
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -205,9 +203,9 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 23.3.1
-          - 22.3.4.16
-          - 21.3.8.22
+          - 27.1
+          - 26.2.5.3
+          - 25.3.2.13
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
