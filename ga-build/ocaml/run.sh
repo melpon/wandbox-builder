@@ -31,27 +31,14 @@ pushd ocaml-$VERSION
   export OPAMROOT=$PREFIX/.opam
 
   # install opam
-  curl -fLO https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh
-  sh opam_installer.sh $PREFIX/bin $VERSION
+  echo "" | bash -c "sh <(curl -fsSL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh)"
 
-  opam init < /dev/null
+  opam init --disable-sandboxing < /dev/null
+  opam switch create ocaml-system
+  opam install -y ocamlfind
 
-  # ocamlfind
-  function install_ocaml_find_by_source {
-    git clone --depth 1 https://github.com/ocaml/ocamlfind.git
-    pushd ocamlfind
-      ./configure -bindir $PREFIX/bin
-      make -j`nproc` all
-      make install
-    popd
-  }
-
-  opam install -y ocamlfind || install_ocaml_find_by_source
-
-  # Jane Street Core を入れようとしたけど、
-  # うまくいかないので今はコメントアウトしておく
-  ## janestreet core
-  #opam install -y core
+  # janestreet core
+  opam install -y core
 popd
 
 # ocaml settings
