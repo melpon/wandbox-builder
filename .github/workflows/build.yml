@@ -450,7 +450,8 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 6.12.0.200
+          # https://download.mono-project.com/sources/mono/index.html
+          - 6.12.0.199
           - 5.20.1.34
     runs-on: ubuntu-24.04
     steps:

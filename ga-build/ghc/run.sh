@@ -30,7 +30,8 @@ tar xf $FILENAME
 
 # install
 
-pushd ghc-${VERSION}
+# 9.10.1 ではディレクトリが ghc-9.10.1-x86_64-unknown-linux だった
+pushd ghc-${VERSION} || pushd ghc-${VERSION}-x86_64-unknown-linux
   ./configure --prefix=$PREFIX
   make install
 popd

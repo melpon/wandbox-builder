@@ -17,9 +17,9 @@ git clone --depth 1 --branch $VERSION https://github.com/rust-lang/rust.git
 
 pushd rust
   # build
-  ./configure --prefix=$PREFIX
+  ./configure --set install.prefix=$PREFIX install.sysconfdif=$PREFIX
   make -j`nproc`
-  make install
+  make -j`nproc` install
 popd
 
 archive_install $PREFIX $PACKAGE_PATH $PACKAGE_FILENAME

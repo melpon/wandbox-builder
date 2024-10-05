@@ -22,7 +22,7 @@ esac
 # get sources
 
 curl_strict_sha256 \
-  "${CURRENTURL}${FILENAME}" \
+  ${URL} \
   $BASE_DIR/resources/openssl-$VERSION.tar.gz.sha256
 
 tar xf openssl-$VERSION.tar.gz
