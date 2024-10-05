@@ -6,8 +6,8 @@ cd $BASE_DIR
 . ../init-common.sh
 
 if [ "$SUBCOMMAND" == "setup" ]; then
-  sudo apt-get install -y \
-    python3-distutils
+  # sudo apt-get install -y \
+  #   python3-distutils
   exit 0
 fi
 

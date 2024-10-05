@@ -9,7 +9,7 @@ if [ "$SUBCOMMAND" == "setup" ]; then
   exit 0
 fi
 
-if compare_version "$VERSION" ">=" "3.2.0"; then
+if compare_version "$VERSION" "==" "3.2.0"; then
   BINNAME=fpc-$VERSION-x86_64-linux
 else
   BINNAME=fpc-$VERSION.x86_64-linux

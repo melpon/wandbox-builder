@@ -9,7 +9,7 @@ if [ "$SUBCOMMAND" == "setup" ]; then
   # download openjdk
   mkdir -p `dirname $COMPILER_PREFIX`
   pushd `dirname $COMPILER_PREFIX`
-    curl -LO https://github.com/melpon/wandbox-builder/releases/download/assets-ubuntu-20.04/$COMPILER-$COMPILER_VERSION.tar.gz
+    curl -LO https://github.com/melpon/wandbox-builder/releases/download/assets-ubuntu-24.04/$COMPILER-$COMPILER_VERSION.tar.gz
     tar xf $COMPILER-$COMPILER_VERSION.tar.gz
   popd
   sudo apt install -y unzip
@@ -25,7 +25,7 @@ git clone --depth 1 --branch GROOVY_$VERSION_BRANCH https://github.com/apache/gr
 pushd groovy
   # build
   ./gradlew clean distBin
-  unzip target/distributions/apache-groovy-binary-$VERSION.zip
+  unzip subprojects/groovy-binary/build/distributions/apache-groovy-binary-$VERSION.zip
   cp -r groovy-$VERSION $PREFIX
 popd
 

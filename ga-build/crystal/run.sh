@@ -18,9 +18,9 @@ if [ "$SUBCOMMAND" == "setup" ]; then
     automake \
     libtool \
     git \
-    llvm-8 \
-    llvm-8-dev \
-    lld-8 \
+    llvm-18 \
+    llvm-18-dev \
+    lld-18 \
     libpcre3-dev
   sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 09617FD37CC06B54
   sudo bash -c 'echo "deb https://dist.crystal-lang.org/apt crystal main" > /etc/apt/sources.list.d/crystal.list'
@@ -39,7 +39,7 @@ tar xf "${VERSION}.tar.gz"
 
 # build
 cd "crystal-${VERSION}/"
-make -j`nproc` verbose=1
+make -j`nproc` release=1 interpreter=1 progress=1 verbose=1
 
 # install
 mkdir -p "$PREFIX"

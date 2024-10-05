@@ -7,9 +7,7 @@ cd $BASE_DIR
 
 if [ "$SUBCOMMAND" == "setup" ]; then
   sudo apt-get install -y \
-    python3-distutils \
-    python3-minimal \
-    python2-minimal
+    python3-minimal
   exit 0
 fi
 

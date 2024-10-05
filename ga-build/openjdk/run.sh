@@ -7,8 +7,7 @@ cd $BASE_DIR
 
 if [ "$SUBCOMMAND" == "setup" ]; then
   sudo apt-get install -y \
-    mercurial \
-    openjdk-14-jdk \
+    openjdk-21-jdk \
     unzip \
     zip \
     libx11-dev \
@@ -23,35 +22,24 @@ if [ "$SUBCOMMAND" == "setup" ]; then
   exit 0
 fi
 
-# get sources
-#
-# find versions from
-# - http://hg.openjdk.java.net/jdk-updates/jdk15u/tags
-# - http://hg.openjdk.java.net/jdk-updates/jdk14u/tags
-
-case "$VERSION" in
-  "jdk-15.0.3+2" )
-    JDK_MAJOR=15
-    VERSION_FLAGS="--with-version-string=15.0.3+2"
-    URL=http://hg.openjdk.java.net/jdk-updates/jdk15u ;;
-  "jdk-14.0.2+12" )
-    JDK_MAJOR=14
-    VERSION_FLAGS="--with-version-string=14.0.2+12"
-    URL=http://hg.openjdk.java.net/jdk-updates/jdk14u ;;
-  * ) exit 1 ;;
-esac
-
-hg clone -r $VERSION $URL openjdk
-pushd openjdk
+git clone --depth=1 -b $VERSION https://github.com/openjdk/jdk.git
+pushd jdk
   # build
   bash configure \
     --build=x86_64-linux-gnu \
-    --prefix=$PREFIX \
     --with-num-cores=`nproc` \
-    --with-boot-jdk=/usr/lib/jvm/java-14-openjdk-amd64 \
+    --with-boot-jdk=/usr/lib/jvm/java-21-openjdk-amd64 \
     $VERSION_FLAGS
   make JOBS=`nproc` images
-  make JOBS=`nproc` install
+  mkdir -p $PREFIX/bin
+  mkdir -p $PREFIX/jvm
+  cp -r build/linux-x86_64-server-release/images/jdk $PREFIX/jvm/openjdk-$VERSION
+  pushd $PREFIX/jvm/openjdk-$VERSION/bin
+    BIN_FILES=`ls -1`
+  popd
+  for file in $BIN_FILES; do
+    ln -s ../jvm/openjdk-$VERSION/bin/$file $PREFIX/bin/$file
+  done
 popd
 
 cp $BASE_DIR/resources/run-java.sh.in $PREFIX/bin/run-java.sh

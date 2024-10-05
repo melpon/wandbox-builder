@@ -8,7 +8,7 @@ cd $BASE_DIR
 if [ "$SUBCOMMAND" == "setup" ]; then
   sudo apt-get install -y \
     mono-devel \
-    python
+    python3
   exit 0
 fi
 

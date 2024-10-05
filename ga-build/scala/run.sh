@@ -16,7 +16,7 @@ if [ "$SUBCOMMAND" == "setup" ]; then
   # download openjdk
   mkdir -p `dirname $COMPILER_PREFIX`
   pushd `dirname $COMPILER_PREFIX`
-    curl -LO https://github.com/melpon/wandbox-builder/releases/download/assets-ubuntu-20.04/$COMPILER-$COMPILER_VERSION.tar.gz
+    curl -LO https://github.com/melpon/wandbox-builder/releases/download/assets-ubuntu-24.04/$COMPILER-$COMPILER_VERSION.tar.gz
     tar xf $COMPILER-$COMPILER_VERSION.tar.gz
   popd
   exit 0
@@ -32,13 +32,24 @@ unset CI
 unset BUILD_NUMBER
 
 # get sources
-git clone --depth 1 --branch v$VERSION https://github.com/scala/scala.git
-pushd scala
-  # build
-  ~/sbt/bin/sbt compile
-  ~/sbt/bin/sbt dist/mkPack
-  cp -r build/pack $PREFIX
-popd
+if compare_version $VERSION '<' '3.0.0'; then
+  # scala 2.x
+  git clone --depth 1 --branch v$VERSION https://github.com/scala/scala.git
+  pushd scala
+    # build
+    ~/sbt/bin/sbt compile
+    ~/sbt/bin/sbt dist/mkPack
+    cp -r build/pack $PREFIX
+  popd
+else
+  # scala 3.x
+  git clone --depth 1 --branch $VERSION https://github.com/scala/scala3.git
+  pushd scala3
+    # build
+    ~/sbt/bin/sbt dist/packArchive
+    cp -r dist/target/pack $PREFIX
+  popd
+fi
 
 cp $BASE_DIR/resources/run-scalac.sh.in $PREFIX/bin/run-scalac.sh
 sed -i "s#@java_home@#$JAVA_HOME#g" $PREFIX/bin/run-scalac.sh

@@ -113,12 +113,12 @@ function check_install() {
 
   if (cat "$2" | jq -e ".[] | select(.name==\"$1\")" >/dev/null); then
     # 無事探しているファイルが見つかったら成功としてシェルを終了する
-    echo "::set-output name=need_install::false"
+    echo "need_install=false" >> $GITHUB_OUTPUT
     exit 0
   fi
 
   # 探しているファイルが見つからなかったので、継続してインストールを続ける
-  echo "::set-output name=need_install::true"
+  echo "need_install=true" >> $GITHUB_OUTPUT
   return 0
 }
 
@@ -126,7 +126,7 @@ function archive_install() {
   pushd "`dirname $1`"
     tar czf "$2" "`basename $1`"
   popd
-  echo "::set-output name=package_filename::$3"
-  echo "::set-output name=package_path::$2"
-  echo "::set-output name=prefix::$1"
+  echo "package_filename=$3" >> $GITHUB_OUTPUT
+  echo "package_path=$2" >> $GITHUB_OUTPUT
+  echo "prefix=$1" >> $GITHUB_OUTPUT
 }

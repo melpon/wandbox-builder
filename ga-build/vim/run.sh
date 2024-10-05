@@ -10,7 +10,6 @@ if [ "$SUBCOMMAND" == "setup" ]; then
     gettext \
     liblua5.3-dev \
     libperl-dev \
-    python-dev \
     python3-dev \
     ruby-dev \
     tcl-dev
@@ -27,7 +26,6 @@ pushd vim
   ./configure \
     --with-features=huge \
     --enable-perlinterp=yes \
-    --enable-pythoninterp=yes \
     --enable-python3interp=yes \
     --enable-rubyinterp=yes \
     --enable-luainterp=yes \
