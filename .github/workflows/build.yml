@@ -35,7 +35,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 2.49
+          - "2.49"
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -202,7 +202,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 27.1
+          - "27.1"
           - 26.2.5.3
           - 25.3.2.13
     runs-on: ubuntu-24.04
