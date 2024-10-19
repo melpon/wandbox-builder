@@ -34,34 +34,34 @@ jobs:
           asset_path: /opt/wandbox/${{ matrix.name }}.tar.gz
           asset_name: ${{ matrix.name }}.tar.gz
           asset_content_type: application/gzip
-  # _deploy:
-  #   needs: [heads]
-  #   runs-on: ubuntu-24.04
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     # SSH 秘密鍵の登録
-  #     - name: Register SSH key
-  #       env:
-  #         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-  #       run: |
-  #         mkdir -p $HOME/.ssh
-  #         echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_ed25519
-  #         chmod 600 $HOME/.ssh/id_ed25519
-  #     # デプロイ先を設定する
-  #     - name: Add SSH config
-  #       env:
-  #         SSH_HOST: ${{ secrets.SSH_HOST }}
-  #         SSH_USER: ${{ secrets.SSH_USER }}
-  #       run: |
-  #         echo "Host wandbox" >> $HOME/.ssh/config
-  #         echo "    HostName $SSH_HOST" >> $HOME/.ssh/config
-  #         echo "    User $SSH_USER" >> $HOME/.ssh/config
-  #         echo "    ServerAliveInterval 60" >> $HOME/.ssh/config
-  #         echo "    TCPKeepAlive yes" >> $HOME/.ssh/config
-  #         ssh-keyscan -H $SSH_HOST >> $HOME/.ssh/known_hosts
-  #     # ソースをデプロイ先にコピーして、デプロイスクリプトを実行する
-  #     - name: Deploy
-  #       run: |
-  #         ssh wandbox 'mkdir -p /opt/wandbox-data'
-  #         rsync -a -v . wandbox:/opt/wandbox-data/wandbox-builder
-  #         ssh wandbox 'python3 /opt/wandbox-data/wandbox-builder/deploy_heads.py  ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }}'
+  _deploy:
+    needs: [heads]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      # SSH 秘密鍵の登録
+      - name: Register SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p $HOME/.ssh
+          echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_ed25519
+          chmod 600 $HOME/.ssh/id_ed25519
+      # デプロイ先を設定する
+      - name: Add SSH config
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST_UBUNTU_24_04 }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          echo "Host wandbox-ubuntu-24.04" >> $HOME/.ssh/config
+          echo "    HostName $SSH_HOST" >> $HOME/.ssh/config
+          echo "    User $SSH_USER" >> $HOME/.ssh/config
+          echo "    ServerAliveInterval 60" >> $HOME/.ssh/config
+          echo "    TCPKeepAlive yes" >> $HOME/.ssh/config
+          ssh-keyscan -H $SSH_HOST >> $HOME/.ssh/known_hosts
+      # ソースをデプロイ先にコピーして、デプロイスクリプトを実行する
+      - name: Deploy
+        run: |
+          ssh wandbox-ubuntu-24.04 'mkdir -p /opt/wandbox-data'
+          rsync -a -v . wandbox-ubuntu-24.04:/opt/wandbox-data/wandbox-builder
+          ssh wandbox-ubuntu-24.04 'python3 /opt/wandbox-data/wandbox-builder/deploy_heads.py  ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }}'

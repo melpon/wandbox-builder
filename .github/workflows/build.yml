@@ -941,85 +941,85 @@ jobs:
           asset_path: ${{ steps.install.outputs.package_path }}
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
-  # _deploy:
-  #   needs:
-  #     - clisp
-  #     - cpython
-  #     - crystal
-  #     - dmd
-  #     - dotnetcore
-  #     - elixir
-  #     - erlang
-  #     - fpc
-  #     - ghc
-  #     - go
-  #     - julia
-  #     - lazyk
-  #     - ldc
-  #     - lua
-  #     - luajit
-  #     - mono
-  #     - mruby
-  #     - nim
-  #     - ocaml
-  #     - openssl
-  #     - perl
-  #     - php
-  #     - pony
-  #     - pypy
-  #     - r
-  #     - ruby
-  #     - rust
-  #     - sbcl
-  #     - sqlite
-  #     - swift
-  #     - vim
-  #     - zig
-  #   runs-on: ubuntu-24.04
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     # SSH 秘密鍵の登録
-  #     - name: Register SSH key
-  #       env:
-  #         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-  #       run: |
-  #         mkdir -p $HOME/.ssh
-  #         echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_ed25519
-  #         chmod 600 $HOME/.ssh/id_ed25519
-  #     # デプロイ先を設定する
-  #     - name: Add SSH config
-  #       env:
-  #         SSH_HOST: ${{ secrets.SSH_HOST }}
-  #         SSH_USER: ${{ secrets.SSH_USER }}
-  #       run: |
-  #         echo "Host wandbox" >> $HOME/.ssh/config
-  #         echo "    HostName $SSH_HOST" >> $HOME/.ssh/config
-  #         echo "    User $SSH_USER" >> $HOME/.ssh/config
-  #         echo "    ServerAliveInterval 60" >> $HOME/.ssh/config
-  #         echo "    TCPKeepAlive yes" >> $HOME/.ssh/config
-  #         ssh-keyscan -H $SSH_HOST >> $HOME/.ssh/known_hosts
-  #     # ソースをデプロイ先にコピーして、デプロイスクリプトを実行する
-  #     - id: deploy
-  #       name: Deploy
-  #       run: |
-  #         set -ex
-  #         COMMIT=`git log --format=%as.%h -n 1 HEAD`
-  #         ssh wandbox 'mkdir -p /opt/wandbox-data'
-  #         rsync -a -v . wandbox:/opt/wandbox-data/wandbox-builder
-  #         ssh wandbox "python3 /opt/wandbox-data/wandbox-builder/deploy.py $GITHUB_WORKFLOW $COMMIT ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }}"
-  #     - name: Generate Configuration
-  #       if: steps.deploy.outputs.deployed == 'true'
-  #       run: |
-  #         ssh wandbox 'mkdir -p /opt/wandbox-data/release/cattleshed-conf'
-  #         ssh wandbox 'python3 /opt/wandbox-data/wandbox-builder/cattleshed-conf/compilers.py > /opt/wandbox-data/release/cattleshed-conf/compilers.default'
+  _deploy:
+    needs:
+      - clisp
+      - cpython
+      - crystal
+      - dmd
+      - dotnetcore
+      - elixir
+      - erlang
+      - fpc
+      - ghc
+      - go
+      - julia
+      - lazyk
+      - ldc
+      - lua
+      - luajit
+      - mono
+      - mruby
+      - nim
+      - ocaml
+      - openssl
+      - perl
+      - php
+      - pony
+      - pypy
+      - r
+      - ruby
+      - rust
+      - sbcl
+      - sqlite
+      - swift
+      - vim
+      - zig
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      # SSH 秘密鍵の登録
+      - name: Register SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p $HOME/.ssh
+          echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_ed25519
+          chmod 600 $HOME/.ssh/id_ed25519
+      # デプロイ先を設定する
+      - name: Add SSH config
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST_UBUNTU_24_04 }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          echo "Host wandbox-ubuntu-24.04" >> $HOME/.ssh/config
+          echo "    HostName $SSH_HOST" >> $HOME/.ssh/config
+          echo "    User $SSH_USER" >> $HOME/.ssh/config
+          echo "    ServerAliveInterval 60" >> $HOME/.ssh/config
+          echo "    TCPKeepAlive yes" >> $HOME/.ssh/config
+          ssh-keyscan -H $SSH_HOST >> $HOME/.ssh/known_hosts
+      # ソースをデプロイ先にコピーして、デプロイスクリプトを実行する
+      - id: deploy
+        name: Deploy
+        run: |
+          set -ex
+          COMMIT=`git log --format=%as.%h -n 1 HEAD`
+          ssh wandbox-ubuntu-24.04 'mkdir -p /opt/wandbox-data'
+          rsync -a -v . wandbox-ubuntu-24.04:/opt/wandbox-data/wandbox-builder
+          ssh wandbox-ubuntu-24.04 "python3 /opt/wandbox-data/wandbox-builder/deploy.py $GITHUB_WORKFLOW $COMMIT ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }}"
+      - name: Generate Configuration
+        if: steps.deploy.outputs.deployed == 'true'
+        run: |
+          ssh wandbox-ubuntu-24.04 'mkdir -p /opt/wandbox-data/release/cattleshed-conf'
+          ssh wandbox-ubuntu-24.04 'python3 /opt/wandbox-data/wandbox-builder/cattleshed-conf/compilers.py > /opt/wandbox-data/release/cattleshed-conf/compilers.default'
   #     - name: Restart Cattleshed
   #       if: steps.deploy.outputs.deployed == 'true'
   #       run: |
-  #         ssh wandbox 'systemctl restart cattleshed-master'
-  #         ssh wandbox 'systemctl restart cattleshed-develop'
+  #         ssh wandbox-ubuntu-24.04 'systemctl restart cattleshed-master'
+  #         ssh wandbox-ubuntu-24.04 'systemctl restart cattleshed-develop'
   #         sleep 30
   #     - name: Restart Kennel
   #       if: steps.deploy.outputs.deployed == 'true'
   #       run: |
-  #         ssh wandbox 'systemctl restart kennel-master'
-  #         ssh wandbox 'systemctl restart kennel-develop'
+  #         ssh wandbox-ubuntu-24.04 'systemctl restart kennel-master'
+  #         ssh wandbox-ubuntu-24.04 'systemctl restart kennel-develop'
