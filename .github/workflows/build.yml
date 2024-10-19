@@ -790,6 +790,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - 1.82.0
           - 1.81.0
           - 1.80.1
           - 1.79.0
