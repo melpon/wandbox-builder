@@ -28,7 +28,7 @@ jobs:
       - run: tar czf ${{ matrix.name }}.tar.gz ${{ matrix.name }}/
         working-directory: /opt/wandbox
       - name: Release ${{ matrix.name }}
-        uses: WebFreak001/deploy-nightly@v1.0.3
+        uses: WebFreak001/deploy-nightly@v3.2.0
         with:
           upload_url: ${{ env.UPLOAD_URL }}
           release_id: ${{ env.RELEASE_ID }}

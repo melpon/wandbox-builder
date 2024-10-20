@@ -3,6 +3,7 @@ import yaml
 import tempfile
 import argparse
 import get_asset_info
+import shutil
 from typing import Optional, List
 
 from deploy import download, mkdir_p, extract, rm_rf
@@ -51,7 +52,9 @@ def deploy(head: str, version_dir: str, deploy_dir: str, download_url: str, arch
 
         mkdir_p(deploy_dir)
         deploy_path = os.path.join(deploy_dir, head)
-        os.rename(extract_path, deploy_path)
+        # 同じディスク上にあるとは限らないので os.rename ではなくコピーする
+        # os.rename(extract_path, deploy_path)
+        shutil.copytree(extract_path, deploy_path)
 
         # デプロイ完了したのでバージョン情報とパスを書き込む
         with open(version_path, 'wb') as f:
