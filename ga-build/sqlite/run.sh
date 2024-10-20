@@ -13,6 +13,7 @@ fi
 # get sources
 # https://www.sqlite.org/chronology.html から探す
 case "$VERSION" in
+  "3.46.1" ) YEAR=2024; NUMVER=3460100 ;;
   "3.35.5" ) YEAR=2021; NUMVER=3350500 ;;
   * ) exit 1
 esac

@@ -10,14 +10,13 @@ if [ "$SUBCOMMAND" == "setup" ]; then
 fi
 
 
-curl_strict_sha256 \
-  http://luajit.org/download/LuaJIT-$VERSION.tar.gz \
-  $BASE_DIR/resources/LuaJIT-$VERSION.tar.gz.sha256
-
-tar xf LuaJIT-$VERSION.tar.gz
+git clone https://luajit.org/git/luajit.git
+pushd luajit
+  git checkout v$VERSION
+popd
 
 # build
-pushd LuaJIT-$VERSION
+pushd luajit
   make -j`nproc` PREFIX=$PREFIX
   make install PREFIX=$PREFIX
 popd

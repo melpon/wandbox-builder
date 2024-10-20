@@ -8,7 +8,7 @@ else
   YEARMONTH=$1
 fi
 
-cd /var/log/wandbox
+cd /opt/wandbox/_log
 
 export HOME=/root
 export PATH=/usr/local/bin:$PATH

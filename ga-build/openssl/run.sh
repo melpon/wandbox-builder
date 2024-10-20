@@ -10,30 +10,19 @@ if [ "$SUBCOMMAND" == "setup" ]; then
 fi
 
 
-CURRENTURL="https://www.openssl.org/source/"
 case "$VERSION" in
-  "1.1.1k" )
-    OLDURL="https://www.openssl.org/source/old/1.1.1/"
-    FILENAME="openssl-1.1.1k.tar.gz"
-    ;;
-  "1.0.2u" )
-    OLDURL="https://www.openssl.org/source/old/1.0.2/"
-    FILENAME="openssl-1.0.2u.tar.gz"
-    ;;
-  "0.9.8zh" )
-    OLDURL="https://www.openssl.org/source/old/0.9.x/"
-    FILENAME="openssl-0.9.8zh.tar.gz"
-    ;;
+  "3.3.2" ) URL=https://github.com/openssl/openssl/releases/download/openssl-3.3.2/openssl-3.3.2.tar.gz ;;
+  "1.1.1w" ) URL=https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1w/openssl-1.1.1w.tar.gz ;;
+  "1.1.1k" ) URL=https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1k/openssl-1.1.1k.tar.gz ;;
+  "1.0.2u" ) URL=https://openssl.org/source/old/1.0.2/openssl-1.0.2u.tar.gz ;;
+  "0.9.8zh" ) URL=https://openssl.org/source/old/0.9.x/openssl-0.9.8zh.tar.gz ;;
   * ) exit 1 ;;
 esac
 
 # get sources
 
 curl_strict_sha256 \
-  "${CURRENTURL}${FILENAME}" \
-  $BASE_DIR/resources/openssl-$VERSION.tar.gz.sha256 || \
-curl_strict_sha256 \
-  "${OLDURL}${FILENAME}" \
+  ${URL} \
   $BASE_DIR/resources/openssl-$VERSION.tar.gz.sha256
 
 tar xf openssl-$VERSION.tar.gz

@@ -9,23 +9,23 @@ on:
   push:
 
 env:
-  ASSETS_URL: "https://api.github.com/repos/melpon/wandbox-builder/releases/32402124/assets"
-  UPLOAD_URL: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/32402124/assets{?name,label}"
+  ASSETS_URL: "https://api.github.com/repos/melpon/wandbox-builder/releases/178117233/assets"
+  UPLOAD_URL: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/178117233/assets{?name,label}"
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   _asset:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
       - run: |
           pip3 install requests
           python3 get_asset_info.py ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }} > asset_info.json
       - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -35,11 +35,11 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 2.49
-    runs-on: ubuntu-20.04
+          - "2.49"
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -61,19 +61,17 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 3.12.1
-          - 3.11.6
-          - 3.10.13
-          - 3.10.2
-          - 3.9.3
-          - 3.8.9
-          - 3.7.10
-          - 3.6.12
+          - 3.12.7
+          - 3.11.10
+          - 3.10.15
+          - 3.9.20
+          - 3.8.20
+          - 3.7.17
           - 2.7.18
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -95,12 +93,11 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 1.0.0
-          - 0.36.1
-    runs-on: ubuntu-20.04
+          - 1.13.3
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -122,11 +119,11 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 2.096.0
-    runs-on: ubuntu-20.04
+          - 2.109.1
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -148,13 +145,12 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 5.0.201
-          - 3.1.407
-          - 2.1.814
-    runs-on: ubuntu-20.04
+          - 8.0.402
+          - 6.0.425
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -171,7 +167,7 @@ jobs:
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
   elixir:
-    needs: [_asset]
+    needs: [_asset, erlang]
     strategy:
       fail-fast: false
       matrix:
@@ -179,12 +175,12 @@ jobs:
           # 対応する Erlang のバージョンは
           # https://hexdocs.pm/elixir/compatibility-and-deprecations.html#compatibility-between-elixir-and-erlang-otp
           # から探す。
-          - 1.11.4 erlang 23.3.1
-          - 1.10.4 erlang 23.3.1
-    runs-on: ubuntu-20.04
+          - 1.17.3 erlang 27.1
+          - 1.16.3 erlang 26.2.5.3
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -206,13 +202,13 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 23.3.1
-          - 22.3.4.16
-          - 21.3.8.22
-    runs-on: ubuntu-20.04
+          - "27.1"
+          - 26.2.5.3
+          - 25.3.2.13
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -234,13 +230,11 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 3.2.0
-          - 3.0.4
-          - 2.6.4
-    runs-on: ubuntu-20.04
+          - 3.2.2
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -262,13 +256,13 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - 9.10.1
           - 9.0.1
           - 8.10.4
-          - 8.8.4
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -290,13 +284,15 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - 1.23.2
+          - 1.22.8
           - 1.16.3
           - 1.15.11
           - 1.14.15
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -318,12 +314,13 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - 1.10.5
           - 1.6.1
           - 1.0.5
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -346,10 +343,10 @@ jobs:
       matrix:
         version:
           - nover
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -371,13 +368,11 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 1.25.1
-          - 1.24.0
-          - 1.23.0
-    runs-on: ubuntu-20.04
+          - 1.39.0
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -399,13 +394,13 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 5.4.3
+          - 5.4.7
           - 5.3.6
           - 5.2.4
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -430,10 +425,10 @@ jobs:
           - 2.0.5
           - 2.0.4
           - 2.0.3
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -455,12 +450,13 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 6.12.0.122
+          # https://download.mono-project.com/sources/mono/index.html
+          - 6.12.0.199
           - 5.20.1.34
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -484,11 +480,10 @@ jobs:
         version:
           - 3.0.0
           - 2.1.2
-          - 1.4.1
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -530,10 +525,10 @@ jobs:
           - 1.4.6
           - 1.2.8
           - 1.0.10
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -555,13 +550,12 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 4.12.0
-          - 4.11.2
-          - 4.10.2
-    runs-on: ubuntu-20.04
+          - 5.2.0
+          - 4.14.2
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -583,13 +577,14 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 1.1.1k
+          - 3.3.2
+          - 1.1.1w
           - 1.0.2u
           - 0.9.8zh
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -618,10 +613,10 @@ jobs:
           - 5.33.8
           - 5.32.1
           - 5.30.3
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -643,16 +638,16 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 8.3.3
-          - 8.2.16
-          - 8.1.27
+          - 8.3.12
+          - 8.2.24
+          - 8.1.30
           - 8.0.30
           - 7.4.33
           - 5.6.40
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -674,12 +669,11 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 0.39.1
-          - 0.38.3
-    runs-on: ubuntu-20.04
+          - 0.58.5
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -701,17 +695,15 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 3.10-v7.3.15
-          - 3.9-v7.3.15
+          - 3.10-v7.3.17
+          - 3.9-v7.3.16
           - 3.8-v7.3.11
           - 3.7-v7.3.9
-          - 3.7-v7.3.4
-          - 2.7-v7.3.15
-          - 2.7-v7.3.4
-    runs-on: ubuntu-20.04
+          - 2.7-v7.3.17
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -733,12 +725,11 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 4.0.5
-          - 3.6.3
-    runs-on: ubuntu-20.04
+          - 4.4.1
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -760,15 +751,14 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 3.3.1
-          - 3.2.4
-          - 3.1.5
+          - 3.3.5
+          - 3.2.5
+          - 3.1.6
           - 3.0.7
-          - 2.7.8
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -790,29 +780,18 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - 1.80.1
+          - 1.79.0
           - 1.69.0
           - 1.68.2
           - 1.67.1
           - 1.66.1
           - 1.65.0
           - 1.64.0
-          - 1.63.0
-          - 1.62.1
-          - 1.61.0
-          - 1.60.0
-          - 1.59.0
-          - 1.58.1
-          - 1.57.0
-          - 1.56.1
-          - 1.54.0
-          - 1.53.0
-          - 1.52.1
-          - 1.51.0
-          - 1.50.0
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -834,38 +813,11 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 2.1.3
-          - 1.5.9
-    runs-on: ubuntu-20.04
+          - 2.4.9
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-        with:
-          name: asset_info.json
-          path: asset_info.json
-      - id: setup
-        run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
-      - id: install
-        if: steps.setup.outputs.need_install == 'true'
-        run: ./ga-build/${{ github.job }}/run.sh install ${{ matrix.version }}
-      - uses: actions/upload-release-asset@v1
-        if: steps.setup.outputs.need_install == 'true'
-        with:
-          upload_url: ${{ env.UPLOAD_URL }}
-          asset_path: ${{ steps.install.outputs.package_path }}
-          asset_name: ${{ steps.install.outputs.package_filename }}
-          asset_content_type: application/gzip
-  spidermonkey:
-    needs: [_asset]
-    strategy:
-      fail-fast: false
-      matrix:
-        version:
-          - 88.0.0
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -887,11 +839,12 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - 3.46.1
           - 3.35.5
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -913,11 +866,12 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 5.3.3
-    runs-on: ubuntu-20.04
+          - 6.0.1
+          - 5.10.1
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -939,12 +893,12 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 8.2.2811
-          - 8.1.2424
-    runs-on: ubuntu-20.04
+          - 9.1.0758
+          - 8.2.5172
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -966,11 +920,12 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - 0.13.0
           - 0.9.1
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -1016,14 +971,13 @@ jobs:
       - ruby
       - rust
       - sbcl
-      - spidermonkey
       - sqlite
       - swift
       - vim
       - zig
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       # SSH 秘密鍵の登録
       - name: Register SSH key
         env:
@@ -1035,10 +989,10 @@ jobs:
       # デプロイ先を設定する
       - name: Add SSH config
         env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_HOST: ${{ secrets.SSH_HOST_UBUNTU_24_04 }}
           SSH_USER: ${{ secrets.SSH_USER }}
         run: |
-          echo "Host wandbox" >> $HOME/.ssh/config
+          echo "Host wandbox-ubuntu-24.04" >> $HOME/.ssh/config
           echo "    HostName $SSH_HOST" >> $HOME/.ssh/config
           echo "    User $SSH_USER" >> $HOME/.ssh/config
           echo "    ServerAliveInterval 60" >> $HOME/.ssh/config
@@ -1050,22 +1004,22 @@ jobs:
         run: |
           set -ex
           COMMIT=`git log --format=%as.%h -n 1 HEAD`
-          ssh wandbox 'mkdir -p /opt/wandbox-data'
-          rsync -a -v . wandbox:/opt/wandbox-data/wandbox-builder
-          ssh wandbox "python3 /opt/wandbox-data/wandbox-builder/deploy.py $GITHUB_WORKFLOW $COMMIT ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }}"
+          ssh wandbox-ubuntu-24.04 'mkdir -p /opt/wandbox-data'
+          rsync -a -v . wandbox-ubuntu-24.04:/opt/wandbox-data/wandbox-builder
+          ssh wandbox-ubuntu-24.04 "python3 /opt/wandbox-data/wandbox-builder/deploy.py $GITHUB_WORKFLOW $COMMIT ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }}"
       - name: Generate Configuration
         if: steps.deploy.outputs.deployed == 'true'
         run: |
-          ssh wandbox 'mkdir -p /opt/wandbox-data/release/cattleshed-conf'
-          ssh wandbox 'python3 /opt/wandbox-data/wandbox-builder/cattleshed-conf/compilers.py > /opt/wandbox-data/release/cattleshed-conf/compilers.default'
+          ssh wandbox-ubuntu-24.04 'mkdir -p /opt/wandbox-data/release/cattleshed-conf'
+          ssh wandbox-ubuntu-24.04 'python3 /opt/wandbox-data/wandbox-builder/cattleshed-conf/compilers.py > /opt/wandbox-data/release/cattleshed-conf/compilers.default'
       - name: Restart Cattleshed
         if: steps.deploy.outputs.deployed == 'true'
         run: |
-          ssh wandbox 'systemctl restart cattleshed-master'
-          ssh wandbox 'systemctl restart cattleshed-develop'
+          ssh wandbox-ubuntu-24.04 'systemctl restart cattleshed-master'
+          ssh wandbox-ubuntu-24.04 'systemctl restart cattleshed-develop'
           sleep 30
       - name: Restart Kennel
         if: steps.deploy.outputs.deployed == 'true'
         run: |
-          ssh wandbox 'systemctl restart kennel-master'
-          ssh wandbox 'systemctl restart kennel-develop'
+          ssh wandbox-ubuntu-24.04 'systemctl restart kennel-master'
+          ssh wandbox-ubuntu-24.04 'systemctl restart kennel-develop'

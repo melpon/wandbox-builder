@@ -3,38 +3,38 @@ on:
   push:
 
 env:
-  ASSETS_URL: "https://api.github.com/repos/melpon/wandbox-builder/releases/32402124/assets"
-  UPLOAD_URL: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/32402124/assets{?name,label}"
+  ASSETS_URL: "https://api.github.com/repos/melpon/wandbox-builder/releases/178117233/assets"
+  UPLOAD_URL: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/178117233/assets{?name,label}"
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   _asset:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
       - run: |
           pip3 install requests
           python3 get_asset_info.py ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }} > asset_info.json
       - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
-  groovy:
-    needs: [_asset, openjdk]
+  openjdk:
+    needs: [_asset]
     strategy:
       fail-fast: false
       matrix:
         version:
-          - 3.0.8 openjdk jdk-15.0.3+2
-          - 2.5.14 openjdk jdk-15.0.3+2
-    runs-on: ubuntu-20.04
+          - jdk-22+36
+          - jdk-21+35
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -50,18 +50,17 @@ jobs:
           asset_path: ${{ steps.install.outputs.package_path }}
           asset_name: ${{ steps.install.outputs.package_filename }}
           asset_content_type: application/gzip
-  openjdk:
-    needs: [_asset]
+  groovy:
+    needs: [_asset, openjdk]
     strategy:
       fail-fast: false
       matrix:
         version:
-          - jdk-15.0.3+2
-          - jdk-14.0.2+12
-    runs-on: ubuntu-20.04
+          - 4.0.23 openjdk jdk-22+36
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -83,12 +82,13 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 2.13.5 openjdk jdk-15.0.3+2
-          - 2.12.13 openjdk jdk-15.0.3+2
-    runs-on: ubuntu-20.04
+          - 3.5.1 openjdk jdk-22+36
+          - 3.3.4 openjdk jdk-22+36
+          - 2.13.15 openjdk jdk-22+36
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: asset_info.json
           path: asset_info.json
@@ -109,9 +109,9 @@ jobs:
       - groovy
       - openjdk
       - scala
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       # SSH 秘密鍵の登録
       - name: Register SSH key
         env:
@@ -123,10 +123,10 @@ jobs:
       # デプロイ先を設定する
       - name: Add SSH config
         env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_HOST: ${{ secrets.SSH_HOST_UBUNTU_24_04 }}
           SSH_USER: ${{ secrets.SSH_USER }}
         run: |
-          echo "Host wandbox" >> $HOME/.ssh/config
+          echo "Host wandbox-ubuntu-24.04" >> $HOME/.ssh/config
           echo "    HostName $SSH_HOST" >> $HOME/.ssh/config
           echo "    User $SSH_USER" >> $HOME/.ssh/config
           echo "    ServerAliveInterval 60" >> $HOME/.ssh/config
@@ -138,22 +138,22 @@ jobs:
         run: |
           set -ex
           COMMIT=`git log --format=%as.%h -n 1 HEAD`
-          ssh wandbox 'mkdir -p /opt/wandbox-data'
-          rsync -a -v . wandbox:/opt/wandbox-data/wandbox-builder
-          ssh wandbox "python3 /opt/wandbox-data/wandbox-builder/deploy.py $GITHUB_WORKFLOW $COMMIT ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }}"
+          ssh wandbox-ubuntu-24.04 'mkdir -p /opt/wandbox-data'
+          rsync -a -v . wandbox-ubuntu-24.04:/opt/wandbox-data/wandbox-builder
+          ssh wandbox-ubuntu-24.04 "python3 /opt/wandbox-data/wandbox-builder/deploy.py $GITHUB_WORKFLOW $COMMIT ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }}"
       - name: Generate Configuration
         if: steps.deploy.outputs.deployed == 'true'
         run: |
-          ssh wandbox 'mkdir -p /opt/wandbox-data/release/cattleshed-conf'
-          ssh wandbox 'python3 /opt/wandbox-data/wandbox-builder/cattleshed-conf/compilers.py > /opt/wandbox-data/release/cattleshed-conf/compilers.default'
+          ssh wandbox-ubuntu-24.04 'mkdir -p /opt/wandbox-data/release/cattleshed-conf'
+          ssh wandbox-ubuntu-24.04 'python3 /opt/wandbox-data/wandbox-builder/cattleshed-conf/compilers.py > /opt/wandbox-data/release/cattleshed-conf/compilers.default'
       - name: Restart Cattleshed
         if: steps.deploy.outputs.deployed == 'true'
         run: |
-          ssh wandbox 'systemctl restart cattleshed-master'
-          ssh wandbox 'systemctl restart cattleshed-develop'
+          ssh wandbox-ubuntu-24.04 'systemctl restart cattleshed-master'
+          ssh wandbox-ubuntu-24.04 'systemctl restart cattleshed-develop'
           sleep 30
       - name: Restart Kennel
         if: steps.deploy.outputs.deployed == 'true'
         run: |
-          ssh wandbox 'systemctl restart kennel-master'
-          ssh wandbox 'systemctl restart kennel-develop'
+          ssh wandbox-ubuntu-24.04 'systemctl restart kennel-master'
+          ssh wandbox-ubuntu-24.04 'systemctl restart kennel-develop'

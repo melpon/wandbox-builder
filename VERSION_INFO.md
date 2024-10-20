@@ -37,7 +37,6 @@ I check below URLs to update versions about once a month.
 | rust | https://github.com/rust-lang/rust/releases |
 | sbcl | http://www.sbcl.org/platform-table.html |
 | scala | https://github.com/scala/scala/releases |
-| spidermonkey | https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Releases |
 | sqlite | https://www.sqlite.org/src/taglist |
 | swift | https://swift.org/download/ |
 | vim | https://github.com/vim/vim/releases |

@@ -9,3 +9,4 @@
 /wandbox/
 *.swp
 /ga-build/*.log
+/ga-build/*.env

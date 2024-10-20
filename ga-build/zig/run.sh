@@ -10,7 +10,7 @@ if [ "$SUBCOMMAND" == "setup" ]; then
 fi
 
 curl_strict_sha256 \
-  https://ziglang.org/download/0.9.1/zig-linux-x86_64-$VERSION.tar.xz \
+  https://ziglang.org/download/$VERSION/zig-linux-x86_64-$VERSION.tar.xz \
   $BASE_DIR/resources/zig-linux-x86_64-$VERSION.tar.xz.sha256
 
 tar xf zig-linux-x86_64-$VERSION.tar.xz
