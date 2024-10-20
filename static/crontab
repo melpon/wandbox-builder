@@ -1,2 +1,2 @@
 0 0 * * * /opt/wandbox-data/script/remove-tmp.sh
-0 0 2 * * /opt/wandbox-data/script/archive.sh >/var/log/wandbox/lastlog.log 2>&1
+0 0 2 * * /opt/wandbox-data/script/archive.sh >/opt/wandbox/_log/lastlog.log 2>&1
