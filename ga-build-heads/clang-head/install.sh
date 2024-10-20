@@ -7,10 +7,10 @@ PREFIX=/opt/wandbox/clang-head
 apt-get update
 apt-get install -y \
   build-essential \
-  clang-12 \
+  clang-18 \
   coreutils \
   git \
-  libgcc-10-dev \
+  libgcc-14-dev \
   libgmp-dev \
   libmpc-dev \
   libmpfr-dev \
@@ -56,8 +56,8 @@ mkdir build
 # esac
 cd build
 
-export CC="clang-12"
-export CXX="clang++-12"
+export CC="clang-18"
+export CXX="clang++-18"
 /usr/local/wandbox/camke-${CMAKE_VERSION}/bin/cmake -G "Unix Makefiles" \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
