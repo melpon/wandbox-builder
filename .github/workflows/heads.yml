@@ -3,6 +3,7 @@ on:
   schedule:
     # 毎日 09:00 JST
     - cron: "0 0 * * *"
+  workflow_dispatch:
 
 env:
   ASSETS_URL: "https://api.github.com/repos/melpon/wandbox-builder/releases/178117642/assets"
