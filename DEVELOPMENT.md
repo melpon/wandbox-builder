@@ -39,6 +39,8 @@ sudo ln -s /snap/bin/certbot /usr/bin/certbot
 # ここで Cloudflare の DNS を切り替える
 # 既存のサイトは止まるので注意
 sudo certbot --nginx
+# Cloudflare 経由の場合は以下の方法を使う
+# https://evt1.com/docs/cloudflare-letsencrypt/
 ```
 
 ## ufw
