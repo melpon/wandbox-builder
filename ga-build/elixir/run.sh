@@ -9,7 +9,7 @@ if [ "$SUBCOMMAND" == "setup" ]; then
   # download erlang
   mkdir -p `dirname $COMPILER_PREFIX`
   pushd `dirname $COMPILER_PREFIX`
-    curl -LO https://github.com/melpon/wandbox-builder/releases/download/assets-ubuntu-20.04/$COMPILER-$COMPILER_VERSION.tar.gz
+    curl -LO https://github.com/melpon/wandbox-builder/releases/download/assets-ubuntu-24.04/$COMPILER-$COMPILER_VERSION.tar.gz
     tar xf $COMPILER-$COMPILER_VERSION.tar.gz
   popd
   exit 0
