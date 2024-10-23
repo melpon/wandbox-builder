@@ -1,0 +1,35 @@
+name: build-compiler
+
+description: Build Compiler
+
+inputs:
+  name:
+    description: Name
+    required: true
+  version:
+    description: Version
+    required: true
+  upload_url:
+    description: Upload URL
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v4
+    - uses: actions/download-artifact@v4
+      with:
+        name: asset_info.json
+        path: asset_info.json
+    - id: setup
+      run: ./ga-build/${{ inputs.name }}/run.sh setup ${{ inputs.version }}
+    - id: install
+      if: steps.setup.outputs.need_install == 'true'
+      run: ./ga-build/${{ inputs.name }}/run.sh install ${{ inputs.version }}
+    - uses: actions/upload-release-asset@v1
+      if: steps.setup.outputs.need_install == 'true'
+      with:
+        upload_url: ${{ inputs.upload_url }}
+        asset_path: ${{ steps.install.outputs.package_path }}
+        asset_name: ${{ steps.install.outputs.package_filename }}
+        asset_content_type: application/gzip
