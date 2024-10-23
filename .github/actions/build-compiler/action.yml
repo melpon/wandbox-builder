@@ -22,9 +22,11 @@ runs:
         path: asset_info.json
     - id: setup
       run: ./ga-build/${{ inputs.name }}/run.sh setup ${{ inputs.version }}
+      shell: bash
     - id: install
       if: steps.setup.outputs.need_install == 'true'
       run: ./ga-build/${{ inputs.name }}/run.sh install ${{ inputs.version }}
+      shell: bash
     - uses: actions/upload-release-asset@v1
       if: steps.setup.outputs.need_install == 'true'
       with:
