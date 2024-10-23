@@ -935,7 +935,7 @@ jobs:
           - 0.9.1
     runs-on: ubuntu-24.04
     steps:
-      - uses: .github/actions/build-compiler
+      - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
           version: ${{ matrix.version }}
