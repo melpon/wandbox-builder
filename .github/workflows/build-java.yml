@@ -34,22 +34,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: ./.github/actions/build-compiler
         with:
-          name: asset_info.json
-          path: asset_info.json
-      - id: setup
-        run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
-      - id: install
-        if: steps.setup.outputs.need_install == 'true'
-        run: ./ga-build/${{ github.job }}/run.sh install ${{ matrix.version }}
-      - uses: actions/upload-release-asset@v1
-        if: steps.setup.outputs.need_install == 'true'
-        with:
+          name: ${{ github.job }}
+          version: ${{ matrix.version }}
           upload_url: ${{ env.UPLOAD_URL }}
-          asset_path: ${{ steps.install.outputs.package_path }}
-          asset_name: ${{ steps.install.outputs.package_filename }}
-          asset_content_type: application/gzip
   groovy:
     needs: [_asset, openjdk]
     strategy:
@@ -60,22 +49,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: ./.github/actions/build-compiler
         with:
-          name: asset_info.json
-          path: asset_info.json
-      - id: setup
-        run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
-      - id: install
-        if: steps.setup.outputs.need_install == 'true'
-        run: ./ga-build/${{ github.job }}/run.sh install ${{ matrix.version }}
-      - uses: actions/upload-release-asset@v1
-        if: steps.setup.outputs.need_install == 'true'
-        with:
+          name: ${{ github.job }}
+          version: ${{ matrix.version }}
           upload_url: ${{ env.UPLOAD_URL }}
-          asset_path: ${{ steps.install.outputs.package_path }}
-          asset_name: ${{ steps.install.outputs.package_filename }}
-          asset_content_type: application/gzip
   scala:
     needs: [_asset, openjdk]
     strategy:
@@ -88,22 +66,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: ./.github/actions/build-compiler
         with:
-          name: asset_info.json
-          path: asset_info.json
-      - id: setup
-        run: ./ga-build/${{ github.job }}/run.sh setup ${{ matrix.version }}
-      - id: install
-        if: steps.setup.outputs.need_install == 'true'
-        run: ./ga-build/${{ github.job }}/run.sh install ${{ matrix.version }}
-      - uses: actions/upload-release-asset@v1
-        if: steps.setup.outputs.need_install == 'true'
-        with:
+          name: ${{ github.job }}
+          version: ${{ matrix.version }}
           upload_url: ${{ env.UPLOAD_URL }}
-          asset_path: ${{ steps.install.outputs.package_path }}
-          asset_name: ${{ steps.install.outputs.package_filename }}
-          asset_content_type: application/gzip
   _deploy:
     needs:
       - groovy
