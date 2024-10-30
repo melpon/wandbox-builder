@@ -1841,7 +1841,7 @@ class Compilers(object):
                 'display-compile-command': 'sbcl --script prog.lisp',
                 'run-command': [f'/opt/wandbox/sbcl-{cv}/bin/run-sbcl.sh', '--script', 'prog.lisp'],
                 'runtime-option-raw': True,
-                'jail-name': 'melpon2-sbcl',
+                'jail-name': 'melpon2-default',
                 'templates': ['sbcl'],
             })
         return compilers
@@ -2014,7 +2014,7 @@ class Compilers(object):
                 'display-name': display_name,
                 'display-compile-command': 'dotnet build',
                 'run-command': [f'/opt/wandbox/dotnetcore-{cv}/bin/run-dotnet.sh'],
-                'jail-name': 'melpon2-dotnetcore',
+                'jail-name': 'melpon2-default',
                 'templates': ['dotnetcore'],
             })
         return compilers
