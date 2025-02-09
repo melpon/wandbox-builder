@@ -318,7 +318,9 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - 2.2.2
           - 2.2.0
+          - 2.0.14
           - 2.0.10
           - 2.0.8
           - 2.0.6
