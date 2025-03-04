@@ -53,7 +53,7 @@ runs:
         fi
         cat ${{ inputs.hpplib_info }}
         cat ${{ steps.info.outputs.jsonfile }}
-        jq -s '.[0] += [.[1]]' ${{ inputs.hpplib_info }} ${{ steps.info.outputs.jsonfile }} > _tmp.json
+        jq -s '.[0] += [.[1]] | .[0]' ${{ inputs.hpplib_info }} ${{ steps.info.outputs.jsonfile }} > _tmp.json
         cat _tmp.json
         mv _tmp.json ${{ inputs.hpplib_info }}
       shell: bash
