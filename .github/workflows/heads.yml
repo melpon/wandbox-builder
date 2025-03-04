@@ -36,7 +36,7 @@ jobs:
           asset_name: ${{ matrix.name }}.tar.gz
           asset_content_type: application/gzip
   _deploy:
-    needs: [heads, _header-only-libraries]
+    needs: [heads]
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
