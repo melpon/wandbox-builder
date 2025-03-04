@@ -1,6 +1,6 @@
 name: C++
-on:
-  push:
+#on:
+#  push:
 
 env:
   ASSETS_URL: "https://api.github.com/repos/melpon/wandbox-builder/releases/178117233/assets"
