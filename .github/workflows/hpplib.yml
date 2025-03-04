@@ -159,3 +159,39 @@ jobs:
           asset_path: /opt/wandbox/hpplib.json
           asset_name: hpplib.json
           asset_content_type: application/gzip
+
+  _deploy:
+    needs: [header-only-libraries]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      # SSH 秘密鍵の登録
+      - name: Register SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p $HOME/.ssh
+          echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_ed25519
+          chmod 600 $HOME/.ssh/id_ed25519
+      # デプロイ先を設定する
+      - name: Add SSH config
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST_UBUNTU_24_04 }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          echo "Host wandbox-ubuntu-24.04" >> $HOME/.ssh/config
+          echo "    HostName $SSH_HOST" >> $HOME/.ssh/config
+          echo "    User $SSH_USER" >> $HOME/.ssh/config
+          echo "    ServerAliveInterval 60" >> $HOME/.ssh/config
+          echo "    TCPKeepAlive yes" >> $HOME/.ssh/config
+          ssh-keyscan -H $SSH_HOST >> $HOME/.ssh/known_hosts
+      # hpplib をダウンロードしてデプロイ先に配置するだけ
+      - name: Deploy
+        run: |
+          HPPLIB_URL=`curl -L ${{ env.ASSETS_URL }} | jq -r '.[] | select(.name == "hpplib.tar.gz") | .browser_download_url'`
+          HPPLIB_JSON_URL=`curl -L ${{ env.ASSETS_URL }} | jq -r '.[] | select(.name == "hpplib.json") | .browser_download_url'`
+          curl -LO $HPPLIB_URL
+          curl -LO $HPPLIB_JSON_URL
+          tar xf hpplib.tar.gz
+          rsync -a -v hpplib/ wandbox-ubuntu-24.04:/opt/wandbox/hpplib/
+          rsync -a -v --mkpath hpplib.json wandbox-ubuntu-24.04:/opt/wandbox-data/wandbox-hpplib/hpplib.json
