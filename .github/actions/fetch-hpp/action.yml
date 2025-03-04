@@ -1,0 +1,53 @@
+name: fetch-hpp
+
+description: Fetch Header-Only Library
+
+inputs:
+  repository:
+    description: Repository
+    required: true
+  # ヘッダーファイルがある場所
+  # チェックアウトしたリポジトリからの相対パス
+  header_dir:
+    description: Header Directory
+    required: true
+  find_args:
+    description: Header Find Arguments
+    required: false
+    default: ""
+  # ヘッダーファイルのコピー先のディレクトリ
+  # フルパスにする必要がある
+  # -I${{ hpplib_dir }} でコンパイラに渡すディレクトリ
+  hpplib_dir:
+    description: Library Output Directory
+    required: true
+  # リポジトリの情報
+  # フルパスにする必要がある
+  hpplib_info:
+    description: Library Information File
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: info
+      run: |
+        gh release list --repo ${{ inputs.repository }} --json name,tagName,isLatest,isDraft,isPrerelease,createdAt,publishedAt --jq '.[] | select(.isLatest)' > _info.json
+        echo "jsonfile=`pwd`/_info.json" >> $GITHUB_OUTPUT
+        echo "tagname=`cat _info.json | jq -r '.tagName'`" >> $GITHUB_OUTPUT
+    - uses: actions/checkout@v4
+      with:
+        repository: ${{ inputs.repository }}
+        path: ${{ inputs.repository }}
+        ref: ${{ steps.info.outputs.tagname }}
+    - run: |
+        mkdir -p ${{ inputs.hpplib_dir }}
+        pushd ${{ inputs.header_dir }}
+          find . ${{ inputs.find_args }} -type f -exec cp --parents {} "${{ inputs.hpplib_dir }}" \;
+        popd
+        if [ ! -e ${{ inputs.hpplib_info }} ]; then
+          echo '[]' > ${{ inputs.hpplib_info }}
+        fi
+        jq -s '.[0] += [.[1]]' ${{ inputs.hpplib_info }} ${{ steps.info.outputs.jsonfile }} > _tmp.json
+        mv _tmp.json ${{ inputs.hpplib_info }}
+      working-directory: ${{ inputs.repository }}

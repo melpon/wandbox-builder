@@ -52,6 +52,9 @@ jobs:
           find_args: "-name '*.hpp'"
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
+      - run:
+          find /opt/wandbox/hpplib -type f
+          cat /opt/wandbox/hpplib.json
   #_deploy:
   #  needs: [heads, _header-only-libraries]
   #  runs-on: ubuntu-24.04
