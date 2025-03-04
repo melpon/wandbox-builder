@@ -30,7 +30,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: info
+    - id: info
       run: |
         gh release list --repo ${{ inputs.repository }} --json name,tagName,isLatest,isDraft,isPrerelease,createdAt,publishedAt --jq '.[] | select(.isLatest)' > _info.json
         jq '. += {"repository":"${{ inputs.repository }}"}' _info.json > _info2.json
