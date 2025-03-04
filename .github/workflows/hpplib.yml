@@ -1,0 +1,161 @@
+name: hpplib
+on:
+  schedule:
+    # 毎日 09:00 JST
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+env:
+  ASSETS_URL: "https://api.github.com/repos/melpon/wandbox-builder/releases/178117642/assets"
+  UPLOAD_URL: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/178117642/assets{?name,label}"
+  RELEASE_ID: 178117642
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  header-only-libraries:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      # Argument Parser
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: CLI11
+          repository: CLIUtils/CLI11
+          header_dir: include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: cxxopts
+          repository: jarro2783/cxxopts
+          header_dir: include
+          find_args: "-name '*.hpp'"
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+
+      # Benchmarking
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: nanobench
+          repository: martinus/nanobench
+          header_dir: src/include
+          find_args: "-name '*.h'"
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+
+      # Data Formats
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: bencode
+          repository: fbdtemme/bencode
+          header_dir: include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: toml11
+          repository: ToruNiina/toml11
+          header_dir: include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: toml++
+          repository: marzer/tomlplusplus
+          header_dir: include
+          find_args: "-path './toml++/*'"
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: rapidjson
+          repository: Tencent/rapidjson
+          header_dir: include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: picojson
+          repository: kazuho/picojson
+          header_dir: .
+          find_args: "-name picojson.h"
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: nlohmann/json
+          repository: nlohmann/json
+          header_dir: include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: csv-parser
+          repository: vincentlaucsb/csv-parser
+          header_dir: single_include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: rapidcsv
+          repository: d99kris/rapidcsv
+          header_dir: src
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+
+      # Data Formatting and Presentation
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: fmt
+          repository: fmtlib/fmt
+          header_dir: src
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+
+      # Mathematics
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: NumCpp
+          repository: dpilger26/NumCpp
+          header_dir: include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+
+      # Logging
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: spdlog
+          repository: gabime/spdlog
+          header_dir: include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+
+      # Testing Frameworks
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: ut
+          repository: boost-ext/ut
+          header_dir: include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+
+      # Release
+      - run: tar czf hpplib.tar.gz hpplib/
+        working-directory: /opt/wandbox
+      - name: Release hpplib.tar.gz
+        uses: WebFreak001/deploy-nightly@v3.2.0
+        with:
+          upload_url: ${{ env.UPLOAD_URL }}
+          release_id: ${{ env.RELEASE_ID }}
+          asset_path: /opt/wandbox/hpplib.tar.gz
+          asset_name: hpplib.tar.gz
+          asset_content_type: application/gzip
+      - name: Release hpplib.json
+        uses: WebFreak001/deploy-nightly@v3.2.0
+        with:
+          upload_url: ${{ env.UPLOAD_URL }}
+          release_id: ${{ env.RELEASE_ID }}
+          asset_path: /opt/wandbox/hpplib.json
+          asset_name: hpplib.json
+          asset_content_type: application/gzip
