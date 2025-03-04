@@ -33,8 +33,9 @@ runs:
     - name: info
       run: |
         gh release list --repo ${{ inputs.repository }} --json name,tagName,isLatest,isDraft,isPrerelease,createdAt,publishedAt --jq '.[] | select(.isLatest)' > _info.json
-        echo "jsonfile=`pwd`/_info.json" >> $GITHUB_OUTPUT
-        echo "tagname=`cat _info.json | jq -r '.tagName'`" >> $GITHUB_OUTPUT
+        jq '. += {"repository":"${{ inputs.repository }}"' _info.json > _info2.json
+        echo "jsonfile=`pwd`/_info2.json" >> $GITHUB_OUTPUT
+        echo "tagname=`cat _info2.json | jq -r '.tagName'`" >> $GITHUB_OUTPUT
       shell: bash
     - uses: actions/checkout@v4
       with:

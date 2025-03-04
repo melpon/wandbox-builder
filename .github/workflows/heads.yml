@@ -45,7 +45,7 @@ jobs:
           header_dir: include
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
-      - uses: ./.github/actions/cxxopts
+      - uses: ./.github/actions/fetch-hpp
         with:
           repository: jarro2783/cxxopts
           header_dir: include
