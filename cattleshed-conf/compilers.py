@@ -649,12 +649,8 @@ class Compilers(object):
                     '-oprog.exe',
                     f'-Wl,-rpath,/opt/wandbox/gcc-{cv}/lib64',
                     '-lpthread',
-                    #'-I/opt/wandbox/boost-sml/include',
-                    #'-I/opt/wandbox/boost-di/include',
-                    #'-I/opt/wandbox/range-v3/include',
-                    #'-I/opt/wandbox/nlohmann-json/include',
-                    #'-I/opt/wandbox/cmcstl2/include',
-                    #'-I/opt/wandbox/te/include',
+                    # ヘッダーライブラリの塊がここに配置されてる
+                    '-I/opt/wandbox/hpplib',
                     'prog.cc'
                 ],
                 'version-command': version_command,
