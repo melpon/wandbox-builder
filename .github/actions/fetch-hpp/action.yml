@@ -43,7 +43,6 @@ runs:
         path: ${{ inputs.repository }}
         ref: ${{ steps.info.outputs.tagname }}
     - run: |
-        set -x
         mkdir -p ${{ inputs.hpplib_dir }}
         pushd ${{ inputs.header_dir }}
           find . ${{ inputs.find_args }} -type f -exec cp --parents {} "${{ inputs.hpplib_dir }}" \;
@@ -51,10 +50,7 @@ runs:
         if [ ! -e ${{ inputs.hpplib_info }} ]; then
           echo '[]' > ${{ inputs.hpplib_info }}
         fi
-        cat ${{ inputs.hpplib_info }}
-        cat ${{ steps.info.outputs.jsonfile }}
         jq -s '.[0] += [.[1]] | .[0]' ${{ inputs.hpplib_info }} ${{ steps.info.outputs.jsonfile }} > _tmp.json
-        cat _tmp.json
         mv _tmp.json ${{ inputs.hpplib_info }}
       shell: bash
       working-directory: ${{ inputs.repository }}

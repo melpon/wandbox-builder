@@ -39,22 +39,98 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+
+      # Argument Parser
       - uses: ./.github/actions/fetch-hpp
         with:
+          name: CLI11
           repository: CLIUtils/CLI11
           header_dir: include
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
       - uses: ./.github/actions/fetch-hpp
         with:
+          name: cxxopts
           repository: jarro2783/cxxopts
           header_dir: include
           find_args: "-name '*.hpp'"
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
+
+      # Benchmarking
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: nanobench
+          repository: martinus/nanobench
+          header_dir: src/include
+          find_args: "-name '*.h'"
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+
+      # Data Formats
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: bencode
+          repository: fbdtemme/bencode
+          header_dir: include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: toml11
+          repository: ToruNiina/toml11
+          header_dir: include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: toml++
+          repository: marzer/tomlplusplus
+          header_dir: include
+          find_args: "-path './toml++/*'"
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: rapidjson
+          repository: Tencent/rapidjson
+          header_dir: include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: picojson
+          repository: kazuho/picojson
+          header_dir: .
+          find_args: "-name picojson.h"
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: nlohmann/json
+          repository: nlohmann/json
+          header_dir: include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: csv-parser
+          repository: vincentlaucsb/csv-parser
+          header_dir: single_include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: rapidcsv
+          repository: d99kris/rapidcsv
+          header_dir: src
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+
       - run: |
           find /opt/wandbox/hpplib -type f
           cat /opt/wandbox/hpplib.json
+
   #_deploy:
   #  needs: [heads, _header-only-libraries]
   #  runs-on: ubuntu-24.04
