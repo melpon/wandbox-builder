@@ -127,6 +127,43 @@ jobs:
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
 
+      # Data Formatting and Presentation
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: fmt
+          repository: fmtlib/fmt
+          header_dir: src
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+
+      # Mathematics
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: NumCpp
+          repository: dpilger26/NumCpp
+          header_dir: include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+
+      # Logging
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: spdlog
+          repository: gabime/spdlog
+          header_dir: include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+
+      # Testing Frameworks
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: Catch2
+          repository: catchorg/Catch2
+          header_dir: src
+          find_args: "-path './catch2/*'"
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+
       - run: |
           find /opt/wandbox/hpplib -type f
           cat /opt/wandbox/hpplib.json
