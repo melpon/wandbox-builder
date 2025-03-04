@@ -1,4 +1,4 @@
-name: heads
+name: hpplib
 on:
   schedule:
     # 毎日 09:00 JST
@@ -12,30 +12,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  #heads:
-  #  strategy:
-  #    fail-fast: false
-  #    matrix:
-  #      name:
-  #        - gcc-head
-  #        - clang-head
-  #        - zig-head
-  #  runs-on: ubuntu-24.04
-  #  steps:
-  #    - uses: actions/checkout@v4
-  #    - run: sudo ./install.sh
-  #      working-directory: ga-build-heads/${{ matrix.name }}
-  #    - run: tar czf ${{ matrix.name }}.tar.gz ${{ matrix.name }}/
-  #      working-directory: /opt/wandbox
-  #    - name: Release ${{ matrix.name }}
-  #      uses: WebFreak001/deploy-nightly@v3.2.0
-  #      with:
-  #        upload_url: ${{ env.UPLOAD_URL }}
-  #        release_id: ${{ env.RELEASE_ID }}
-  #        asset_path: /opt/wandbox/${{ matrix.name }}.tar.gz
-  #        asset_name: ${{ matrix.name }}.tar.gz
-  #        asset_content_type: application/gzip
-  _header-only-libraries:
+  header-only-libraries:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -163,38 +140,22 @@ jobs:
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
 
-      - run: |
-          find /opt/wandbox/hpplib -type f
-          cat /opt/wandbox/hpplib.json
-
-  #_deploy:
-  #  needs: [heads, _header-only-libraries]
-  #  runs-on: ubuntu-24.04
-  #  steps:
-  #    - uses: actions/checkout@v4
-  #    # SSH 秘密鍵の登録
-  #    - name: Register SSH key
-  #      env:
-  #        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-  #      run: |
-  #        mkdir -p $HOME/.ssh
-  #        echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_ed25519
-  #        chmod 600 $HOME/.ssh/id_ed25519
-  #    # デプロイ先を設定する
-  #    - name: Add SSH config
-  #      env:
-  #        SSH_HOST: ${{ secrets.SSH_HOST_UBUNTU_24_04 }}
-  #        SSH_USER: ${{ secrets.SSH_USER }}
-  #      run: |
-  #        echo "Host wandbox-ubuntu-24.04" >> $HOME/.ssh/config
-  #        echo "    HostName $SSH_HOST" >> $HOME/.ssh/config
-  #        echo "    User $SSH_USER" >> $HOME/.ssh/config
-  #        echo "    ServerAliveInterval 60" >> $HOME/.ssh/config
-  #        echo "    TCPKeepAlive yes" >> $HOME/.ssh/config
-  #        ssh-keyscan -H $SSH_HOST >> $HOME/.ssh/known_hosts
-  #    # ソースをデプロイ先にコピーして、デプロイスクリプトを実行する
-  #    - name: Deploy
-  #      run: |
-  #        ssh wandbox-ubuntu-24.04 'mkdir -p /opt/wandbox-data'
-  #        rsync -a -v . wandbox-ubuntu-24.04:/opt/wandbox-data/wandbox-builder
-  #        ssh wandbox-ubuntu-24.04 'python3 /opt/wandbox-data/wandbox-builder/deploy_heads.py  ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }}'
+      # Release
+      - run: tar czf hpplib.tar.gz hpplib/
+        working-directory: /opt/wandbox
+      - name: Release hpplib.tar.gz
+        uses: WebFreak001/deploy-nightly@v3.2.0
+        with:
+          upload_url: ${{ env.UPLOAD_URL }}
+          release_id: ${{ env.RELEASE_ID }}
+          asset_path: /opt/wandbox/hpplib.tar.gz
+          asset_name: hpplib.tar.gz
+          asset_content_type: application/gzip
+      - name: Release hpplib.json
+        uses: WebFreak001/deploy-nightly@v3.2.0
+        with:
+          upload_url: ${{ env.UPLOAD_URL }}
+          release_id: ${{ env.RELEASE_ID }}
+          asset_path: /opt/wandbox/hpplib.json
+          asset_name: hpplib.json
+          asset_content_type: application/gzip

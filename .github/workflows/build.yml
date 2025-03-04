@@ -5,8 +5,8 @@
 # - ビルドと関係ないジョブを作る場合はジョブ名の先頭に _ を付ける
 
 name: build
-#on:
-#  push:
+on:
+  push:
 
 env:
   ASSETS_URL: "https://api.github.com/repos/melpon/wandbox-builder/releases/178117233/assets"
