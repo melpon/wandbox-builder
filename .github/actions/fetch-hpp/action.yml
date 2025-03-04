@@ -35,6 +35,7 @@ runs:
         gh release list --repo ${{ inputs.repository }} --json name,tagName,isLatest,isDraft,isPrerelease,createdAt,publishedAt --jq '.[] | select(.isLatest)' > _info.json
         echo "jsonfile=`pwd`/_info.json" >> $GITHUB_OUTPUT
         echo "tagname=`cat _info.json | jq -r '.tagName'`" >> $GITHUB_OUTPUT
+      shell: bash
     - uses: actions/checkout@v4
       with:
         repository: ${{ inputs.repository }}
@@ -50,4 +51,5 @@ runs:
         fi
         jq -s '.[0] += [.[1]]' ${{ inputs.hpplib_info }} ${{ steps.info.outputs.jsonfile }} > _tmp.json
         mv _tmp.json ${{ inputs.hpplib_info }}
+      shell: bash
       working-directory: ${{ inputs.repository }}
