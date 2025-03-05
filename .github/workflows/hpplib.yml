@@ -50,14 +50,6 @@ jobs:
       # Data Formats
       - uses: ./.github/actions/fetch-hpp
         with:
-          name: bencode
-          repository: fbdtemme/bencode
-          header_description: <bencode/bencode.hpp>
-          header_dir: include
-          hpplib_dir: /opt/wandbox/hpplib
-          hpplib_info: /opt/wandbox/hpplib.json
-      - uses: ./.github/actions/fetch-hpp
-        with:
           name: toml11
           repository: ToruNiina/toml11
           header_description: <toml.hpp>
@@ -160,10 +152,7 @@ jobs:
           repository: gsl-lite/gsl-lite
           header_description: <gsl/gsl-lite.hpp>
           header_dir: include
-          # ほんとは gsl/gsl-lite.hpp だけでいいんだけど
-          # bencode が gsl-lite/gsl-lite.hpp に依存してるので
-          # 仕方なくそっちも入れる
-          find_args: "-path '*/gsl-lite.hpp'"
+          find_args: "-path ./gsl/gsl-lite.hpp"
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
 
