@@ -651,6 +651,8 @@ class Compilers(object):
                     '-lpthread',
                     # ヘッダーライブラリの塊がここに配置されてる
                     '-I/opt/wandbox/hpplib',
+                    # fmtlib/fmt をヘッダーオンリーにする
+                    '-DFMT_HEADER_ONLY',
                     'prog.cc'
                 ],
                 'version-command': version_command,

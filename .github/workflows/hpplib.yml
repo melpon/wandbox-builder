@@ -22,6 +22,7 @@ jobs:
         with:
           name: CLI11
           repository: CLIUtils/CLI11
+          header_description: <CLI/CLI.hpp>
           header_dir: include
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
@@ -29,6 +30,7 @@ jobs:
         with:
           name: cxxopts
           repository: jarro2783/cxxopts
+          header_description: <cxxopts.hpp>
           header_dir: include
           find_args: "-name '*.hpp'"
           hpplib_dir: /opt/wandbox/hpplib
@@ -39,6 +41,7 @@ jobs:
         with:
           name: nanobench
           repository: martinus/nanobench
+          header_description: <nanobench.h>
           header_dir: src/include
           find_args: "-name '*.h'"
           hpplib_dir: /opt/wandbox/hpplib
@@ -49,6 +52,7 @@ jobs:
         with:
           name: bencode
           repository: fbdtemme/bencode
+          header_description: <bencode/bencode.hpp>
           header_dir: include
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
@@ -56,6 +60,7 @@ jobs:
         with:
           name: toml11
           repository: ToruNiina/toml11
+          header_description: <toml.hpp>
           header_dir: include
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
@@ -63,6 +68,7 @@ jobs:
         with:
           name: toml++
           repository: marzer/tomlplusplus
+          header_description: <toml++/toml.hpp>
           header_dir: include
           find_args: "-path './toml++/*'"
           hpplib_dir: /opt/wandbox/hpplib
@@ -71,6 +77,7 @@ jobs:
         with:
           name: rapidjson
           repository: Tencent/rapidjson
+          header_description: <rapidjson/rapidjson.h>
           header_dir: include
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
@@ -78,6 +85,7 @@ jobs:
         with:
           name: picojson
           repository: kazuho/picojson
+          header_description: <picojson.h>
           header_dir: .
           find_args: "-name picojson.h"
           hpplib_dir: /opt/wandbox/hpplib
@@ -86,6 +94,7 @@ jobs:
         with:
           name: nlohmann/json
           repository: nlohmann/json
+          header_description: <nlohmann/json.hpp>
           header_dir: include
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
@@ -93,6 +102,7 @@ jobs:
         with:
           name: csv-parser
           repository: vincentlaucsb/csv-parser
+          header_description: <csv.hpp>
           header_dir: single_include
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
@@ -100,6 +110,7 @@ jobs:
         with:
           name: rapidcsv
           repository: d99kris/rapidcsv
+          header_description: <rapidcsv.h>
           header_dir: src
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
@@ -109,7 +120,8 @@ jobs:
         with:
           name: fmt
           repository: fmtlib/fmt
-          header_dir: src
+          header_description: <fmt/core.h>
+          header_dir: include
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
 
@@ -118,6 +130,7 @@ jobs:
         with:
           name: NumCpp
           repository: dpilger26/NumCpp
+          header_description: <NumCpp.hpp>
           header_dir: include
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
@@ -127,7 +140,27 @@ jobs:
         with:
           name: spdlog
           repository: gabime/spdlog
+          header_description: <spdlog/spdlog.h>
           header_dir: include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+
+      # Standard/Support Libraries
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: expected-lite
+          repository: martinmoene/expected-lite
+          header_description: <nonstd/expected.hpp>
+          header_dir: include
+          hpplib_dir: /opt/wandbox/hpplib
+          hpplib_info: /opt/wandbox/hpplib.json
+      - uses: ./.github/actions/fetch-hpp
+        with:
+          name: gsl-lite
+          repository: gsl-lite/gsl-lite
+          header_description: <gsl/gsl-lite.hpp>
+          header_dir: include
+          find_args: "-path ./gsl/gsl-lite.hpp"
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
 
@@ -136,6 +169,7 @@ jobs:
         with:
           name: ut
           repository: boost-ext/ut
+          header_description: <boost/ut.hpp>
           header_dir: include
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json

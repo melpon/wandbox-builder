@@ -9,6 +9,12 @@ inputs:
   repository:
     description: Repository
     required: true
+  # 何のヘッダーをインクルードするか
+  # 単に説明のための文字列なので、実在する必要は無い
+  # （`<mylib/*.hpp>` みたいに記載しても良い）
+  header_description:
+    description: Header Description
+    required: true
   # ヘッダーファイルがある場所
   # チェックアウトしたリポジトリからの相対パス
   header_dir:
@@ -35,10 +41,18 @@ runs:
   steps:
     - id: info
       run: |
+        # リリース情報を取得する
         gh release list --repo ${{ inputs.repository }} --json name,tagName,isLatest,isDraft,isPrerelease,createdAt,publishedAt --jq '.[] | select(.isLatest)' > _info.json
-        jq '. += {"name":"${{ inputs.name }}","repository":"${{ inputs.repository }}"}' _info.json > _info2.json
-        echo "jsonfile=`pwd`/_info2.json" >> $GITHUB_OUTPUT
-        echo "tagname=`cat _info2.json | jq -r '.tagName'`" >> $GITHUB_OUTPUT
+
+        # ライブラリ名、リポジトリ名、ヘッダーの説明を追加で入れる
+        jq '. += {"name":"${{ inputs.name }}","repository":"${{ inputs.repository }}","headerDescription":"${{ inputs.header_description }}"}' _info.json > _info2.json
+
+        # リポジトリの description も入れる
+        gh repo view ${{ inputs.repository }} --json description > _repo.json
+        jq -s '.[0] += .[1] | .[0]' _info2.json _repo.json > _info3.json
+
+        echo "jsonfile=`pwd`/_info3.json" >> $GITHUB_OUTPUT
+        echo "tagname=`cat _info3.json | jq -r '.tagName'`" >> $GITHUB_OUTPUT
       shell: bash
     - uses: actions/checkout@v4
       with:
