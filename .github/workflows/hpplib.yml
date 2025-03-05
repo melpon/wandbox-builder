@@ -163,7 +163,7 @@ jobs:
           # ほんとは gsl/gsl-lite.hpp だけでいいんだけど
           # bencode が gsl-lite/gsl-lite.hpp に依存してるので
           # 仕方なくそっちも入れる
-          find_args: "-path */gsl-lite.hpp"
+          find_args: "-path '*/gsl-lite.hpp'"
           hpplib_dir: /opt/wandbox/hpplib
           hpplib_info: /opt/wandbox/hpplib.json
 
