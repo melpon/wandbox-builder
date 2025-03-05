@@ -881,12 +881,10 @@ class Compilers(object):
                 f'-Wl,-rpath,/opt/wandbox/clang-{cv}/lib',
                 f'-Wl,-rpath,/opt/wandbox/clang-{cv}/lib/x86_64-unknown-linux-gnu',
                 '-lpthread',
-                #'-I/opt/wandbox/boost-sml/include',
-                #'-I/opt/wandbox/boost-di/include',
-                #'-I/opt/wandbox/range-v3/include',
-                #'-I/opt/wandbox/nlohmann-json/include',
-                #'-I/opt/wandbox/cmcstl2/include',
-                #'-I/opt/wandbox/te/include'
+                # ヘッダーライブラリの塊がここに配置されてる
+                '-I/opt/wandbox/hpplib',
+                # fmtlib/fmt をヘッダーオンリーにする
+                '-DFMT_HEADER_ONLY',
             ]
 
             if cmpver(cv, '==', '3.2'):
