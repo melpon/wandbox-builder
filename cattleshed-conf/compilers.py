@@ -174,7 +174,7 @@ class Switches(object):
                 'display-name': 'C++03',
             }),
             ('gnu++98', {
-                'flags': '-std=gnu++98',
+                'flags': ['-std=gnu++98'],
                 'display-name': 'C++03(GNU)',
             }),
             ('c++0x', {
@@ -182,7 +182,7 @@ class Switches(object):
                 'display-name': 'C++0x',
             }),
             ('gnu++0x', {
-                'flags': '-std=gnu++0x',
+                'flags': ['-std=gnu++0x'],
                 'display-name': 'C++0x(GNU)',
             }),
             ('c++11', {
@@ -190,7 +190,7 @@ class Switches(object):
                 'display-name': 'C++11',
             }),
             ('gnu++11', {
-                'flags': '-std=gnu++11',
+                'flags': ['-std=gnu++11'],
                 'display-name': 'C++11(GNU)',
             }),
             ('c++1y', {
@@ -198,7 +198,7 @@ class Switches(object):
                 'display-name': 'C++1y',
             }),
             ('gnu++1y', {
-                'flags': '-std=gnu++1y',
+                'flags': ['-std=gnu++1y'],
                 'display-name': 'C++1y(GNU)',
             }),
             ('c++14', {
@@ -206,7 +206,7 @@ class Switches(object):
                 'display-name': 'C++14',
             }),
             ('gnu++14', {
-                'flags': '-std=gnu++14',
+                'flags': ['-std=gnu++14'],
                 'display-name': 'C++14(GNU)',
             }),
             ('c++1z', {
@@ -214,7 +214,7 @@ class Switches(object):
                 'display-name': 'C++1z',
             }),
             ('gnu++1z', {
-                'flags': '-std=gnu++1z',
+                'flags': ['-std=gnu++1z'],
                 'display-name': 'C++1z(GNU)',
             }),
             ('c++17', {
@@ -222,7 +222,7 @@ class Switches(object):
                 'display-name': 'C++17',
             }),
             ('gnu++17', {
-                'flags': '-std=gnu++17',
+                'flags': ['-std=gnu++17'],
                 'display-name': 'C++17(GNU)',
             }),
             ('c++2a', {
@@ -230,7 +230,7 @@ class Switches(object):
                 'display-name': 'C++2a',
             }),
             ('gnu++2a', {
-                'flags': '-std=gnu++2a',
+                'flags': ['-std=gnu++2a'],
                 'display-name': 'C++2a(GNU)',
             }),
             ('c++2b', {
@@ -238,7 +238,7 @@ class Switches(object):
                 'display-name': 'C++2b',
             }),
             ('gnu++2b', {
-                'flags': '-std=gnu++2b',
+                'flags': ['-std=gnu++2b'],
                 'display-name': 'C++2b(GNU)',
             }),
         ]
