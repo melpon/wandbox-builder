@@ -382,7 +382,7 @@ class Switches(object):
                 'display-name': 'Optimization',
             },
             'mono-optimize': {
-                'flags': '-optimize',
+                'flags': ['-optimize'],
                 'display-name': 'Optimization',
             },
             'cpp-verbose': {
@@ -395,11 +395,11 @@ class Switches(object):
                 'runtime': True,
             },
             'haskell-warning': {
-                'flags': '-Wall',
+                'flags': ['-Wall'],
                 'display-name': 'Warnings',
             },
             'haskell-optimize': {
-                'flags': '-O2',
+                'flags': ['-O2'],
                 'display-name': 'Optimization',
             },
             'delphi-mode': {
