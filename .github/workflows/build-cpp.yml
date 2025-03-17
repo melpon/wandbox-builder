@@ -134,14 +134,8 @@ jobs:
         run: |
           ssh wandbox-ubuntu-24.04 'mkdir -p /opt/wandbox-data/release/cattleshed-conf'
           ssh wandbox-ubuntu-24.04 'python3 /opt/wandbox-data/wandbox-builder/cattleshed-conf/compilers.py > /opt/wandbox-data/release/cattleshed-conf/compilers.default'
-      - name: Restart Cattleshed
+      - name: Restart Feline
         if: steps.deploy.outputs.deployed == 'true'
         run: |
-          ssh wandbox-ubuntu-24.04 'systemctl restart cattleshed-master'
-          ssh wandbox-ubuntu-24.04 'systemctl restart cattleshed-develop'
-          sleep 30
-      - name: Restart Kennel
-        if: steps.deploy.outputs.deployed == 'true'
-        run: |
-          ssh wandbox-ubuntu-24.04 'systemctl restart kennel-master'
-          ssh wandbox-ubuntu-24.04 'systemctl restart kennel-develop'
+          ssh wandbox-ubuntu-24.04 'systemctl restart feline-master'
+          ssh wandbox-ubuntu-24.04 'systemctl restart feline-develop'
