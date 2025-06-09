@@ -216,8 +216,8 @@ jobs:
         run: |
           HPPLIB_URL=`curl -L ${{ env.ASSETS_URL }} | jq -r '.[] | select(.name == "hpplib.tar.gz") | .browser_download_url'`
           HPPLIB_JSON_URL=`curl -L ${{ env.ASSETS_URL }} | jq -r '.[] | select(.name == "hpplib.json") | .browser_download_url'`
-          curl -LO $HPPLIB_URL
-          curl -LO $HPPLIB_JSON_URL
+          curl -fLO $HPPLIB_URL
+          curl -fLO $HPPLIB_JSON_URL
           tar xf hpplib.tar.gz
           rsync -a -v hpplib/ wandbox-ubuntu-24.04:/opt/wandbox/hpplib/
           rsync -a -v --mkpath hpplib.json wandbox-ubuntu-24.04:/opt/wandbox-data/wandbox-hpplib/hpplib.json
