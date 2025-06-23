@@ -29,7 +29,7 @@ def find_download_url(asset_info, name):
 
 # デプロイする
 def deploy(head: str, version_dir: str, deploy_dir: str, download_url: str, archive_name: str, github_token: Optional[str] = None):
-    with tempfile.TemporaryDirectory() as tempdir:
+    with tempfile.TemporaryDirectory(dir="/opt/wandbox/_tmp") as tempdir:
         # コンパイラをダウンロード
         header_args = ["-H", "Accept: application/octet-stream"]
         if github_token is not None:
