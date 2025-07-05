@@ -390,6 +390,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - 5.42.0
           - 5.40.0
           - 5.38.0
           - 5.36.0
