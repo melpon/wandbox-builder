@@ -50,6 +50,8 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - 3.14.0
+          - 3.13.8
           - 3.12.7
           - 3.11.10
           - 3.10.15
