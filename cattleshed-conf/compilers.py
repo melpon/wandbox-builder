@@ -2101,7 +2101,7 @@ class Compilers(object):
                 'switches': [],
                 'initial-checked': [],
                 'display-name': display_name,
-                'display-compile-command': 'jula prog.jl',
+                'display-compile-command': 'julia prog.jl',
                 'runtime-option-raw': True,
                 'run-command': [f'/opt/wandbox/julia-{cv}/bin/julia', 'prog.jl'],
                 'jail-name': 'melpon2-julia',
