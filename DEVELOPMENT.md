@@ -14,6 +14,7 @@ libgfortran5
 libgcc-14-dev
 libtinfo6
 snapd
+libsqlite3-0
 ```
 
 これは別枠だけど入れておくやつ
