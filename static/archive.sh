@@ -21,7 +21,7 @@ sleep 10
 set -x
 
 tar -zcf ran${YEARMONTH}.tar.gz ran/${YEARMONTH}*/
-aws s3 cp ran${YEARMONTH}.tar.gz s3://wandbox-log/
+aws s3 cp ran${YEARMONTH}.tar.gz s3://wandbox-log/ --profile akamai --endpoint-url https://jp-tyo-1.linodeobjects.com
 
 echo "Waiting..."
 sleep 60
