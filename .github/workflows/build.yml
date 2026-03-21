@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: "3.x"
       - run: |
           pip3 install requests
           python3 get_asset_info.py ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }} > asset_info.json
