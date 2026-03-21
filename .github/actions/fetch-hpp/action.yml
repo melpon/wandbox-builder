@@ -54,7 +54,7 @@ runs:
         echo "jsonfile=`pwd`/_info3.json" >> $GITHUB_OUTPUT
         echo "tagname=`cat _info3.json | jq -r '.tagName'`" >> $GITHUB_OUTPUT
       shell: bash
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         repository: ${{ inputs.repository }}
         path: ${{ inputs.repository }}

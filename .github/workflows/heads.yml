@@ -22,7 +22,7 @@ jobs:
           - zig-head
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - run: sudo ./install.sh
         working-directory: ga-build-heads/${{ matrix.name }}
       - run: tar czf ${{ matrix.name }}.tar.gz ${{ matrix.name }}/
@@ -39,7 +39,7 @@ jobs:
     needs: [heads]
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       # SSH 秘密鍵の登録
       - name: Register SSH key
         env:

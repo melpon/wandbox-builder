@@ -11,15 +11,15 @@ jobs:
   _asset:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
         with:
-          python-version: '3.x'
+          python-version: "3.x"
       - run: |
           pip3 install requests
           python3 get_asset_info.py ${{ env.ASSETS_URL }} --github_token ${{ env.GITHUB_TOKEN }} > asset_info.json
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: asset_info.json
           path: asset_info.json
@@ -33,7 +33,7 @@ jobs:
           - 18.20.4
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -48,7 +48,7 @@ jobs:
           - 5.6.2 nodejs 20.17.0
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -60,7 +60,7 @@ jobs:
       - typescript
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       # SSH 秘密鍵の登録
       - name: Register SSH key
         env:
