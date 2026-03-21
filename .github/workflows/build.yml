@@ -17,7 +17,7 @@ jobs:
   _asset:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
@@ -38,7 +38,7 @@ jobs:
           - "2.49"
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -61,7 +61,7 @@ jobs:
           - 2.7.18
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -76,7 +76,7 @@ jobs:
           - 1.13.3
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -91,7 +91,7 @@ jobs:
           - 2.109.1
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -107,7 +107,7 @@ jobs:
           - 6.0.425
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -126,7 +126,7 @@ jobs:
           - 1.16.3 erlang 26.2.5.3
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -143,7 +143,7 @@ jobs:
           - 25.3.2.13
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -158,7 +158,7 @@ jobs:
           - 3.2.2
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -175,7 +175,7 @@ jobs:
           - 8.10.4
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -194,7 +194,7 @@ jobs:
           - 1.14.15
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -211,7 +211,7 @@ jobs:
           - 1.0.5
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -226,7 +226,7 @@ jobs:
           - nover
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -241,7 +241,7 @@ jobs:
           - 1.39.0
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -258,7 +258,7 @@ jobs:
           - 5.2.4
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -275,7 +275,7 @@ jobs:
           - 2.0.3
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -292,7 +292,7 @@ jobs:
           - 5.20.1.34
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -308,7 +308,7 @@ jobs:
           - 2.1.2
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -348,7 +348,7 @@ jobs:
           - 1.0.10
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -364,7 +364,7 @@ jobs:
           - 4.14.2
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -382,7 +382,7 @@ jobs:
           - 0.9.8zh
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -404,7 +404,7 @@ jobs:
           - 5.30.3
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -424,7 +424,7 @@ jobs:
           - 5.6.40
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -439,7 +439,7 @@ jobs:
           - 0.58.5
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -458,7 +458,7 @@ jobs:
           - 2.7-v7.3.17
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -473,7 +473,7 @@ jobs:
           - 4.4.1
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -492,7 +492,7 @@ jobs:
           - 3.0.7
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -525,7 +525,7 @@ jobs:
           - 1.64.0
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -540,7 +540,7 @@ jobs:
           - 2.4.9
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -556,7 +556,7 @@ jobs:
           - 3.35.5
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -572,7 +572,7 @@ jobs:
           - 5.10.1
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -588,7 +588,7 @@ jobs:
           - 8.2.5172
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -604,7 +604,7 @@ jobs:
           - 0.9.1
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/build-compiler
         with:
           name: ${{ github.job }}
@@ -646,7 +646,7 @@ jobs:
       - zig
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       # SSH 秘密鍵の登録
       - name: Register SSH key
         env:
