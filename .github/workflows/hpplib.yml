@@ -15,7 +15,7 @@ jobs:
   header-only-libraries:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       # Argument Parser
       - uses: ./.github/actions/fetch-hpp
@@ -190,7 +190,7 @@ jobs:
     needs: [header-only-libraries]
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       # SSH 秘密鍵の登録
       - name: Register SSH key
         env:
