@@ -1,0 +1,73 @@
+name: upload-release-asset
+
+description: Upload an asset to a GitHub Release via gh api
+
+inputs:
+  upload_url:
+    description: Upload URL
+    required: true
+  asset_path:
+    description: Asset path
+    required: true
+  asset_name:
+    description: Asset name
+    required: true
+  asset_content_type:
+    description: Asset content type
+    required: true
+  overwrite:
+    description: Delete existing asset with same name before upload
+    required: false
+    default: "true"
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        INPUT_UPLOAD_URL: ${{ inputs.upload_url }}
+        INPUT_ASSET_PATH: ${{ inputs.asset_path }}
+        INPUT_ASSET_NAME: ${{ inputs.asset_name }}
+        INPUT_ASSET_CONTENT_TYPE: ${{ inputs.asset_content_type }}
+        INPUT_OVERWRITE: ${{ inputs.overwrite }}
+        GH_TOKEN: ${{ env.GITHUB_TOKEN || github.token }}
+      run: |
+        set -euo pipefail
+
+        if [[ ! -f "${INPUT_ASSET_PATH}" ]]; then
+          echo "Asset file not found: ${INPUT_ASSET_PATH}" >&2
+          exit 1
+        fi
+
+        if [[ "${INPUT_UPLOAD_URL}" =~ /releases/([0-9]+)/assets ]]; then
+          release_id="${BASH_REMATCH[1]}"
+        else
+          echo "Failed to parse release id from upload_url: ${INPUT_UPLOAD_URL}" >&2
+          exit 1
+        fi
+
+        assets_api_path="repos/${GITHUB_REPOSITORY}/releases/${release_id}/assets"
+
+        existing_asset_id="$(
+          gh api "${assets_api_path}" \
+            | jq -r --arg name "${INPUT_ASSET_NAME}" '.[] | select(.name == $name) | .id' \
+            | head -n1
+        )"
+
+        if [[ -n "${existing_asset_id}" ]]; then
+          if [[ "${INPUT_OVERWRITE}" == "true" ]]; then
+            gh api --method DELETE "repos/${GITHUB_REPOSITORY}/releases/assets/${existing_asset_id}"
+          else
+            echo "Asset already exists and overwrite=false: ${INPUT_ASSET_NAME}" >&2
+            exit 1
+          fi
+        fi
+
+        upload_url_base="${INPUT_UPLOAD_URL%%\{*}"
+        gh api \
+          --method POST \
+          --header "Content-Type: ${INPUT_ASSET_CONTENT_TYPE}" \
+          --input "${INPUT_ASSET_PATH}" \
+          -f name="${INPUT_ASSET_NAME}" \
+          "${upload_url_base}" \
+          >/dev/null

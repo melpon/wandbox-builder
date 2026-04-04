@@ -8,7 +8,6 @@ on:
 env:
   ASSETS_URL: "https://api.github.com/repos/melpon/wandbox-builder/releases/178117642/assets"
   UPLOAD_URL: "https://uploads.github.com/repos/melpon/wandbox-builder/releases/178117642/assets{?name,label}"
-  RELEASE_ID: 178117642
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
@@ -28,10 +27,9 @@ jobs:
       - run: tar czf ${{ matrix.name }}.tar.gz ${{ matrix.name }}/
         working-directory: /opt/wandbox
       - name: Release ${{ matrix.name }}
-        uses: WebFreak001/deploy-nightly@v3.2.0
+        uses: ./.github/actions/upload-release-asset
         with:
           upload_url: ${{ env.UPLOAD_URL }}
-          release_id: ${{ env.RELEASE_ID }}
           asset_path: /opt/wandbox/${{ matrix.name }}.tar.gz
           asset_name: ${{ matrix.name }}.tar.gz
           asset_content_type: application/gzip
