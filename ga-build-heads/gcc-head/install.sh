@@ -37,7 +37,6 @@ cd build
   --disable-multilib \
   --without-ppl \
   --without-cloog-ppl \
-  --enable-checking=release \
   --disable-nls \
   --enable-lto \
   LDFLAGS="-Wl,-rpath,$PREFIX/lib,-rpath,$PREFIX/lib64,-rpath,$PREFIX/lib32"
