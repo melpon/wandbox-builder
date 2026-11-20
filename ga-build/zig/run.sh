@@ -9,13 +9,21 @@ if [ "$SUBCOMMAND" == "setup" ]; then
   exit 0
 fi
 
-curl_strict_sha256 \
-  https://ziglang.org/download/$VERSION/zig-linux-x86_64-$VERSION.tar.xz \
-  $BASE_DIR/resources/zig-linux-x86_64-$VERSION.tar.xz.sha256
+# 0.14.1以降ファイル名の付け方が変わっている
+# https://ziglang.org/download/
+if compare_version $VERSION ">=" "0.14.1"; then
+  PLATFORM="x86_64-linux"
+else
+  PLATFORM="linux-x86_64"
+fi
 
-tar xf zig-linux-x86_64-$VERSION.tar.xz
+curl_strict_sha256 \
+  https://ziglang.org/download/$VERSION/zig-$PLATFORM-$VERSION.tar.xz \
+  $BASE_DIR/resources/zig-$PLATFORM-$VERSION.tar.xz.sha256
+
+tar xf zig-$PLATFORM-$VERSION.tar.xz
 
 mkdir -p `dirname $PREFIX`
-cp -r zig-linux-x86_64-$VERSION $PREFIX
+cp -r zig-$PLATFORM-$VERSION $PREFIX
 
 archive_install $PREFIX $PACKAGE_PATH $PACKAGE_FILENAME
