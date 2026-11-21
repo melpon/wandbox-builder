@@ -66,14 +66,14 @@ if compare_version $VERSION '>=' '1.22'; then
 fi
 
 if compare_version $VERSION '>=' '1.24'; then
-  TARGET_VERSION=1.22
+  TARGET_VERSION=1.22.8
   TARGET_PREFIX=`pwd`/go-$TARGET_VERSION
   install_go $TARGET_VERSION $TARGET_PREFIX
   export GOROOT_BOOTSTRAP=$TARGET_PREFIX
 fi
 
 if compare_version $VERSION '>=' '1.26'; then
-  TARGET_VERSION=1.24
+  TARGET_VERSION=1.24.13
   TARGET_PREFIX=`pwd`/go-$TARGET_VERSION
   install_go $TARGET_VERSION $TARGET_PREFIX
   export GOROOT_BOOTSTRAP=$TARGET_PREFIX

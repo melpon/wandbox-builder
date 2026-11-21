@@ -10,13 +10,20 @@ if [ "$SUBCOMMAND" == "setup" ]; then
 fi
 
 # get binary
+# PyPy v8 以降は .tar.gz、それより前は .tar.bz2
+PYPY_RELEASE_VERSION=${VERSION##*-v}
+if compare_version "$PYPY_RELEASE_VERSION" ">=" "8.0.0"; then
+  ARCHIVE_EXT=tar.gz
+else
+  ARCHIVE_EXT=tar.bz2
+fi
 
 curl_strict_sha256 \
-  https://downloads.python.org/pypy/pypy$VERSION-linux64.tar.bz2 \
-  $BASE_DIR/resources/pypy$VERSION-linux64.tar.bz2.sha256
+  https://downloads.python.org/pypy/pypy$VERSION-linux64.$ARCHIVE_EXT \
+  $BASE_DIR/resources/pypy$VERSION-linux64.$ARCHIVE_EXT.sha256
 
 mkdir $VERSION
-tar xf pypy$VERSION-linux64.tar.bz2 -C $VERSION --strip-components=1
+tar xf pypy$VERSION-linux64.$ARCHIVE_EXT -C $VERSION --strip-components=1
 
 # install
 
